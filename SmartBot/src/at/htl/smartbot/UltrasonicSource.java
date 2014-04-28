@@ -2,23 +2,24 @@ package at.htl.smartbot;
 
 public class UltrasonicSource {
 
-	private int POS_X;
-	private int POS_Y;
+	private final int POS_X;
+	private final int POS_Y;
 	private int distance;
 	private int time_of_last_measure;
+	
+	public UltrasonicSource(int pos_x, int pos_y){
+		POS_X=pos_x;
+		POS_Y=pos_y;
+	}
 	
 	public int getPOS_X() {
 		return POS_X;
 	}
-	public void setPOS_X(int pOS_X) {
-		POS_X = pOS_X;
-	}
+	
 	public int getPOS_Y() {
 		return POS_Y;
 	}
-	public void setPOS_Y(int pOS_Y) {
-		POS_Y = pOS_Y;
-	}
+	
 	public int getDistance() {
 		return distance;
 	}
