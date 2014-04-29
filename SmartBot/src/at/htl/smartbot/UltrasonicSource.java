@@ -33,6 +33,4 @@ public class UltrasonicSource {
 		this.time_of_last_measure = time_of_last_measure;
 	}
 	
-	
-	
 }
