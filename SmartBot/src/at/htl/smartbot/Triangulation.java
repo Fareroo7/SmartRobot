@@ -19,6 +19,14 @@ public class Triangulation {
 			System.out.println("Fuck");
 	}
 
+	/**
+	 * Methode berechnet die Schnittpunkte 2er Kreise
+	 * @param m1 Mittelpunkt Kreis 1 (0:X, 1:Y)
+	 * @param m2 Mittelpunkt Kreis 2 (0:X, 1:Y)
+	 * @param r1 Radius Kreis 1
+	 * @param r2 Radius Kreis 2
+	 * @return 2d array mit Schnittpunkt 1 auf [0] und Schittpunkt 2 auf [1] (0:X, 1:Y)
+	 */
 	public static double[][] sp(double[] m1, double[] m2, double r1, double r2) {
 
 		double[][] result;
@@ -31,6 +39,7 @@ public class Triangulation {
 
 		if (r1 + r2 > distance) {
 
+			// Mit freundlicher unterstuetzung von Mag. Harald Tranacher
 			m2[X] = m2[X] - m1[X];
 			m2[Y] = m2[Y] - m1[Y];
 
