@@ -1,5 +1,6 @@
 package at.htl.smartbot;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Triangulation {
@@ -19,13 +20,58 @@ public class Triangulation {
 			System.out.println("Fuck");
 	}
 
+	public static double[] trilateration(double[] pos_S1, double[] pos_S2,
+			double[] pos_S3, double distance_S1, double distance_S2,
+			double distance_S3) {
+
+		double[] result = new double[2];
+		ArrayList<double[]> points_of_intersection = new ArrayList<double[]>();
+
+		double[][] temp_points_of_intersection = sp(pos_S1, pos_S2,
+				distance_S1, distance_S2);
+		double[] toAdd = { temp_points_of_intersection[0][X],
+				temp_points_of_intersection[0][Y] };
+		points_of_intersection.add(toAdd);
+		toAdd[X] = temp_points_of_intersection[1][X];
+		toAdd[Y] = temp_points_of_intersection[1][Y];
+		points_of_intersection.add(toAdd);
+
+		temp_points_of_intersection = sp(pos_S2, pos_S3, distance_S2,
+				distance_S3);
+		toAdd[X] = temp_points_of_intersection[0][X];
+		toAdd[Y] = temp_points_of_intersection[0][Y];
+		points_of_intersection.add(toAdd);
+		toAdd[X] = temp_points_of_intersection[1][X];
+		toAdd[Y] = temp_points_of_intersection[1][Y];
+		points_of_intersection.add(toAdd);
+
+		temp_points_of_intersection = sp(pos_S3, pos_S1, distance_S3,
+				distance_S1);
+		toAdd[X] = temp_points_of_intersection[0][X];
+		toAdd[Y] = temp_points_of_intersection[0][Y];
+		points_of_intersection.add(toAdd);
+		toAdd[X] = temp_points_of_intersection[1][X];
+		toAdd[Y] = temp_points_of_intersection[1][Y];
+		points_of_intersection.add(toAdd);
+		
+		
+
+		return null;
+	}
+
 	/**
 	 * Methode berechnet die Schnittpunkte 2er Kreise
-	 * @param m1 Mittelpunkt Kreis 1 (0:X, 1:Y)
-	 * @param m2 Mittelpunkt Kreis 2 (0:X, 1:Y)
-	 * @param r1 Radius Kreis 1
-	 * @param r2 Radius Kreis 2
-	 * @return 2d array mit Schnittpunkt 1 auf [0] und Schittpunkt 2 auf [1] (0:X, 1:Y)
+	 * 
+	 * @param m1
+	 *            Mittelpunkt Kreis 1 (0:X, 1:Y)
+	 * @param m2
+	 *            Mittelpunkt Kreis 2 (0:X, 1:Y)
+	 * @param r1
+	 *            Radius Kreis 1
+	 * @param r2
+	 *            Radius Kreis 2
+	 * @return 2d array mit Schnittpunkt 1 auf [0] und Schittpunkt 2 auf [1]
+	 *         (0:X, 1:Y)
 	 */
 	public static double[][] sp(double[] m1, double[] m2, double r1, double r2) {
 
@@ -73,6 +119,12 @@ public class Triangulation {
 		return result;
 	}
 
+	/**
+	 * Squares the base
+	 * 
+	 * @param base
+	 * @return base to the power of 2
+	 */
 	public static double sqr(double base) {
 		return Math.pow(base, 2);
 	}
