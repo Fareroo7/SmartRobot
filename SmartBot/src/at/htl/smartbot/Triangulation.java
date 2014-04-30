@@ -18,6 +18,20 @@ public class Triangulation {
 			System.out.println(Arrays.toString(result[1]));
 		} else
 			System.out.println("Fuck");
+
+		ArrayList<Integer> test = new ArrayList<Integer>();
+		for (int i = 0; i < 10; i++) {
+			test.add(i);
+		}
+		for (int z = 0; z < test.size(); z++) {
+			System.out.println(test.get(z));
+			if (test.get(z) == 5) {
+				test.remove(z);
+				z--;
+			}
+			System.out.println(z);
+		}
+
 	}
 
 	public static double[] trilateration(double[] pos_S1, double[] pos_S2,
@@ -25,10 +39,12 @@ public class Triangulation {
 			double distance_S3) {
 
 		double[] result = new double[2];
-		ArrayList<double[]> points_of_intersection = new ArrayList<double[]>();
 
-		double[][] temp_points_of_intersection = points_of_intersection_crircle(pos_S1, pos_S2,
-				distance_S1, distance_S2);
+		ArrayList<double[]> points_of_intersection = new ArrayList<double[]>();
+		ArrayList<double[]> distances_btw_points = new ArrayList<double[]>();
+
+		double[][] temp_points_of_intersection = points_of_intersection_crircle(
+				pos_S1, pos_S2, distance_S1, distance_S2);
 		double[] toAdd = { temp_points_of_intersection[0][X],
 				temp_points_of_intersection[0][Y] };
 		points_of_intersection.add(toAdd);
@@ -36,8 +52,8 @@ public class Triangulation {
 		toAdd[Y] = temp_points_of_intersection[1][Y];
 		points_of_intersection.add(toAdd);
 
-		temp_points_of_intersection = points_of_intersection_crircle(pos_S2, pos_S3, distance_S2,
-				distance_S3);
+		temp_points_of_intersection = points_of_intersection_crircle(pos_S2,
+				pos_S3, distance_S2, distance_S3);
 		toAdd[X] = temp_points_of_intersection[0][X];
 		toAdd[Y] = temp_points_of_intersection[0][Y];
 		points_of_intersection.add(toAdd);
@@ -45,16 +61,41 @@ public class Triangulation {
 		toAdd[Y] = temp_points_of_intersection[1][Y];
 		points_of_intersection.add(toAdd);
 
-		temp_points_of_intersection = points_of_intersection_crircle(pos_S3, pos_S1, distance_S3,
-				distance_S1);
+		temp_points_of_intersection = points_of_intersection_crircle(pos_S3,
+				pos_S1, distance_S3, distance_S1);
 		toAdd[X] = temp_points_of_intersection[0][X];
 		toAdd[Y] = temp_points_of_intersection[0][Y];
 		points_of_intersection.add(toAdd);
 		toAdd[X] = temp_points_of_intersection[1][X];
 		toAdd[Y] = temp_points_of_intersection[1][Y];
 		points_of_intersection.add(toAdd);
-		
-		
+
+		for (int i = 0; i < points_of_intersection.size(); i++) {
+			for (int z = 0; z < points_of_intersection.size(); z++) {
+				if (points_of_intersection.get(i).equals(
+						points_of_intersection.get(z))) {
+					points_of_intersection.remove(z);
+					i--;
+					z--;
+				}
+			}
+		}
+
+		for (int i = 0; i < points_of_intersection.size(); i++) {
+			int count = 0;
+			double current_x1 = points_of_intersection.get(i)[X];
+			double current_y1 = points_of_intersection.get(i)[Y];
+			for (int z = 0; z < points_of_intersection.size(); z++) {
+				if (i != z) {
+					double current_x2 = points_of_intersection.get(z)[X];
+					double current_y2 = points_of_intersection.get(z)[Y];
+					distances_btw_points.get(i)[count] = Math
+							.sqrt(sqr(current_x2 - current_x1)
+									+ sqr(current_y2 - current_y1));
+					count++;
+				}
+			}
+		}
 
 		return null;
 	}
@@ -73,7 +114,8 @@ public class Triangulation {
 	 * @return 2d array mit Schnittpunkt 1 auf [0] und Schittpunkt 2 auf [1]
 	 *         (0:X, 1:Y)
 	 */
-	public static double[][] points_of_intersection_crircle(double[] m1, double[] m2, double r1, double r2) {
+	public static double[][] points_of_intersection_crircle(double[] m1,
+			double[] m2, double r1, double r2) {
 
 		double[][] result;
 		double distance = Math.sqrt(sqr(m2[X] - m1[X]) + sqr(m2[Y] - m1[Y]));
