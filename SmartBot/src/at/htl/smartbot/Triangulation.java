@@ -12,7 +12,7 @@ public class Triangulation {
 
 		double[] m1 = { 1.0, 1.0 };
 		double[] m2 = { 3.0, 1.0 };
-		double[][] result = sp(m1, m2, 1.0, 0.5);
+		double[][] result = points_of_intersection_crircle(m1, m2, 1.0, 0.5);
 		if (result != null) {
 			System.out.println(Arrays.toString(result[0]));
 			System.out.println(Arrays.toString(result[1]));
@@ -27,7 +27,7 @@ public class Triangulation {
 		double[] result = new double[2];
 		ArrayList<double[]> points_of_intersection = new ArrayList<double[]>();
 
-		double[][] temp_points_of_intersection = sp(pos_S1, pos_S2,
+		double[][] temp_points_of_intersection = points_of_intersection_crircle(pos_S1, pos_S2,
 				distance_S1, distance_S2);
 		double[] toAdd = { temp_points_of_intersection[0][X],
 				temp_points_of_intersection[0][Y] };
@@ -36,7 +36,7 @@ public class Triangulation {
 		toAdd[Y] = temp_points_of_intersection[1][Y];
 		points_of_intersection.add(toAdd);
 
-		temp_points_of_intersection = sp(pos_S2, pos_S3, distance_S2,
+		temp_points_of_intersection = points_of_intersection_crircle(pos_S2, pos_S3, distance_S2,
 				distance_S3);
 		toAdd[X] = temp_points_of_intersection[0][X];
 		toAdd[Y] = temp_points_of_intersection[0][Y];
@@ -45,7 +45,7 @@ public class Triangulation {
 		toAdd[Y] = temp_points_of_intersection[1][Y];
 		points_of_intersection.add(toAdd);
 
-		temp_points_of_intersection = sp(pos_S3, pos_S1, distance_S3,
+		temp_points_of_intersection = points_of_intersection_crircle(pos_S3, pos_S1, distance_S3,
 				distance_S1);
 		toAdd[X] = temp_points_of_intersection[0][X];
 		toAdd[Y] = temp_points_of_intersection[0][Y];
@@ -73,12 +73,12 @@ public class Triangulation {
 	 * @return 2d array mit Schnittpunkt 1 auf [0] und Schittpunkt 2 auf [1]
 	 *         (0:X, 1:Y)
 	 */
-	public static double[][] sp(double[] m1, double[] m2, double r1, double r2) {
+	public static double[][] points_of_intersection_crircle(double[] m1, double[] m2, double r1, double r2) {
 
 		double[][] result;
 		double distance = Math.sqrt(sqr(m2[X] - m1[X]) + sqr(m2[Y] - m1[Y]));
 
-		// Control output
+		// Test output
 		/*
 		 * System.out.println(distance); System.out.println(r1+r2);
 		 */
@@ -95,7 +95,7 @@ public class Triangulation {
 			double p = (2 * a * b) / (sqr(b) + 1);
 			double q = (sqr(a) - sqr(r1)) / (sqr(b) + 1);
 
-			// Control output
+			// Test output
 			/*
 			 * System.out.println(a); System.out.println(b);
 			 * System.out.println(p); System.out.println(q);

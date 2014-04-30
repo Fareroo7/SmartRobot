@@ -2,34 +2,38 @@ package at.htl.smartbot;
 
 public class UltrasonicSource {
 
-	private final int POS_X;
-	private final int POS_Y;
-	private int distance;
-	private int time_of_last_measure;
+	private final double[] pos = new double[2];
+	private double distance;
+	private double time_of_last_measure;
 	
 	public UltrasonicSource(int pos_x, int pos_y){
-		POS_X=pos_x;
-		POS_Y=pos_y;
+		pos[0]=pos_x;
+		pos[1]=pos_y;
 	}
 	
-	public int getPOS_X() {
-		return POS_X;
+	
+	public double[] getPos() {
+		return pos;
 	}
 	
-	public int getPOS_Y() {
-		return POS_Y;
+	public double getPos_X(){
+		return pos[0];
 	}
 	
-	public int getDistance() {
+	public double getPos_Y(){
+		return pos[1];
+	}
+
+	public double getDistance() {
 		return distance;
 	}
-	public void setDistance(int distance) {
+	public void setDistance(double distance) {
 		this.distance = distance;
 	}
-	public int getTime_of_last_measure() {
+	public double getTime_of_last_measure() {
 		return time_of_last_measure;
 	}
-	public void setTime_of_last_measure(int time_of_last_measure) {
+	public void setTime_of_last_measure(double time_of_last_measure) {
 		this.time_of_last_measure = time_of_last_measure;
 	}
 	
