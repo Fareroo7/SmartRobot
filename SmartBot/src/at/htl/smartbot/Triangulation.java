@@ -85,15 +85,13 @@ public class Triangulation {
 			int count = 0;
 			double current_x1 = points_of_intersection.get(i)[X];
 			double current_y1 = points_of_intersection.get(i)[Y];
-			for (int z = 0; z < points_of_intersection.size(); z++) {
-				if (i != z) {
+			for (int z = i+1; z < points_of_intersection.size(); z++) {
 					double current_x2 = points_of_intersection.get(z)[X];
 					double current_y2 = points_of_intersection.get(z)[Y];
 					distances_btw_points.get(i)[count] = Math
 							.sqrt(sqr(current_x2 - current_x1)
 									+ sqr(current_y2 - current_y1));
 					count++;
-				}
 			}
 		}
 
