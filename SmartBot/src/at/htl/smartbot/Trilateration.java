@@ -8,7 +8,7 @@ public class Trilateration {
 	private static final int X = 0;
 	private static final int Y = 1;
 
-	public static double[] trilateration(Point pos_S1, Point pos_S2,
+	public double[] trilateration(Point pos_S1, Point pos_S2,
 			Point pos_S3, double distance_S1, double distance_S2,
 			double distance_S3) {
 
@@ -18,15 +18,9 @@ public class Trilateration {
 		ArrayList<Line> distances_btw_points = new ArrayList<Line>();
 
 		Line temp_points_of_intersection = points_of_intersection_crircle(
-				pos_S1, pos_S2, distance_S1, distance_S2);
+				pos_S2, pos_S3, distance_S2, distance_S3);
 		points_of_intersection.add(temp_points_of_intersection.getPoint1());
 		points_of_intersection.add(temp_points_of_intersection.getPoint2());
-		System.out.println(temp_points_of_intersection.toString());
-
-		Line temp_points_of_intersection2 = points_of_intersection_crircle(
-				pos_S2, pos_S3, distance_S2, distance_S3);
-		points_of_intersection.add(temp_points_of_intersection2.getPoint1());
-		points_of_intersection.add(temp_points_of_intersection2.getPoint2());
 		System.out.println(temp_points_of_intersection.toString());
 
 		/*
@@ -74,7 +68,7 @@ public class Trilateration {
 	 * @return 2d array mit Schnittpunkt 1 auf [0] und Schittpunkt 2 auf [1]
 	 *         (0:X, 1:Y)
 	 */
-	public static Line points_of_intersection_crircle(Point m1, Point m2,
+	public Line points_of_intersection_crircle(Point m1, Point m2,
 			double r1, double r2) {
 
 		Line distance = new Line(m1, m2);
@@ -110,9 +104,10 @@ public class Trilateration {
 			double x2 = a + b * y2;
 
 			Point intersection1 = new Point(x1 + m1.getX(), y1 + m1.getY());
-			Point intersection2 = new Point(x2 + m1.getX(), y1 + m1.getY());
+			Point intersection2 = new Point(x2 + m1.getX(), y2 + m1.getY());
 			result = new Line(intersection1, intersection2);
 		} else {
+			System.out.println("Schei***");
 			result = null;
 		}
 
