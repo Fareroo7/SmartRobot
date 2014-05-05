@@ -10,7 +10,7 @@ public class Trilateration {
 		Point result;
 
 		ArrayList<Point> points_of_intersection = new ArrayList<Point>();
-		
+		ArrayList<Line> lines_btw_poi = new ArrayList<Line>();
 
 		Line temp_points_of_intersection = points_of_intersection_crircle(
 				pos_S1, pos_S2, distance_S1, distance_S2);
@@ -27,20 +27,21 @@ public class Trilateration {
 		points_of_intersection.add(temp_points_of_intersection.getPoint1());
 		points_of_intersection.add(temp_points_of_intersection.getPoint2());
 
+		points_of_intersection=Utils.eliminateRedundance(points_of_intersection);
+		
+		// for(Point i:points_of_intersection){
+		// System.out.println(i);
+		// }
+
 		for (int i = 0; i < points_of_intersection.size(); i++) {
+			// System.out.println(points_of_intersection.get(i));
 			for (int z = i + 1; z < points_of_intersection.size(); z++) {
-				if (points_of_intersection.get(i).equals(
-						points_of_intersection.get(z))) {
-					points_of_intersection.remove(z);
-					z--;
-				}
+				lines_btw_poi.add(new Line(points_of_intersection.get(i), points_of_intersection.get(z)));
 			}
 		}
-
-		for(Point i:points_of_intersection){
-			System.out.println(i);
-		}
 		
+		
+
 		return null;
 	}
 
@@ -101,11 +102,11 @@ public class Trilateration {
 		} else {
 			double vectorlength_to_point = ((distance.getDistance() - r1 - r2) / 2)
 					+ r1;
-			double k=(distance.getDistance())/vectorlength_to_point;
-			double x= (temp_m2_x/k)+m1.getX();
-			double y= (temp_m2_y/k)+m1.getY();
-			
-			result=new Line(new Point(x,y),new Point(x,y));
+			double k = (distance.getDistance()) / vectorlength_to_point;
+			double x = (temp_m2_x / k) + m1.getX();
+			double y = (temp_m2_y / k) + m1.getY();
+
+			result = new Line(new Point(x, y), new Point(x, y));
 		}
 
 		return result;
