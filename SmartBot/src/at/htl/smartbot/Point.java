@@ -28,7 +28,8 @@ public class Point {
 	public String toString() {
 		return "Point ("+Utils.round(pos_x)+"|"+Utils.round(pos_y)+")";
 	}
-	
-
+	public boolean equals(Point p){
+		return this.pos_x==p.getX()&&this.pos_y==p.getY();
+	}
 
 }
