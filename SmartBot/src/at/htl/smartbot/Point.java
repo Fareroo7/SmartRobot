@@ -29,6 +29,6 @@ public class Point {
 		return "Point ("+pos_x+"|"+pos_y+")";
 	}
 	
-	
+
 
 }

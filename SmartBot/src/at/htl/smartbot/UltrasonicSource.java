@@ -2,26 +2,25 @@ package at.htl.smartbot;
 
 public class UltrasonicSource {
 
-	private final double[] pos = new double[2];
+	private final Point pos;
 	private double distance;
 	private double time_of_last_measure;
 	
-	public UltrasonicSource(int pos_x, int pos_y){
-		pos[0]=pos_x;
-		pos[1]=pos_y;
+	public UltrasonicSource(Point pos){
+		this.pos=pos;
 	}
 	
 	
-	public double[] getPos() {
+	public Point getPos() {
 		return pos;
 	}
 	
 	public double getPos_X(){
-		return pos[0];
+		return pos.getX();
 	}
 	
 	public double getPos_Y(){
-		return pos[1];
+		return pos.getY();
 	}
 
 	public double getDistance() {
