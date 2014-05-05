@@ -9,6 +9,8 @@ public class Trilateration {
 
 		Point result;
 
+		Triangle triangle;
+
 		ArrayList<Point> points_of_intersection = new ArrayList<Point>();
 		ArrayList<Line> lines_btw_poi = new ArrayList<Line>();
 
@@ -27,21 +29,35 @@ public class Trilateration {
 		points_of_intersection.add(temp_points_of_intersection.getPoint1());
 		points_of_intersection.add(temp_points_of_intersection.getPoint2());
 
-		points_of_intersection=Utils.eliminateRedundance(points_of_intersection);
-		
+		points_of_intersection = Utils
+				.eliminateRedundance(points_of_intersection);
+
 		// for(Point i:points_of_intersection){
 		// System.out.println(i);
 		// }
 
-		for (int i = 0; i < points_of_intersection.size(); i++) {
-			// System.out.println(points_of_intersection.get(i));
-			for (int z = i + 1; z < points_of_intersection.size(); z++) {
-				lines_btw_poi.add(new Line(points_of_intersection.get(i), points_of_intersection.get(z)));
-			}
-		}
-		
-		
+		if (points_of_intersection.size() == 1) {
 
+			result = points_of_intersection.get(0);
+
+		} else if (points_of_intersection.size() == 0) {
+
+			System.out
+					.println("Something went terribly wrong - no point of intersection");
+
+		} else {
+
+			for (int i = 0; i < points_of_intersection.size(); i++) {
+				// System.out.println(points_of_intersection.get(i));
+				for (int z = i + 1; z < points_of_intersection.size(); z++) {
+					lines_btw_poi.add(new Line(points_of_intersection.get(i),
+							points_of_intersection.get(z)));
+				}
+			}
+
+			triangle = Utils.smallestTriangel(lines_btw_poi);
+
+		}
 		return null;
 	}
 

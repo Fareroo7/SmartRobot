@@ -34,17 +34,20 @@ public class Utils {
 	}
 
 	/**
-	 * Removes points from a list that have same coordinates 
-	 * @param points List to remove the redundant points
+	 * Removes points from a list that have same coordinates
+	 * 
+	 * @param points
+	 *            List to remove the redundant points
 	 * @return ArrayList of Points without redundant points
 	 */
 	public static ArrayList<Point> eliminateRedundance(ArrayList<Point> points) {
 
+		//"Entkoppeln" - da sonst nur die Speicheradresse und nicht der Inhalt kopiert wird;
 		ArrayList<Point> result = new ArrayList<Point>();
-		for(Point i:points){
+		for (Point i : points) {
 			result.add(i);
 		}
-		
+
 		for (int i = 0; i < result.size(); i++) {
 			for (int z = i + 1; z < result.size(); z++) {
 				if (result.get(i).equals(result.get(z))) {
@@ -55,6 +58,49 @@ public class Utils {
 		}
 
 		return result;
+	}
+
+	/**
+	 * Returns the smallest possible Triangle within a list of lines
+	 * @param points list of lines where the smallest triangle is needed
+	 * @return Smallest possible Triangle
+	 */
+	public static Triangle smallestTriangel(ArrayList<Line> lines) {
+
+		//"Entkoppeln" - da sonst nur die Speicheradresse und nicht der Inhalt kopiert wird;
+		ArrayList<Line> result = new ArrayList<Line>();
+		for (Line i : lines) {
+			result.add(i);
+		}
+
+		Line min1 = new Line();
+		Line min2 = new Line();
+		Line min3 = new Line();
+
+		for (int z = 0; z < 3; z++) {
+			double tmp_min = Double.MAX_VALUE;
+			int index_of_min = 0;
+			for (int i = 0; i < result.size(); i++) {
+				if (tmp_min > result.get(i).getDistance()) {
+					tmp_min = result.get(i).getDistance();
+					index_of_min = i;
+				}
+			}
+			switch (z) {
+			case 0:
+				min1 = result.get(index_of_min);
+				break;
+			case 1:
+				min2 = result.get(index_of_min);
+				break;
+			case 2:
+				min3 = result.get(index_of_min);
+				break;
+			}
+			result.remove(index_of_min);
+		}
+
+		return new Triangle(min1, min2, min3);
 	}
 
 	public static Point getCentroidOfSmallestTriangle(ArrayList<Point> points) {
