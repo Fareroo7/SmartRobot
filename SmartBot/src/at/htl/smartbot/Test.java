@@ -1,5 +1,10 @@
 package at.htl.smartbot;
 
+/**
+ * Test Class
+ * @author Jakob Ecker & Dominik Simon
+ *
+ */
 public class Test {
 
 	public static void main(String[] args) {
