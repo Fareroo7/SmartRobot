@@ -11,26 +11,17 @@ public class Triangulation {
 	public static void main(String[] args) {
 
 		double[] m1 = { 1.0, 1.0 };
-		double[] m2 = { 3.0, 1.0 };
-		double[][] result = points_of_intersection_crircle(m1, m2, 1.0, 0.5);
-		if (result != null) {
-			System.out.println(Arrays.toString(result[0]));
-			System.out.println(Arrays.toString(result[1]));
-		} else
-			System.out.println("Fuck");
-
-		ArrayList<Integer> test = new ArrayList<Integer>();
-		for (int i = 0; i < 10; i++) {
-			test.add(i);
-		}
-		for (int z = 0; z < test.size(); z++) {
-			System.out.println(test.get(z));
-			if (test.get(z) == 5) {
-				test.remove(z);
-				z--;
-			}
-			System.out.println(z);
-		}
+		double[] m2 = { 2.0, 1.5 };
+		double[] m3 = { 1.5,3.0};
+//		double[][] result = points_of_intersection_crircle(m1, m2, 1.0, 0.5);
+//		if (result != null) {
+//			System.out.println(Arrays.toString(result[0]));
+//			System.out.println(Arrays.toString(result[1]));
+//		} else
+//			System.out.println("Fuck");
+		
+		trilateration(m1, m2, m3, 1, 0.5, 1.5);
+		
 
 	}
 
@@ -41,26 +32,29 @@ public class Triangulation {
 		double[] result = new double[2];
 
 		ArrayList<double[]> points_of_intersection = new ArrayList<double[]>();
-		ArrayList<double[]> distances_btw_points = new ArrayList<double[]>();
+		ArrayList<Line> distances_btw_points = new ArrayList<Line>();
 
 		double[][] temp_points_of_intersection = points_of_intersection_crircle(
-				pos_S1, pos_S2, distance_S1, distance_S2);
+				pos_S2, pos_S3, distance_S2, distance_S3);
 		double[] toAdd = { temp_points_of_intersection[0][X],
 				temp_points_of_intersection[0][Y] };
+		System.out.println(Arrays.toString(temp_points_of_intersection[0]));
 		points_of_intersection.add(toAdd);
 		toAdd[X] = temp_points_of_intersection[1][X];
 		toAdd[Y] = temp_points_of_intersection[1][Y];
+		System.out.println(Arrays.toString(temp_points_of_intersection[1]));
 		points_of_intersection.add(toAdd);
-
-		temp_points_of_intersection = points_of_intersection_crircle(pos_S2,
-				pos_S3, distance_S2, distance_S3);
-		toAdd[X] = temp_points_of_intersection[0][X];
-		toAdd[Y] = temp_points_of_intersection[0][Y];
-		points_of_intersection.add(toAdd);
-		toAdd[X] = temp_points_of_intersection[1][X];
-		toAdd[Y] = temp_points_of_intersection[1][Y];
-		points_of_intersection.add(toAdd);
-
+	
+//		temp_points_of_intersection = points_of_intersection_crircle(pos_S2,
+//				pos_S3, distance_S2, distance_S3);
+//		System.out.println(Arrays.toString(temp_points_of_intersection));
+//		toAdd[X] = temp_points_of_intersection[0][X];
+//		toAdd[Y] = temp_points_of_intersection[0][Y];
+//		points_of_intersection.add(toAdd);
+//		toAdd[X] = temp_points_of_intersection[1][X];
+//		toAdd[Y] = temp_points_of_intersection[1][Y];
+//		points_of_intersection.add(toAdd);
+/*
 		temp_points_of_intersection = points_of_intersection_crircle(pos_S3,
 				pos_S1, distance_S3, distance_S1);
 		toAdd[X] = temp_points_of_intersection[0][X];
@@ -71,9 +65,11 @@ public class Triangulation {
 		points_of_intersection.add(toAdd);
 
 		for (int i = 0; i < points_of_intersection.size(); i++) {
+			System.out.println(Arrays.toString(points_of_intersection.get(i)));
 			for (int z = 0; z < points_of_intersection.size(); z++) {
 				if (points_of_intersection.get(i).equals(
-						points_of_intersection.get(z))) {
+						points_of_intersection.get(z))
+						&& i != z) {
 					points_of_intersection.remove(z);
 					i--;
 					z--;
@@ -81,19 +77,20 @@ public class Triangulation {
 			}
 		}
 
-		for (int i = 0; i < points_of_intersection.size(); i++) {
-			int count = 0;
-			double current_x1 = points_of_intersection.get(i)[X];
-			double current_y1 = points_of_intersection.get(i)[Y];
-			for (int z = i+1; z < points_of_intersection.size(); z++) {
-					double current_x2 = points_of_intersection.get(z)[X];
-					double current_y2 = points_of_intersection.get(z)[Y];
-					distances_btw_points.get(i)[count] = Math
-							.sqrt(sqr(current_x2 - current_x1)
-									+ sqr(current_y2 - current_y1));
-					count++;
-			}
-		}
+		/*
+		 * for (int i = 0; i < points_of_intersection.size(); i++) { int count =
+		 * 0; double current_x1 = points_of_intersection.get(i)[X]; double
+		 * current_y1 = points_of_intersection.get(i)[Y]; for (int z = i+1; z <
+		 * points_of_intersection.size(); z++) { double current_x2 =
+		 * points_of_intersection.get(z)[X]; double current_y2 =
+		 * points_of_intersection.get(z)[Y]; distances_btw_points.get(i)[count]
+		 * = Math .sqrt(sqr(current_x2 - current_x1) + sqr(current_y2 -
+		 * current_y1)); count++; } }
+		 * 
+		 * for(int i=0;i<distances_btw_points.size();i++){
+		 * 
+		 * }
+		 */
 
 		return null;
 	}
