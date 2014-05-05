@@ -5,7 +5,7 @@ public class Line {
 	@Override
 	public String toString() {
 		return "Line ["+point1.toString()+", " + point2.toString() + ", Distance="
-				+ distance + "]";
+				+ Utils.round(distance) + "]";
 	}
 
 	private Point point1;

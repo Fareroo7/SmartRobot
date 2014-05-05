@@ -7,7 +7,7 @@ public class Trilateration {
 	private static final int X = 0;
 	private static final int Y = 1;
 
-	public static Point trilateration(Point pos_S1, Point pos_S2, Point pos_S3,
+	public static Point trilaterate(Point pos_S1, Point pos_S2, Point pos_S3,
 			double distance_S1, double distance_S2, double distance_S3) {
 
 		double[] result = new double[2];

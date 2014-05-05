@@ -26,7 +26,7 @@ public class Point {
 	}
 	@Override
 	public String toString() {
-		return "Point ("+pos_x+"|"+pos_y+")";
+		return "Point ("+Utils.round(pos_x)+"|"+Utils.round(pos_y)+")";
 	}
 	
 
