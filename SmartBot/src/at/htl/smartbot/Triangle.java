@@ -139,6 +139,15 @@ public class Triangle {
 		refreshBisectingPoints();
 	}
 
+	@Override
+	public String toString() {
+		return "Triangle [A: " + point1.toString() + "\n\r B: " + point2.toString()
+				+ "\n\r C: " + point3.toString() + "\n\r a: " + line_a.toString() + "\n\r b: "
+				+ line_b.toString() + "\n\r c: " + line_c.toString() + "\n\r bisecting points: "
+				+ bisecting_a.toString() + " , " + bisecting_b.toString()
+				+ " , " + bisecting_c.toString() + "]";
+	}
+
 	public Point getBisecting_a() {
 		return bisecting_a;
 	}
