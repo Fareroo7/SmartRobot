@@ -76,6 +76,13 @@ public class Trilateration {
 		// Mit freundlicher unterstuetzung von Mag. Harald Tranacher
 		temp_m2_x = (m2.getX() - m1.getX());
 		temp_m2_y = (m2.getY() - m1.getY());
+		
+		
+		//90° Drehung wenn Punkte auf gleicher X-Achse liegen
+		if(0==temp_m2_x){
+			temp_m2_x=temp_m2_y;
+			temp_m2_y=0;
+		}
 
 		// Test output
 		// System.out.println();
@@ -114,6 +121,18 @@ public class Trilateration {
 
 			result = new Line(new Point(x, y), new Point(x, y));
 		}
+		
+		//Zurückdrehen wenn notwendig
+		if(0==temp_m2_x){
+			double temp=result.getPoint1().getX();
+			result.getPoint1().setX(result.getPoint1().getY());
+			result.getPoint1().setY(temp);
+			
+			temp=result.getPoint2().getX();
+			result.getPoint2().setX(result.getPoint2().getY());
+			result.getPoint2().setY(temp);
+		}
+
 
 		return result;
 	}
