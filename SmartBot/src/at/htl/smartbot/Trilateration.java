@@ -46,6 +46,7 @@ public class Trilateration {
 			}
 
 			triangle = Utils.smallestTriangel(lines_btw_poi);
+			System.out.println(triangle);
 
 		
 		return null;
