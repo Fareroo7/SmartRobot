@@ -42,11 +42,11 @@ public class Triangle {
 		
 		x = ((line_b.getPoint2().getX()-line_b.getPoint1().getX())/2)+line_b.getPoint1().getX();
 		y = ((line_b.getPoint2().getY()-line_b.getPoint1().getY())/2)+line_b.getPoint1().getY();
-		bisecting_a=new Point(x,y);
+		bisecting_b=new Point(x,y);
 		
 		x = ((line_c.getPoint2().getX()-line_c.getPoint1().getX())/2)+line_c.getPoint1().getX();
 		y = ((line_c.getPoint2().getY()-line_c.getPoint1().getY())/2)+line_c.getPoint1().getY();
-		bisecting_a=new Point(x,y);
+		bisecting_c=new Point(x,y);
 		
 	}
 
@@ -141,9 +141,9 @@ public class Triangle {
 
 	@Override
 	public String toString() {
-		return "Triangle [A: " + point1.toString() + "\n\r B: " + point2.toString()
-				+ "\n\r C: " + point3.toString() + "\n\r a: " + line_a.toString() + "\n\r b: "
-				+ line_b.toString() + "\n\r c: " + line_c.toString() + "\n\r bisecting points: "
+		return "Triangle [ \n A: " + point1.toString() + "\n B: " + point2.toString()
+				+ "\n C: " + point3.toString() + "\n a: " + line_a.toString() + "\n b: "
+				+ line_b.toString() + "\n c: " + line_c.toString() + "\n bisecting points: "
 				+ bisecting_a.toString() + " , " + bisecting_b.toString()
 				+ " , " + bisecting_c.toString() + "]";
 	}

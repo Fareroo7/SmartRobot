@@ -22,16 +22,9 @@ public class Test {
 		
 		Trilateration.trilaterate(m1, m2, m3, 1, 0.5, 2);
 		
-		System.out.println(m1.equals(m3));
+		Triangle test = new Triangle(m1,m2,m3);
 		
-		ArrayList<Point> test = new ArrayList<Point>();
-		
-		test.add(t1);
-		test.add(t2);
-		test.add(t3);
-		test.add(t4);
-		
-		Utils.getCentroidOfSmallestTriangle(test);
+		System.out.println(test.toString());
 
 	}
 
