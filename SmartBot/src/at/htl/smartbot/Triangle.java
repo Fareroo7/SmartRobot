@@ -59,6 +59,8 @@ public class Triangle {
 			} else {
 				temp_A = point_B;
 			}
+		}else{
+			temp_A=point_A;
 		}
 
 		if (point_B.equals(line_b.getPoint1())) {
@@ -73,20 +75,24 @@ public class Triangle {
 			} else {
 				temp_B = point_C;
 			}
+		}else{
+			temp_B=point_B;
 		}
 
 		if (point_C.equals(line_c.getPoint1())) {
 			if (line_c.getPoint2().equals(point_A)) {
 				temp_C = point_B;
 			} else {
-				temp_A = point_A;
+				temp_C = point_A;
 			}
 		} else if (point_C.equals(line_c.getPoint2())) {
 			if (line_c.getPoint1().equals(point_A)) {
-				temp_A = point_B;
+				temp_C = point_B;
 			} else {
-				temp_A = point_A;
+				temp_C = point_A;
 			}
+		}else{
+			temp_C=point_C;
 		}
 
 		point_A = temp_A;
