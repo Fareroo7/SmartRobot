@@ -31,19 +31,24 @@ public class Test {
 		// new Point(6, 4)), new Line(new Point(2, 4), new Point(6, 2)));
 		// System.out.println(p.toString());
 
-		ArrayList<Point> points = new ArrayList<Point>();
-		points.add(new Point(2, 1));
-		points.add(new Point(3, 3));
-		points.add(new Point(6, 2));
-
-		Triangle t = Triangle.getSmallestTriangel(points);
+//		ArrayList<Point> points = new ArrayList<Point>();
+//		points.add(new Point(2, 1));
+//		points.add(new Point(3, 3));
+//		points.add(new Point(6, 2));
+//
+//		Triangle t = Triangle.getSmallestTriangel(points);
+//		
+//		Point s = Triangle.getCentroidOfSmallestTriangle(t);
+//		
+//		System.out.println(s.toString());
 		
-		System.out.println(t.getBisectingA().toString());
-		System.out.println(t.getBisectingB().toString());
-		System.out.println(t.getBisectingC().toString());
+		Point s1 = new Point(2,1);
+		Point s2 = new Point(3,3);
+		Point s3 = new Point(6,2);
 		
-		Point s = Triangle.getCentroidOfSmallestTriangle(t);
+		Point position = Trilateration.trilaterate(s1, s2, s3, 2.0, 1.0, 2.5);
+		
+		System.out.println(position.toString());
 
 	}
-
 }

@@ -6,12 +6,9 @@ public class Trilateration {
 
 	public static Point trilaterate(Point pos_S1, Point pos_S2, Point pos_S3, double distance_S1, double distance_S2, double distance_S3) {
 
-		Point result;
-
 		Triangle triangle;
 
 		ArrayList<Point> points_of_intersection = new ArrayList<Point>();
-		ArrayList<Line> lines_btw_poi = new ArrayList<Line>();
 
 		Line temp_points_of_intersection = getPointsOfIntersectionCrircle(pos_S1, pos_S2, distance_S1, distance_S2);
 		points_of_intersection.add(temp_points_of_intersection.getPoint1());
@@ -32,12 +29,16 @@ public class Trilateration {
 		// }
 
 		if (points_of_intersection.size() == 1) {
-
+			return points_of_intersection.get(0);
 		}
+		if(points_of_intersection.size() == 0){
+			System.out.println("Something goes wrong!");
+			return null;
+		}
+		
 		triangle = Triangle.getSmallestTriangel(points_of_intersection);
-		System.out.println(triangle);
 
-		return null;
+		return Triangle.getCentroidOfSmallestTriangle(triangle);
 	}
 
 	/**

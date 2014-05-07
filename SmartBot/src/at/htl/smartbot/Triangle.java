@@ -315,15 +315,7 @@ public class Triangle {
 		Point s2 = Line.getPointsOfIntersectionLine(bisectionB, bisectionC);
 		Point s3 = Line.getPointsOfIntersectionLine(bisectionC, bisectionA);
 
-		System.out.println(s1 + ", " + s2 + ", " + s3);
-
-		System.out.println(s1.getX() + "|" + s1.getY());
-		System.out.println(s2.getX() + "|" + s2.getY());
-		System.out.println(s3.getX() + "|" + s3.getY());
-		
-		System.out.println(s1.compare(s2));
-		System.out.println(s2.compare(s3));
-		System.out.println(s3.compare(s1));
+		if(s1.compare(s2) < 1.0E-9 && s2.compare(s3) < 1.0E-9 && s3.compare(s1) < 1.0E-9) return s1;
 
 		return null;
 	}
