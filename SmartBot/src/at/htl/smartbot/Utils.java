@@ -1,6 +1,5 @@
 package at.htl.smartbot;
 
-import java.util.ArrayList;
 
 /**
  * Class of useful little methods.

@@ -320,6 +320,10 @@ public class Triangle {
 		System.out.println(s1.getX() + "|" + s1.getY());
 		System.out.println(s2.getX() + "|" + s2.getY());
 		System.out.println(s3.getX() + "|" + s3.getY());
+		
+		System.out.println(s1.compare(s2));
+		System.out.println(s2.compare(s3));
+		System.out.println(s3.compare(s1));
 
 		return null;
 	}

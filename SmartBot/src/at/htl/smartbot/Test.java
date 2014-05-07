@@ -32,9 +32,9 @@ public class Test {
 		// System.out.println(p.toString());
 
 		ArrayList<Point> points = new ArrayList<Point>();
-		points.add(new Point(1, 1));
-		points.add(new Point(6, 4));
-		points.add(new Point(2, 4));
+		points.add(new Point(2, 1));
+		points.add(new Point(3, 3));
+		points.add(new Point(6, 2));
 
 		Triangle t = Triangle.getSmallestTriangel(points);
 		
