@@ -1,34 +1,34 @@
 package at.htl.smartbot;
 
 public class Line {
-	
+
 	@Override
 	public String toString() {
-		return "Line ["+point1.toString()+", " + point2.toString() + ", Distance="
-				+ Utils.round(distance) + "]";
+		return "Line [" + point1.toString() + ", " + point2.toString() + ", Distance=" + Utils.round(distance) + "]";
 	}
 
 	private Point point1;
 	private Point point2;
-	
+
 	private double distance;
-	
-	public Line(Point  point1, Point point2){
-		this.point1=point1;
-		this.point2=point2;
-		this.distance=Math.sqrt(Math.pow(point2.getX()-point1.getX(), 2)+Math.pow(point2.getY()-point1.getY(), 2));
+
+	public Line(Point point1, Point point2) {
+		this.point1 = point1;
+		this.point2 = point2;
+		this.distance = Math.sqrt(Math.pow(point2.getX() - point1.getX(), 2) + Math.pow(point2.getY() - point1.getY(), 2));
 	}
-	public Line(){
-		
+
+	public Line() {
+
 	}
-	
-	private void refreshDistance(){
-		this.distance=Math.sqrt(Math.pow(point2.getX()-point1.getX(), 2)+Math.pow(point2.getY()-point1.getY(), 2));
+
+	private void refreshDistance() {
+		this.distance = Math.sqrt(Math.pow(point2.getX() - point1.getX(), 2) + Math.pow(point2.getY() - point1.getY(), 2));
 	}
 
 	public Point getPoint1() {
 		return point1;
-	
+
 	}
 
 	public void setPoint1(Point point1) {
@@ -47,6 +47,21 @@ public class Line {
 
 	public double getDistance() {
 		return distance;
+	}
+
+	public static Point getPointsOfIntersectionLine(Line line1, Line line2) {
+		double k_line1 = (line1.getPoint2().getY() - line1.getPoint1().getY()) / (line1.getPoint2().getX() - line1.getPoint1().getX());
+		double d_line1 = line1.getPoint1().getY() - (k_line1 * line1.getPoint1().getX());
+
+		double k_line2 = (line2.getPoint2().getY() - line2.getPoint1().getY()) / (line2.getPoint2().getX() - line2.getPoint1().getX());
+		double d_line2 = line2.getPoint1().getY() - (k_line2 * line2.getPoint1().getX());
+
+		double x = (d_line2 - d_line1) / (k_line1 - k_line2);
+		double y = k_line1 * x + d_line1;
+		
+		Point result = new Point(x, y);
+
+		return result;
 	}
 
 }

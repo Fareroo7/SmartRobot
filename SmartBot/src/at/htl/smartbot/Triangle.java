@@ -59,8 +59,8 @@ public class Triangle {
 			} else {
 				temp_A = point_B;
 			}
-		}else{
-			temp_A=point_A;
+		} else {
+			temp_A = point_A;
 		}
 
 		if (point_B.equals(line_b.getPoint1())) {
@@ -75,8 +75,8 @@ public class Triangle {
 			} else {
 				temp_B = point_C;
 			}
-		}else{
-			temp_B=point_B;
+		} else {
+			temp_B = point_B;
 		}
 
 		if (point_C.equals(line_c.getPoint1())) {
@@ -91,8 +91,8 @@ public class Triangle {
 			} else {
 				temp_C = point_A;
 			}
-		}else{
-			temp_C=point_C;
+		} else {
+			temp_C = point_C;
 		}
 
 		point_A = temp_A;
@@ -100,28 +100,22 @@ public class Triangle {
 		point_C = temp_C;
 
 	}
-	
-	private void refreshBesectors(){
-		
+
+	private void refreshBesectors() {
+
 	}
 
 	private void refreshBisectingPoints() {
-		double x = ((line_a.getPoint2().getX() - line_a.getPoint1().getX()) / 2)
-				+ line_a.getPoint1().getX();
-		double y = ((line_a.getPoint2().getY() - line_a.getPoint1().getY()) / 2)
-				+ line_a.getPoint1().getY();
+		double x = ((line_a.getPoint2().getX() - line_a.getPoint1().getX()) / 2) + line_a.getPoint1().getX();
+		double y = ((line_a.getPoint2().getY() - line_a.getPoint1().getY()) / 2) + line_a.getPoint1().getY();
 		bisecting_a = new Point(x, y);
 
-		x = ((line_b.getPoint2().getX() - line_b.getPoint1().getX()) / 2)
-				+ line_b.getPoint1().getX();
-		y = ((line_b.getPoint2().getY() - line_b.getPoint1().getY()) / 2)
-				+ line_b.getPoint1().getY();
+		x = ((line_b.getPoint2().getX() - line_b.getPoint1().getX()) / 2) + line_b.getPoint1().getX();
+		y = ((line_b.getPoint2().getY() - line_b.getPoint1().getY()) / 2) + line_b.getPoint1().getY();
 		bisecting_b = new Point(x, y);
 
-		x = ((line_c.getPoint2().getX() - line_c.getPoint1().getX()) / 2)
-				+ line_c.getPoint1().getX();
-		y = ((line_c.getPoint2().getY() - line_c.getPoint1().getY()) / 2)
-				+ line_c.getPoint1().getY();
+		x = ((line_c.getPoint2().getX() - line_c.getPoint1().getX()) / 2) + line_c.getPoint1().getX();
+		y = ((line_c.getPoint2().getY() - line_c.getPoint1().getY()) / 2) + line_c.getPoint1().getY();
 		bisecting_c = new Point(x, y);
 
 	}
@@ -138,7 +132,7 @@ public class Triangle {
 		temp_points.add(c.getPoint1());
 		temp_points.add(c.getPoint2());
 
-		temp_points = Utils.eliminateRedundance(temp_points);
+		temp_points = Point.eliminateRedundance(temp_points);
 
 		if (temp_points.size() == 3) {
 			point_A = temp_points.get(0);
@@ -155,7 +149,7 @@ public class Triangle {
 		this.line_c = new Line(point_C, point_A);
 	}
 
-	public Point getPoint_A() {
+	public Point getPointA() {
 		return point_A;
 	}
 
@@ -166,29 +160,29 @@ public class Triangle {
 		refreshBisectingPoints();
 	}
 
-	public Point getPoint_B() {
+	public Point getPointB() {
 		return point_B;
 	}
 
-	public void setPoint_B(Point point_B) {
+	public void setPointB(Point point_B) {
 		this.point_B = point_B;
 		refreshLines(this.point_A, this.point_B, this.point_C);
 		sortPoints();
 		refreshBisectingPoints();
 	}
 
-	public Point getPoint_C() {
+	public Point getPointC() {
 		return point_C;
 	}
 
-	public void setPoint_C(Point point_C) {
+	public void setPointC(Point point_C) {
 		this.point_C = point_C;
 		refreshLines(this.point_A, this.point_B, this.point_C);
 		sortPoints();
 		refreshBisectingPoints();
 	}
 
-	public Line getLine_a() {
+	public Line getLineA() {
 		return line_a;
 	}
 
@@ -199,7 +193,7 @@ public class Triangle {
 		refreshBisectingPoints();
 	}
 
-	public Line getLine_b() {
+	public Line getLineB() {
 		return line_b;
 	}
 
@@ -210,49 +204,124 @@ public class Triangle {
 		refreshBisectingPoints();
 	}
 
-	public Line getLine_c() {
+	public Line getLineC() {
 		return line_c;
 	}
 
-	public void setLine_c(Line line_c) {
+	public void setLineC(Line line_c) {
 		this.line_c = line_c;
 		refreshPoints(this.line_a, this.line_b, this.line_c);
 		sortPoints();
 		refreshBisectingPoints();
 	}
 
-	public Line getBisector_A() {
+	public Line getBisectorA() {
 		return bisector_A;
 	}
 
-	public Line getBisector_B() {
+	public Line getBisectorB() {
 		return bisector_B;
 	}
 
-	public Line getBisector_C() {
+	public Line getBisectorC() {
 		return bisector_C;
 	}
 
 	@Override
 	public String toString() {
-		return "Triangle [ \n A: " + point_A.toString() + "\n B: "
-				+ point_B.toString() + "\n C: " + point_C.toString() + "\n a: "
-				+ line_a.toString() + "\n b: " + line_b.toString() + "\n c: "
-				+ line_c.toString() + "\n bisecting points: "
-				+ bisecting_a.toString() + " , " + bisecting_b.toString()
-				+ " , " + bisecting_c.toString() + "]";
+		return "Triangle [\nA=" + point_A + ", \nB=" + point_B + ", \nC=" + point_C + ", \na=" + line_a + ", \nb=" + line_b + ", \nc=" + line_c + ", \na/2="
+				+ bisecting_a + ", \nb/2=" + bisecting_b + ", \nc/2=" + bisecting_c + "\n]";
 	}
 
-	public Point getBisecting_a() {
+	public Point getBisectingA() {
 		return bisecting_a;
 	}
 
-	public Point getBisecting_b() {
+	public Point getBisectingB() {
 		return bisecting_b;
 	}
 
-	public Point getBisecting_c() {
+	public Point getBisectingC() {
 		return bisecting_c;
+	}
+
+	/**
+	 * Returns the smallest possible Triangle within a list of lines
+	 * 
+	 * @param points
+	 *            list of lines where the smallest triangle is needed
+	 * @return Smallest possible Triangle
+	 */
+	public static Triangle getSmallestTriangel(ArrayList<Point> points) {
+		//
+		// // "Entkoppeln" - da sonst nur die Speicheradresse und nicht der
+		// Inhalt
+		// // kopiert wird;
+		// ArrayList<Point> result = new ArrayList<Point>();
+		// for (Point i : points) {
+		// result.add(i);
+		// }
+		//
+		// Line min1 = new Line();
+		// Line min2 = new Line();
+		// Line min3 = new Line();
+
+		ArrayList<Line> lines = new ArrayList<Line>();
+
+		Line min1 = new Line();
+		Line min2 = new Line();
+		Line min3 = new Line();
+
+		for (int i = 0; i < points.size(); i++) {
+			// System.out.println(points.get(i));
+			for (int z = i + 1; z < points.size(); z++) {
+				lines.add(new Line(points.get(i), points.get(z)));
+			}
+		}
+
+		for (int z = 0; z < 3; z++) {
+			double tmp_min = Double.MAX_VALUE;
+			int index_of_min = 0;
+			for (int i = 0; i < lines.size(); i++) {
+				if (tmp_min > lines.get(i).getDistance()) {
+					tmp_min = lines.get(i).getDistance();
+					index_of_min = i;
+				}
+			}
+			switch (z) {
+				case 0:
+					min1 = lines.get(index_of_min);
+					break;
+				case 1:
+					min2 = lines.get(index_of_min);
+					break;
+				case 2:
+					min3 = lines.get(index_of_min);
+					break;
+			}
+			lines.remove(index_of_min);
+		}
+
+		return new Triangle(min1, min2, min3);
+	}
+
+	public static Point getCentroidOfSmallestTriangle(Triangle triangle) {
+
+		Line bisectionA = new Line(triangle.getPointA(), triangle.getBisectingA());
+		Line bisectionB = new Line(triangle.getPointB(), triangle.getBisectingB());
+		Line bisectionC = new Line(triangle.getPointC(), triangle.getBisectingC());
+
+		Point s1 = Line.getPointsOfIntersectionLine(bisectionA, bisectionB);
+		Point s2 = Line.getPointsOfIntersectionLine(bisectionB, bisectionC);
+		Point s3 = Line.getPointsOfIntersectionLine(bisectionC, bisectionA);
+
+		System.out.println(s1 + ", " + s2 + ", " + s3);
+
+		System.out.println(s1.getX() + "|" + s1.getY());
+		System.out.println(s2.getX() + "|" + s2.getY());
+		System.out.println(s3.getX() + "|" + s3.getY());
+
+		return null;
 	}
 
 }

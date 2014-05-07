@@ -1,5 +1,7 @@
 package at.htl.smartbot;
 
+import java.util.ArrayList;
+
 /**
  * Stores coordinates of a single Point that provides custom toString and equals
  * @author Jakob Ecker & Dominik Simon
@@ -40,6 +42,33 @@ public class Point {
 	 */
 	public boolean equals(Point p){
 		return this.pos_x==p.getX()&&this.pos_y==p.getY();
+	}
+	
+	/**
+	 * Removes points from a list that have same coordinates
+	 * 
+	 * @param points
+	 *            List to remove the redundant points
+	 * @return ArrayList of Points without redundant points
+	 */
+	public static ArrayList<Point> eliminateRedundance(ArrayList<Point> points) {
+
+		//"Entkoppeln" - da sonst nur die Speicheradresse und nicht der Inhalt kopiert wird;
+		ArrayList<Point> result = new ArrayList<Point>();
+		for (Point i : points) {
+			result.add(i);
+		}
+
+		for (int i = 0; i < result.size(); i++) {
+			for (int z = i + 1; z < result.size(); z++) {
+				if (result.get(i).equals(result.get(z))) {
+					result.remove(z);
+					z--;
+				}
+			}
+		}
+
+		return result;
 	}
 
 }
