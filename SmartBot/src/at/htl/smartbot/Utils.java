@@ -1,6 +1,5 @@
 package at.htl.smartbot;
 
-
 /**
  * Class of useful little methods.
  * 
@@ -30,6 +29,24 @@ public class Utils {
 	 */
 	public static double sqr(double toSquare) {
 		return Math.pow(toSquare, 2);
+	}
+
+	/**
+	 * Checks a String if it is a double (contains only digits and a point)
+	 * PS: keine Ahnung was falsch ist
+	 * @param s String that shoud be used as double
+	 * @return True if parameter is a Double
+	 */
+	public static boolean isDouble(String s) {
+		boolean isDouble = true;
+		for (int i = 0; i < s.length(); i++) {
+			if (!Character.isDigit(s.charAt(i))) {
+				if (s.charAt(i) != '.')
+					isDouble = false;
+				break;
+			}
+		}
+		return isDouble;
 	}
 
 }

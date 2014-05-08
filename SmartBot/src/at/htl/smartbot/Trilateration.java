@@ -4,25 +4,30 @@ import java.util.ArrayList;
 
 public class Trilateration {
 
-	public static Point trilaterate(Point pos_S1, Point pos_S2, Point pos_S3, double distance_S1, double distance_S2, double distance_S3) {
+	public static Point trilaterate(Point pos_S1, Point pos_S2, Point pos_S3,
+			double distance_S1, double distance_S2, double distance_S3) {
 
 		Triangle triangle;
 
 		ArrayList<Point> points_of_intersection = new ArrayList<Point>();
 
-		Line temp_points_of_intersection = getPointsOfIntersectionCrircle(pos_S1, pos_S2, distance_S1, distance_S2);
+		Line temp_points_of_intersection = getPointsOfIntersectionCrircle(
+				pos_S1, pos_S2, distance_S1, distance_S2);
 		points_of_intersection.add(temp_points_of_intersection.getPoint1());
 		points_of_intersection.add(temp_points_of_intersection.getPoint2());
 
-		temp_points_of_intersection = getPointsOfIntersectionCrircle(pos_S2, pos_S3, distance_S2, distance_S3);
+		temp_points_of_intersection = getPointsOfIntersectionCrircle(pos_S2,
+				pos_S3, distance_S2, distance_S3);
 		points_of_intersection.add(temp_points_of_intersection.getPoint1());
 		points_of_intersection.add(temp_points_of_intersection.getPoint2());
 
-		temp_points_of_intersection = getPointsOfIntersectionCrircle(pos_S1, pos_S3, distance_S1, distance_S3);
+		temp_points_of_intersection = getPointsOfIntersectionCrircle(pos_S1,
+				pos_S3, distance_S1, distance_S3);
 		points_of_intersection.add(temp_points_of_intersection.getPoint1());
 		points_of_intersection.add(temp_points_of_intersection.getPoint2());
 
-		points_of_intersection = Point.eliminateRedundance(points_of_intersection);
+		points_of_intersection = Point
+				.eliminateRedundance(points_of_intersection);
 
 		// for(Point i:points_of_intersection){
 		// System.out.println(i);
@@ -31,16 +36,16 @@ public class Trilateration {
 		if (points_of_intersection.size() == 1) {
 			return points_of_intersection.get(0);
 		}
-		if(points_of_intersection.size() == 0){
+		if (points_of_intersection.size() == 0) {
 			System.out.println("Something goes wrong!");
 			return null;
 		}
-		
+
 		System.out.println("--- trilaterate  points of intersection");
-		for(Point i:points_of_intersection){
+		for (Point i : points_of_intersection) {
 			System.out.println(i);
 		}
-		
+
 		triangle = Triangle.getSmallestTriangel(points_of_intersection);
 		System.out.println(triangle);
 		return Triangle.getCentroidOfTriangle(triangle);
@@ -60,13 +65,14 @@ public class Trilateration {
 	 * @return 2d array mit Schnittpunkt 1 auf [0] und Schittpunkt 2 auf [1]
 	 *         (0:X, 1:Y)
 	 */
-	public static Line getPointsOfIntersectionCrircle(Point m1, Point m2, double r1, double r2) {
+	public static Line getPointsOfIntersectionCrircle(Point m1, Point m2,
+			double r1, double r2) {
 
 		Line distance = new Line(m1, m2);
 		Line result = new Line();
 		double temp_m2_x;
 		double temp_m2_y;
-		boolean isSwaped=false;
+		boolean isSwaped = false;
 
 		// Mit freundlicher unterstuetzung von Mag. Harald Tranacher
 		temp_m2_x = (m2.getX() - m1.getX());
@@ -76,7 +82,7 @@ public class Trilateration {
 		if (0 == temp_m2_x) {
 			temp_m2_x = temp_m2_y;
 			temp_m2_y = 0;
-			isSwaped=true;
+			isSwaped = true;
 		}
 
 		// Test output
@@ -86,7 +92,8 @@ public class Trilateration {
 
 		if (r1 + r2 >= distance.getDistance()) {
 
-			double a = (Utils.sqr(r1) - Utils.sqr(r2) + Utils.sqr(temp_m2_x) + Utils.sqr(temp_m2_y)) / (2 * temp_m2_x);
+			double a = (Utils.sqr(r1) - Utils.sqr(r2) + Utils.sqr(temp_m2_x) + Utils
+					.sqr(temp_m2_y)) / (2 * temp_m2_x);
 			double b = -(2 * temp_m2_y) / (2 * temp_m2_x);
 			double p = (2 * a * b) / (Utils.sqr(b) + 1);
 			double q = (Utils.sqr(a) - Utils.sqr(r1)) / (Utils.sqr(b) + 1);
@@ -107,7 +114,8 @@ public class Trilateration {
 			Point intersection2 = new Point(x2 + m1.getX(), y2 + m1.getY());
 			result = new Line(intersection1, intersection2);
 		} else {
-			double vectorlength_to_point = ((distance.getDistance() - r1 - r2) / 2) + r1;
+			double vectorlength_to_point = ((distance.getDistance() - r1 - r2) / 2)
+					+ r1;
 			double k = (distance.getDistance()) / vectorlength_to_point;
 			double x = (temp_m2_x / k) + m1.getX();
 			double y = (temp_m2_y / k) + m1.getY();

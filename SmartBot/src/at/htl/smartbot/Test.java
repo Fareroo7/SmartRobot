@@ -31,39 +31,42 @@ public class Test {
 		// new Point(6, 4)), new Line(new Point(2, 4), new Point(6, 2)));
 		// System.out.println(p.toString());
 
-//		ArrayList<Point> points = new ArrayList<Point>();
-//		points.add(new Point(2, 1));
-//		points.add(new Point(3, 3));
-//		points.add(new Point(6, 2));
-//
-//		Triangle t = Triangle.getSmallestTriangel(points);
-//		
-//		Point s = Triangle.getCentroidOfSmallestTriangle(t);
-//		
-//		System.out.println(s.toString());
-		
-//		Point s1 = new Point(1,1);
-//		Point s2 = new Point(1,4);
-//		Point s3 = new Point(4,1);
-//		
-//		Point position = Trilateration.trilaterate(s1, s2, s3, 2.0, 2.0, 2.5);
-//		
-//		System.out.println(position.toString());
-//		
-//		Line l1 = new Line(new Point(1, 0), new Point(1.1,3));
-//		Line l2 = new Line(new Point(0.5,1), new Point(3,3));
-//		
-//		Point s = Line.getPointsOfIntersectionLine(l1, l2);
-//		
-//		System.out.println(s.toString());
-		
-		
-		Point t1 = new Point(1,1);
-		Point t2 = new Point(2,2);
-		Point t3 = new Point(1,1.5);
-		
-		System.out.println(Trilateration.trilaterate(t1, t2, t3, 1.0, 1.0, 1.0));
-		
-		
+		// ArrayList<Point> points = new ArrayList<Point>();
+		// points.add(new Point(2, 1));
+		// points.add(new Point(3, 3));
+		// points.add(new Point(6, 2));
+		//
+		// Triangle t = Triangle.getSmallestTriangel(points);
+		//
+		// Point s = Triangle.getCentroidOfSmallestTriangle(t);
+		//
+		// System.out.println(s.toString());
+
+		// Point s1 = new Point(1,1);
+		// Point s2 = new Point(1,4);
+		// Point s3 = new Point(4,1);
+		//
+		// Point position = Trilateration.trilaterate(s1, s2, s3, 2.0, 2.0,
+		// 2.5);
+		//
+		// System.out.println(position.toString());
+		//
+		// Line l1 = new Line(new Point(1, 0), new Point(1.1,3));
+		// Line l2 = new Line(new Point(0.5,1), new Point(3,3));
+		//
+		// Point s = Line.getPointsOfIntersectionLine(l1, l2);
+		//
+		// System.out.println(s.toString());
+
+		Point t1 = new Point(1, 1);
+		Point t2 = new Point(2, 2);
+		Point t3 = new Point(1, 1.5);
+
+		System.out
+				.println(Trilateration.trilaterate(t1, t2, t3, 1.0, 1.0, 1.0));
+		System.out.println("--------------------------");
+		System.out.println(Utils.isDouble("2.7a6"));
+
+
 	}
 }
