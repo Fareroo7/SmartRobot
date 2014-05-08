@@ -66,6 +66,8 @@ public class GUI_Trilateration extends JFrame {
 	private int width;
 	private int height;
 
+	protected static int step = 100;
+
 	/**
 	 * Launch the application.
 	 */
@@ -80,7 +82,7 @@ public class GUI_Trilateration extends JFrame {
 				}
 			}
 		});
-		
+
 	}
 
 	/**
@@ -98,10 +100,23 @@ public class GUI_Trilateration extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 
-		panel_draw = new JPanel(){
-			public void paintComponent(Graphics g){
-				g.setColor(Color.BLUE);
-				g.fillRect(25, 25, 100, 200);
+		panel_draw = new JPanel() {
+			public void paintComponent(Graphics g) {
+				int width = this.getWidth();
+				int height = this.getHeight();
+				g.drawLine(0, height / 2, width, height / 2);
+				g.drawLine(width / 2, 0, width / 2, height);
+
+				// nicht genau....
+				// for(int i=0;i<width/GUI_Trilateration.STEP;i++){
+				// g.drawLine(i*GUI_Trilateration.STEP, (height/2)-2,
+				// i*GUI_Trilateration.STEP, (height/2)+2);
+				// }
+				// for(int i=0;i<height/GUI_Trilateration.STEP;i++){
+				// g.drawLine((width/2)-2, i*GUI_Trilateration.STEP,
+				// (width/2)+2, i*GUI_Trilateration.STEP);
+				// }
+
 			}
 		};
 		panel_draw.setBackground(Color.WHITE);
@@ -592,33 +607,69 @@ public class GUI_Trilateration extends JFrame {
 	}
 
 	protected void btnTrilaterateActionPerformed(ActionEvent arg0) {
-//		String input = m1_X.getText();
-//		double x = Double.parseDouble(input);
-//		input = m1_Y.getText();
-//		double y = Double.parseDouble(input);
-//		Point m1 = new Point(x, y);
-//		input = m1_r.getText();
-//		double r1 = Double.parseDouble(input);
-//
-//		input = m2_X.getText();
-//		x = Double.parseDouble(input);
-//		input = m2_Y.getText();
-//		y = Double.parseDouble(input);
-//		Point m2 = new Point(x, y);
-//		input = m2_r.getText();
-//		double r2 = Double.parseDouble(input);
-//
-//		input = m3_X.getText();
-//		x = Double.parseDouble(input);
-//		input = m3_Y.getText();
-//		y = Double.parseDouble(input);
-//		Point m3 = new Point(x, y);
-//		input = m3_r.getText();
-//		double r3 = Double.parseDouble(input);
-		
-		Graphics g = panel_draw.getGraphics();
-		g.setColor(Color.GREEN);
-		g.fillRect(25, 50, 100, 100);
 
+		g = panel_draw.getGraphics();
+
+		String input = m1_X.getText();
+		double x = Double.parseDouble(input);
+		input = m1_Y.getText();
+		double y = Double.parseDouble(input);
+		Point m1 = new Point(x, y);
+		input = m1_r.getText();
+		double r1 = Double.parseDouble(input);
+
+		input = m2_X.getText();
+		x = Double.parseDouble(input);
+		input = m2_Y.getText();
+		y = Double.parseDouble(input);
+		Point m2 = new Point(x, y);
+		input = m2_r.getText();
+		double r2 = Double.parseDouble(input);
+
+		input = m3_X.getText();
+		x = Double.parseDouble(input);
+		input = m3_Y.getText();
+		y = Double.parseDouble(input);
+		Point m3 = new Point(x, y);
+		input = m3_r.getText();
+		double r3 = Double.parseDouble(input);
+
+		Point position = Trilateration.trilaterate(m1, m2, m3, r1, r2, r3);
+
+		// Ans Java-Koordinatensystem Anpassen
+		int x_offset = panel_draw.getWidth() / 2;
+		int y_offset = panel_draw.getHeight() / 2;
+		
+		int cx = (int) Math.round(position.getX()*step) + x_offset;
+		int cy = (int) (panel_draw.getHeight() - Math.round(position.getY()*step) - y_offset);
+		g.drawLine(cx - 2, cy - 2, cx + 2, cy + 2);
+		g.drawLine(cx-2, cy+2, cx+2, cy-2);
+		
+		cx = (int) Math.round((m1.getX()-r1)*step)+x_offset;
+		cy = (int) (panel_draw.getHeight() - Math.round((m1.getY()+r1)*step)-y_offset);
+		int cd = (int) (Math.round(2*r1*step));
+		g.drawOval(cx, cy, cd, cd);
+		cx = (int) Math.round(m1.getX()*step) + x_offset;
+		cy = (int) (panel_draw.getHeight() - Math.round(m1.getY()*step) - y_offset);
+		g.drawLine(cx - 2, cy - 2, cx + 2, cy + 2);
+		g.drawLine(cx-2, cy+2, cx+2, cy-2);
+		
+		cx = (int) Math.round((m2.getX()-r2)*step)+x_offset;
+		cy = (int) (panel_draw.getHeight() - Math.round((m2.getY()+r2)*step)-y_offset);
+		cd = (int) (Math.round(2*r2*step));
+		g.drawOval(cx, cy, cd, cd);
+		cx = (int) Math.round(m2.getX()*step) + x_offset;
+		cy = (int) (panel_draw.getHeight() - Math.round(m2.getY()*step) - y_offset);
+		g.drawLine(cx - 2, cy - 2, cx + 2, cy + 2);
+		g.drawLine(cx-2, cy+2, cx+2, cy-2);
+		
+		cx = (int) Math.round((m3.getX()-r3)*step)+x_offset;
+		cy = (int) (panel_draw.getHeight() - Math.round((m3.getY()+r3)*step)-y_offset);
+		cd = (int) (Math.round(2*r3*step));
+		g.drawOval(cx, cy, cd, cd);
+		cx = (int) Math.round(m3.getX()*step) + x_offset;
+		cy = (int) (panel_draw.getHeight() - Math.round(m3.getY()*step) - y_offset);
+		g.drawLine(cx - 2, cy - 2, cx + 2, cy + 2);
+		g.drawLine(cx-2, cy+2, cx+2, cy-2);
 	}
 }
