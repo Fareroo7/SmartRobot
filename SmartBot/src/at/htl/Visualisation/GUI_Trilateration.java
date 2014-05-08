@@ -1,8 +1,12 @@
 package at.htl.Visualisation;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Rectangle;
+import java.awt.Shape;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -20,11 +24,17 @@ import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.image.ImageObserver;
+import java.text.AttributedCharacterIterator;
 
 import at.htl.smartbot.*;
 
 public class GUI_Trilateration extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JPanel panel_draw;
 	private JPanel panel_menu;
@@ -70,6 +80,7 @@ public class GUI_Trilateration extends JFrame {
 				}
 			}
 		});
+		
 	}
 
 	/**
@@ -77,13 +88,6 @@ public class GUI_Trilateration extends JFrame {
 	 */
 	public GUI_Trilateration() {
 		initComponents();
-		g = panel_draw.getGraphics(); // liefert null ???
-		width = panel_draw.getWidth();
-		height = panel_draw.getHeight();
-		System.out.println(g);
-		// g.drawLine(0, 40,40,0 );
-		// g.drawLine((int)width/2, 0, (int) width/2, height);
-
 	}
 
 	private void initComponents() {
@@ -94,7 +98,12 @@ public class GUI_Trilateration extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 
-		panel_draw = new JPanel();
+		panel_draw = new JPanel(){
+			public void paintComponent(Graphics g){
+				g.setColor(Color.BLUE);
+				g.fillRect(25, 25, 100, 200);
+			}
+		};
 		panel_draw.setBackground(Color.WHITE);
 		panel_draw.setBorder(new LineBorder(new Color(0, 0, 0)));
 
@@ -579,32 +588,37 @@ public class GUI_Trilateration extends JFrame {
 										.addContainerGap(15, Short.MAX_VALUE)));
 		panel_menu.setLayout(gl_panel_menu);
 		contentPane.setLayout(gl_contentPane);
+
 	}
 
 	protected void btnTrilaterateActionPerformed(ActionEvent arg0) {
-		String input = m1_X.getText();
-		double x = Double.parseDouble(input);
-		input = m1_Y.getText();
-		double y = Double.parseDouble(input);
-		Point m1 = new Point(x, y);
-		input = m1_r.getText();
-		double r1 = Double.parseDouble(input);
-
-		input = m2_X.getText();
-		x = Double.parseDouble(input);
-		input = m2_Y.getText();
-		y = Double.parseDouble(input);
-		Point m2 = new Point(x, y);
-		input = m2_r.getText();
-		double r2 = Double.parseDouble(input);
-
-		input = m3_X.getText();
-		x = Double.parseDouble(input);
-		input = m3_Y.getText();
-		y = Double.parseDouble(input);
-		Point m3 = new Point(x, y);
-		input = m3_r.getText();
-		double r3 = Double.parseDouble(input);
+//		String input = m1_X.getText();
+//		double x = Double.parseDouble(input);
+//		input = m1_Y.getText();
+//		double y = Double.parseDouble(input);
+//		Point m1 = new Point(x, y);
+//		input = m1_r.getText();
+//		double r1 = Double.parseDouble(input);
+//
+//		input = m2_X.getText();
+//		x = Double.parseDouble(input);
+//		input = m2_Y.getText();
+//		y = Double.parseDouble(input);
+//		Point m2 = new Point(x, y);
+//		input = m2_r.getText();
+//		double r2 = Double.parseDouble(input);
+//
+//		input = m3_X.getText();
+//		x = Double.parseDouble(input);
+//		input = m3_Y.getText();
+//		y = Double.parseDouble(input);
+//		Point m3 = new Point(x, y);
+//		input = m3_r.getText();
+//		double r3 = Double.parseDouble(input);
+		
+		Graphics g = panel_draw.getGraphics();
+		g.setColor(Color.GREEN);
+		g.fillRect(25, 50, 100, 100);
 
 	}
 }
