@@ -36,6 +36,11 @@ public class Trilateration {
 			return null;
 		}
 		
+		System.out.println("--- trilaterate  points of intersection");
+		for(Point i:points_of_intersection){
+			System.out.println(i);
+		}
+		
 		triangle = Triangle.getSmallestTriangel(points_of_intersection);
 		System.out.println(triangle);
 		return Triangle.getCentroidOfTriangle(triangle);
@@ -61,6 +66,7 @@ public class Trilateration {
 		Line result = new Line();
 		double temp_m2_x;
 		double temp_m2_y;
+		boolean isSwaped=false;
 
 		// Mit freundlicher unterstuetzung von Mag. Harald Tranacher
 		temp_m2_x = (m2.getX() - m1.getX());
@@ -70,6 +76,7 @@ public class Trilateration {
 		if (0 == temp_m2_x) {
 			temp_m2_x = temp_m2_y;
 			temp_m2_y = 0;
+			isSwaped=true;
 		}
 
 		// Test output
@@ -109,7 +116,7 @@ public class Trilateration {
 		}
 
 		// Zurückdrehen wenn notwendig
-		if (0 == temp_m2_x) {
+		if (isSwaped) {
 			double temp = result.getPoint1().getX();
 			result.getPoint1().setX(result.getPoint1().getY());
 			result.getPoint1().setY(temp);
