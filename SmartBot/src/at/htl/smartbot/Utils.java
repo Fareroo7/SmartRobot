@@ -38,15 +38,12 @@ public class Utils {
 	 * @return True if parameter is a Double
 	 */
 	public static boolean isDouble(String s) {
-		boolean isDouble = true;
-		for (int i = 0; i < s.length(); i++) {
-			if (!Character.isDigit(s.charAt(i))) {
-				if (s.charAt(i) != '.')
-					isDouble = false;
-				break;
-			}
+		try{
+			Double.parseDouble(s);
+			return true;
+		}catch(NumberFormatException e){
+			return false;
 		}
-		return isDouble;
 	}
 
 }
