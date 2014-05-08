@@ -16,10 +16,6 @@ public class Triangle {
 	private Point bisecting_b;
 	private Point bisecting_c;
 
-	private Line bisector_A;
-	private Line bisector_B;
-	private Line bisector_C;
-
 	public Triangle(Point p1, Point p2, Point p3) {
 		this.point_A = p1;
 		this.point_B = p2;
@@ -98,10 +94,6 @@ public class Triangle {
 		point_A = temp_A;
 		point_B = temp_B;
 		point_C = temp_C;
-
-	}
-
-	private void refreshBesectors() {
 
 	}
 
@@ -215,18 +207,6 @@ public class Triangle {
 		refreshBisectingPoints();
 	}
 
-	public Line getBisectorA() {
-		return bisector_A;
-	}
-
-	public Line getBisectorB() {
-		return bisector_B;
-	}
-
-	public Line getBisectorC() {
-		return bisector_C;
-	}
-
 	@Override
 	public String toString() {
 		return "Triangle [\nA=" + point_A + ", \nB=" + point_B + ", \nC=" + point_C + ", \na=" + line_a + ", \nb=" + line_b + ", \nc=" + line_c + ", \na/2="
@@ -315,7 +295,7 @@ public class Triangle {
 		Point s2 = Line.getPointsOfIntersectionLine(bisectionB, bisectionC);
 		Point s3 = Line.getPointsOfIntersectionLine(bisectionC, bisectionA);
 
-		if(s1.compare(s2) < 1.0E-9 && s2.compare(s3) < 1.0E-9 && s3.compare(s1) < 1.0E-9) return s1;
+		if(s1.getDistanceTo(s2) < 1.0E-9 && s2.getDistanceTo(s3) < 1.0E-9 && s3.getDistanceTo(s1) < 1.0E-9) return s1;
 
 		return null;
 	}
