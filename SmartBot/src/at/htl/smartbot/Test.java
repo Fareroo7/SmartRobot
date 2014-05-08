@@ -42,13 +42,19 @@ public class Test {
 //		
 //		System.out.println(s.toString());
 		
-		Point s1 = new Point(2,1);
-		Point s2 = new Point(3,3);
-		Point s3 = new Point(6,2);
+//		Point s1 = new Point(1,1);
+//		Point s2 = new Point(1,4);
+//		Point s3 = new Point(4,1);
+//		
+//		Point position = Trilateration.trilaterate(s1, s2, s3, 2.0, 2.0, 2.5);
+//		
+//		System.out.println(position.toString());
 		
-		Point position = Trilateration.trilaterate(s1, s2, s3, 2.0, 1.0, 2.5);
+		Line l1 = new Line(new Point(1, 0), new Point(1.1,3));
+		Line l2 = new Line(new Point(0.5,1), new Point(3,3));
 		
-		System.out.println(position.toString());
-
+		Point s = Line.getPointsOfIntersectionLine(l1, l2);
+		
+		System.out.println(s.toString());
 	}
 }
