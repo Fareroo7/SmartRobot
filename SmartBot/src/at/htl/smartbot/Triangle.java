@@ -42,6 +42,10 @@ public class Triangle {
 		Point temp_A = new Point();
 		Point temp_B = new Point();
 		Point temp_C = new Point();
+		
+		System.out.println(point_B);
+		System.out.println(point_C);
+		System.out.println(point_A);
 
 		if (point_A.equals(line_a.getPoint1())) {
 			if (line_a.getPoint2().equals(point_B)) {
@@ -113,6 +117,13 @@ public class Triangle {
 	}
 
 	private void refreshPoints(Line a, Line b, Line c) {
+		
+		System.out.println("---- Lines ----");
+		System.out.println(a);
+		System.out.println(b);
+		System.out.println(c);
+		System.out.println("------------------");
+		
 		ArrayList<Point> temp_points = new ArrayList<Point>();
 
 		temp_points.add(a.getPoint1());
@@ -123,9 +134,18 @@ public class Triangle {
 
 		temp_points.add(c.getPoint1());
 		temp_points.add(c.getPoint2());
-
+		
+		System.out.println("---- refresh Points list -----------");
+		for(Point i:temp_points){
+			System.out.println(i);
+		}
+		System.out.println();
 		temp_points = Point.eliminateRedundance(temp_points);
-
+		System.out.println("---- refresh Points list after -----------");
+		for(Point i:temp_points){
+			System.out.println(i);
+		}
+		
 		if (temp_points.size() == 3) {
 			point_A = temp_points.get(0);
 			point_B = temp_points.get(1);
@@ -281,11 +301,16 @@ public class Triangle {
 			}
 			lines.remove(index_of_min);
 		}
+		
+		System.out.println("---- getSmallestTriangle ---------");
+		System.out.println(min1);
+		System.out.println(min2);
+		System.out.println(min3);
 
 		return new Triangle(min1, min2, min3);
 	}
 
-	public static Point getCentroidOfSmallestTriangle(Triangle triangle) {
+	public static Point getCentroidOfTriangle(Triangle triangle) {
 
 		Line bisectionA = new Line(triangle.getPointA(), triangle.getBisectingA());
 		Line bisectionB = new Line(triangle.getPointB(), triangle.getBisectingB());
