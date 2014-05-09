@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Panel;
 import java.awt.Rectangle;
 import java.awt.Shape;
 
@@ -28,6 +29,14 @@ import java.awt.image.ImageObserver;
 import java.text.AttributedCharacterIterator;
 
 import at.htl.smartbot.*;
+
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.UIManager;
+import javax.swing.JMenuItem;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class GUI_Trilateration extends JFrame {
 
@@ -63,16 +72,29 @@ public class GUI_Trilateration extends JFrame {
 
 	private Graphics g;
 
-	private int width;
-	private int height;
+	private static int width;
+	private static int height;
 
 	protected static int step = 100;
 	protected static Point origin;
+	private JMenuBar menuBar;
+	private JMenu mnFile;
+	private JMenuItem mntmNewOrigin;
+	private JMenuItem mntmClose;
+
+	private boolean newOrigin = false;
+	private JLabel lblState;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		try {
+			UIManager
+					.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -96,15 +118,37 @@ public class GUI_Trilateration extends JFrame {
 	private void initComponents() {
 		setTitle("SmartBot Trilateration");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 673, 447);
+		setBounds(100, 100, 673, 477);
+
+		menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+
+		mnFile = new JMenu("Datei");
+		menuBar.add(mnFile);
+
+		mntmNewOrigin = new JMenuItem("Neuer Ursprung");
+		mntmNewOrigin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mntmNewOriginActionPerformed(e);
+			}
+		});
+		mnFile.add(mntmNewOrigin);
+
+		mntmClose = new JMenuItem("Schlie\u00DFen");
+		mntmClose.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				mntmCloseActionPerformed(arg0);
+			}
+		});
+		mnFile.add(mntmClose);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 
 		panel_draw = new JPanel() {
 			public void paintComponent(Graphics g) {
-				int width = this.getWidth();
-				int height = this.getHeight();
+				GUI_Trilateration.width = this.getWidth();
+				GUI_Trilateration.height = this.getHeight();
 				GUI_Trilateration.origin = new Point(width * 0.1, height
 						- (height * (0.1)));
 				Utils.drawCoordinateSystem(width, height, origin, g);
@@ -121,48 +165,74 @@ public class GUI_Trilateration extends JFrame {
 
 			}
 		};
+		panel_draw.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				panel_drawMouseClicked(arg0);
+			}
+		});
 		panel_draw.setBackground(Color.WHITE);
 		panel_draw.setBorder(new LineBorder(new Color(0, 0, 0)));
 
 		panel_menu = new JPanel();
 		panel_menu.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+
+		lblState = new JLabel("Status:");
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(gl_contentPane.createParallelGroup(
-				Alignment.LEADING).addGroup(
-				Alignment.TRAILING,
-				gl_contentPane
-						.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(panel_draw, GroupLayout.DEFAULT_SIZE,
-								485, Short.MAX_VALUE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(panel_menu, GroupLayout.PREFERRED_SIZE,
-								136, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap()));
 		gl_contentPane
-				.setVerticalGroup(gl_contentPane
+				.setHorizontalGroup(gl_contentPane
 						.createParallelGroup(Alignment.TRAILING)
 						.addGroup(
+								Alignment.LEADING,
 								gl_contentPane
 										.createSequentialGroup()
 										.addContainerGap()
 										.addGroup(
 												gl_contentPane
 														.createParallelGroup(
-																Alignment.TRAILING)
+																Alignment.LEADING)
 														.addComponent(
-																panel_menu,
-																Alignment.LEADING,
+																lblState,
 																GroupLayout.DEFAULT_SIZE,
-																367,
+																627,
 																Short.MAX_VALUE)
-														.addComponent(
-																panel_draw,
-																Alignment.LEADING,
-																GroupLayout.DEFAULT_SIZE,
-																367,
-																Short.MAX_VALUE))
+														.addGroup(
+																gl_contentPane
+																		.createSequentialGroup()
+																		.addComponent(
+																				panel_draw,
+																				GroupLayout.DEFAULT_SIZE,
+																				485,
+																				Short.MAX_VALUE)
+																		.addPreferredGap(
+																				ComponentPlacement.RELATED)
+																		.addComponent(
+																				panel_menu,
+																				GroupLayout.PREFERRED_SIZE,
+																				136,
+																				GroupLayout.PREFERRED_SIZE)))
 										.addContainerGap()));
+		gl_contentPane.setVerticalGroup(gl_contentPane.createParallelGroup(
+				Alignment.TRAILING).addGroup(
+				Alignment.LEADING,
+				gl_contentPane
+						.createSequentialGroup()
+						.addContainerGap()
+						.addGroup(
+								gl_contentPane
+										.createParallelGroup(
+												Alignment.TRAILING, false)
+										.addComponent(panel_menu,
+												Alignment.LEADING,
+												GroupLayout.DEFAULT_SIZE,
+												GroupLayout.DEFAULT_SIZE,
+												Short.MAX_VALUE)
+										.addComponent(panel_draw,
+												Alignment.LEADING,
+												GroupLayout.DEFAULT_SIZE, 375,
+												Short.MAX_VALUE))
+						.addPreferredGap(ComponentPlacement.RELATED, 7,
+								Short.MAX_VALUE).addComponent(lblState)));
 
 		lblKreis = new JLabel("Kreis 1:");
 
@@ -611,8 +681,10 @@ public class GUI_Trilateration extends JFrame {
 	protected void btnTrilaterateActionPerformed(ActionEvent arg0) {
 
 		g = panel_draw.getGraphics();
+		width=panel_draw.getWidth();
+		height=panel_draw.getHeight();
 
-		g.clearRect(0, 0, panel_draw.getWidth(), panel_draw.getHeight());
+		g.clearRect(1, 1, width-2, height-2);
 		Utils.drawCoordinateSystem(panel_draw.getWidth(),
 				panel_draw.getHeight(), origin, g);
 
@@ -650,10 +722,10 @@ public class GUI_Trilateration extends JFrame {
 		int cx = (int) Math.round((m1.getX() - r1) * step) + x_offset;
 		// cy = (int) (panel_draw.getHeight() -
 		// Math.round((m1.getY()+r1)*step)-y_offset);
-		int cy = (int) (y_offset - Math.round((m1.getY()+r1) * step));
+		int cy = (int) (y_offset - Math.round((m1.getY() + r1) * step));
 		int cd = (int) (Math.round(2 * r1 * step));
 		g.drawOval(cx, cy, cd, cd);
-		
+
 		cx = (int) Math.round(m1.getX() * step) + x_offset;
 		cy = (int) (y_offset - Math.round(m1.getY() * step));
 		g.drawLine(cx - 2, cy - 2, cx + 2, cy + 2);
@@ -663,7 +735,7 @@ public class GUI_Trilateration extends JFrame {
 		cy = (int) (y_offset - Math.round((m2.getY() + r2) * step));
 		cd = (int) (Math.round(2 * r2 * step));
 		g.drawOval(cx, cy, cd, cd);
-		
+
 		cx = (int) Math.round(m2.getX() * step) + x_offset;
 		cy = (int) (y_offset - Math.round(m2.getY() * step));
 		g.drawLine(cx - 2, cy - 2, cx + 2, cy + 2);
@@ -677,7 +749,7 @@ public class GUI_Trilateration extends JFrame {
 		cy = (int) (y_offset - Math.round(m3.getY() * step));
 		g.drawLine(cx - 2, cy - 2, cx + 2, cy + 2);
 		g.drawLine(cx - 2, cy + 2, cx + 2, cy - 2);
-		
+
 		g.setColor(Color.MAGENTA);
 		cx = (int) Math.round(position.getX() * step) + x_offset;
 		// int cy = (int) (panel_draw.getHeight() -
@@ -685,6 +757,31 @@ public class GUI_Trilateration extends JFrame {
 		cy = (int) (y_offset - Math.round((position.getY()) * step));
 		g.drawLine(cx - 2, cy - 2, cx + 2, cy + 2);
 		g.drawLine(cx - 2, cy + 2, cx + 2, cy - 2);
+		
 
+	}
+
+	protected void mntmCloseActionPerformed(ActionEvent arg0) {
+		System.exit(0);
+	}
+
+	protected void mntmNewOriginActionPerformed(ActionEvent e) {
+		newOrigin = true;
+		lblState.setText("Status: Bitte auf der Zeichenfläche auf den neuen Ursprung klicken");
+	}
+
+	protected void panel_drawMouseClicked(MouseEvent arg0) {
+		width=panel_draw.getWidth();
+		height=panel_draw.getHeight();
+		g.setColor(Color.BLACK);
+		if (newOrigin) {
+			g.clearRect(1, 1, width-2, height-2);
+			origin=new Point(arg0.getX(),arg0.getY());
+			System.out.println(origin);
+			newOrigin=false;
+			lblState.setText("Status:");
+			Utils.drawCoordinateSystem(width, height, origin, g);
+			btnTrilaterateActionPerformed(null);
+		}
 	}
 }
