@@ -1,5 +1,7 @@
 package at.htl.smartbot;
 
+import java.awt.Graphics;
+
 /**
  * Class of useful little methods.
  * 
@@ -33,7 +35,7 @@ public class Utils {
 
 	/**
 	 * Checks a String if it is a double (contains only digits and a point)
-	 * PS: keine Ahnung was falsch ist
+	 * 
 	 * @param s String that shoud be used as double
 	 * @return True if parameter is a Double
 	 */
@@ -44,6 +46,13 @@ public class Utils {
 		}catch(NumberFormatException e){
 			return false;
 		}
+	}
+	
+	public static void drawCoordinateSystem(int width, int height, Point origin, Graphics g){
+		int x=(int)(Math.round(origin.getX()));
+		int y=(int)(Math.round(origin.getY()));
+		g.drawLine(x, 0, x,height);
+		g.drawLine(0, y, width, y);
 	}
 
 }

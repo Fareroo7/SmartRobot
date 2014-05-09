@@ -1,5 +1,6 @@
 package at.htl.smartbot;
 
+import java.awt.Graphics;
 import java.util.ArrayList;
 
 public class Triangle {
@@ -337,5 +338,5 @@ public class Triangle {
 
 		return null;
 	}
-
+	
 }

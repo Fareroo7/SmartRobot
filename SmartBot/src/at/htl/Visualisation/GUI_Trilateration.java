@@ -67,6 +67,7 @@ public class GUI_Trilateration extends JFrame {
 	private int height;
 
 	protected static int step = 100;
+	protected static Point origin;
 
 	/**
 	 * Launch the application.
@@ -104,8 +105,9 @@ public class GUI_Trilateration extends JFrame {
 			public void paintComponent(Graphics g) {
 				int width = this.getWidth();
 				int height = this.getHeight();
-				g.drawLine(0, height / 2, width, height / 2);
-				g.drawLine(width / 2, 0, width / 2, height);
+				GUI_Trilateration.origin = new Point(width * 0.1, height
+						- (height * (0.1)));
+				Utils.drawCoordinateSystem(width, height, origin, g);
 
 				// nicht genau....
 				// for(int i=0;i<width/GUI_Trilateration.STEP;i++){
@@ -610,6 +612,10 @@ public class GUI_Trilateration extends JFrame {
 
 		g = panel_draw.getGraphics();
 
+		g.clearRect(0, 0, panel_draw.getWidth(), panel_draw.getHeight());
+		Utils.drawCoordinateSystem(panel_draw.getWidth(),
+				panel_draw.getHeight(), origin, g);
+
 		String input = m1_X.getText();
 		double x = Double.parseDouble(input);
 		input = m1_Y.getText();
@@ -637,39 +643,48 @@ public class GUI_Trilateration extends JFrame {
 		Point position = Trilateration.trilaterate(m1, m2, m3, r1, r2, r3);
 
 		// Ans Java-Koordinatensystem Anpassen
-		int x_offset = panel_draw.getWidth() / 2;
-		int y_offset = panel_draw.getHeight() / 2;
-		
-		int cx = (int) Math.round(position.getX()*step) + x_offset;
-		int cy = (int) (panel_draw.getHeight() - Math.round(position.getY()*step) - y_offset);
-		g.drawLine(cx - 2, cy - 2, cx + 2, cy + 2);
-		g.drawLine(cx-2, cy+2, cx+2, cy-2);
-		
-		cx = (int) Math.round((m1.getX()-r1)*step)+x_offset;
-		cy = (int) (panel_draw.getHeight() - Math.round((m1.getY()+r1)*step)-y_offset);
-		int cd = (int) (Math.round(2*r1*step));
+		System.out.println(origin);
+		int x_offset = (int) Math.round(origin.getX());
+		int y_offset = (int) (Math.round(origin.getY()));
+
+		int cx = (int) Math.round((m1.getX() - r1) * step) + x_offset;
+		// cy = (int) (panel_draw.getHeight() -
+		// Math.round((m1.getY()+r1)*step)-y_offset);
+		int cy = (int) (y_offset - Math.round((m1.getY()+r1) * step));
+		int cd = (int) (Math.round(2 * r1 * step));
 		g.drawOval(cx, cy, cd, cd);
-		cx = (int) Math.round(m1.getX()*step) + x_offset;
-		cy = (int) (panel_draw.getHeight() - Math.round(m1.getY()*step) - y_offset);
-		g.drawLine(cx - 2, cy - 2, cx + 2, cy + 2);
-		g.drawLine(cx-2, cy+2, cx+2, cy-2);
 		
-		cx = (int) Math.round((m2.getX()-r2)*step)+x_offset;
-		cy = (int) (panel_draw.getHeight() - Math.round((m2.getY()+r2)*step)-y_offset);
-		cd = (int) (Math.round(2*r2*step));
-		g.drawOval(cx, cy, cd, cd);
-		cx = (int) Math.round(m2.getX()*step) + x_offset;
-		cy = (int) (panel_draw.getHeight() - Math.round(m2.getY()*step) - y_offset);
+		cx = (int) Math.round(m1.getX() * step) + x_offset;
+		cy = (int) (y_offset - Math.round(m1.getY() * step));
 		g.drawLine(cx - 2, cy - 2, cx + 2, cy + 2);
-		g.drawLine(cx-2, cy+2, cx+2, cy-2);
+		g.drawLine(cx - 2, cy + 2, cx + 2, cy - 2);
+
+		cx = (int) Math.round((m2.getX() - r2) * step) + x_offset;
+		cy = (int) (y_offset - Math.round((m2.getY() + r2) * step));
+		cd = (int) (Math.round(2 * r2 * step));
+		g.drawOval(cx, cy, cd, cd);
 		
-		cx = (int) Math.round((m3.getX()-r3)*step)+x_offset;
-		cy = (int) (panel_draw.getHeight() - Math.round((m3.getY()+r3)*step)-y_offset);
-		cd = (int) (Math.round(2*r3*step));
-		g.drawOval(cx, cy, cd, cd);
-		cx = (int) Math.round(m3.getX()*step) + x_offset;
-		cy = (int) (panel_draw.getHeight() - Math.round(m3.getY()*step) - y_offset);
+		cx = (int) Math.round(m2.getX() * step) + x_offset;
+		cy = (int) (y_offset - Math.round(m2.getY() * step));
 		g.drawLine(cx - 2, cy - 2, cx + 2, cy + 2);
-		g.drawLine(cx-2, cy+2, cx+2, cy-2);
+		g.drawLine(cx - 2, cy + 2, cx + 2, cy - 2);
+
+		cx = (int) Math.round((m3.getX() - r3) * step) + x_offset;
+		cy = (int) (y_offset - Math.round((m3.getY() + r3) * step));
+		cd = (int) (Math.round(2 * r3 * step));
+		g.drawOval(cx, cy, cd, cd);
+		cx = (int) Math.round(m3.getX() * step) + x_offset;
+		cy = (int) (y_offset - Math.round(m3.getY() * step));
+		g.drawLine(cx - 2, cy - 2, cx + 2, cy + 2);
+		g.drawLine(cx - 2, cy + 2, cx + 2, cy - 2);
+		
+		g.setColor(Color.MAGENTA);
+		cx = (int) Math.round(position.getX() * step) + x_offset;
+		// int cy = (int) (panel_draw.getHeight() -
+		// Math.round(position.getY()*step) - y_offset);
+		cy = (int) (y_offset - Math.round((position.getY()) * step));
+		g.drawLine(cx - 2, cy - 2, cx + 2, cy + 2);
+		g.drawLine(cx - 2, cy + 2, cx + 2, cy - 2);
+
 	}
 }
