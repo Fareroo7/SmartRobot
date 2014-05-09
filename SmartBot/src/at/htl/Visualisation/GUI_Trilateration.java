@@ -18,6 +18,7 @@ import javax.swing.border.LineBorder;
 
 import java.awt.Color;
 
+import javax.swing.JOptionPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -84,6 +85,7 @@ public class GUI_Trilateration extends JFrame {
 
 	private boolean newOrigin = false;
 	private JLabel lblState;
+	private JMenuItem mntmScale;
 
 	/**
 	 * Launch the application.
@@ -140,6 +142,14 @@ public class GUI_Trilateration extends JFrame {
 				mntmCloseActionPerformed(arg0);
 			}
 		});
+		
+		mntmScale = new JMenuItem("Skalierung");
+		mntmScale.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				mntmScaleActionPerformed(arg0);
+			}
+		});
+		mnFile.add(mntmScale);
 		mnFile.add(mntmClose);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -179,60 +189,28 @@ public class GUI_Trilateration extends JFrame {
 
 		lblState = new JLabel("Status:");
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane
-				.setHorizontalGroup(gl_contentPane
-						.createParallelGroup(Alignment.TRAILING)
-						.addGroup(
-								Alignment.LEADING,
-								gl_contentPane
-										.createSequentialGroup()
-										.addContainerGap()
-										.addGroup(
-												gl_contentPane
-														.createParallelGroup(
-																Alignment.LEADING)
-														.addComponent(
-																lblState,
-																GroupLayout.DEFAULT_SIZE,
-																627,
-																Short.MAX_VALUE)
-														.addGroup(
-																gl_contentPane
-																		.createSequentialGroup()
-																		.addComponent(
-																				panel_draw,
-																				GroupLayout.DEFAULT_SIZE,
-																				485,
-																				Short.MAX_VALUE)
-																		.addPreferredGap(
-																				ComponentPlacement.RELATED)
-																		.addComponent(
-																				panel_menu,
-																				GroupLayout.PREFERRED_SIZE,
-																				136,
-																				GroupLayout.PREFERRED_SIZE)))
-										.addContainerGap()));
-		gl_contentPane.setVerticalGroup(gl_contentPane.createParallelGroup(
-				Alignment.TRAILING).addGroup(
-				Alignment.LEADING,
-				gl_contentPane
-						.createSequentialGroup()
-						.addContainerGap()
-						.addGroup(
-								gl_contentPane
-										.createParallelGroup(
-												Alignment.TRAILING, false)
-										.addComponent(panel_menu,
-												Alignment.LEADING,
-												GroupLayout.DEFAULT_SIZE,
-												GroupLayout.DEFAULT_SIZE,
-												Short.MAX_VALUE)
-										.addComponent(panel_draw,
-												Alignment.LEADING,
-												GroupLayout.DEFAULT_SIZE, 375,
-												Short.MAX_VALUE))
-						.addPreferredGap(ComponentPlacement.RELATED, 7,
-								Short.MAX_VALUE).addComponent(lblState)));
+		gl_contentPane.setHorizontalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblState, GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)
+						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+							.addComponent(panel_draw, GroupLayout.DEFAULT_SIZE, 485, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(panel_menu, GroupLayout.PREFERRED_SIZE, 136, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap())
+		);
+		gl_contentPane.setVerticalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(panel_menu, GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+						.addComponent(panel_draw, GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(lblState))
+		);
 
 		lblKreis = new JLabel("Kreis 1:");
 
@@ -779,9 +757,17 @@ public class GUI_Trilateration extends JFrame {
 			origin=new Point(arg0.getX(),arg0.getY());
 			System.out.println(origin);
 			newOrigin=false;
-			lblState.setText("Status:");
+			lblState.setText("Status: Neuer Ursprung :"+origin);
 			Utils.drawCoordinateSystem(width, height, origin, g);
 			btnTrilaterateActionPerformed(null);
 		}
+	}
+	protected void mntmScaleActionPerformed(ActionEvent arg0) {
+		
+		JOptionPane newScale=new JOptionPane();
+		String input=newScale.showInputDialog("Bitte Skalierung eingeben: ");
+		step=Integer.parseInt(input);
+		lblState.setText("Status: Neue Skalierung: "+input+"px");
+		btnTrilaterateActionPerformed(null);
 	}
 }
