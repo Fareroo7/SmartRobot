@@ -2,35 +2,27 @@ package at.htl.Visualisation;
 
 import java.awt.EventQueue;
 import java.awt.Graphics;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.border.LineBorder;
-
 import java.awt.Color;
-
 import javax.swing.JOptionPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-
 import at.htl.smartbot.*;
-
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.UIManager;
 import javax.swing.JMenuItem;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Date;
 
 public class GUI_Trilateration extends JFrame {
 
@@ -489,9 +481,7 @@ public class GUI_Trilateration extends JFrame {
 		lblState.setText("Status: Ausführungszeit(ms): " + time_ms+" Position: "+position.toString());
 		//lblState.setText("Position: " + position.toString());
 		
-		
 		// Ans Java-Koordinatensystem Anpassen
-		System.out.println(origin);
 		int x_offset = (int) Math.round(origin.getX());
 		int y_offset = (int) (Math.round(origin.getY()));
 
