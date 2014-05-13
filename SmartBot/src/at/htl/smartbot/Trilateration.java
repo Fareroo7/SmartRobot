@@ -41,7 +41,8 @@ public class Trilateration {
 			System.out.println(i);
 		}
 
-		triangle = Triangle.getSmallestTriangel(points_of_intersection);
+//		triangle = Triangle.getSmallestTriangel(points_of_intersection);
+		triangle = Triangle.getSmallestTriangelArea(points_of_intersection);
 		System.out.println(triangle);
 		return Triangle.getCentroidOfTriangle(triangle);
 	}
