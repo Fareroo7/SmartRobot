@@ -233,7 +233,7 @@ public class Triangle {
 
 	@Override
 	public String toString() {
-		return "Triangle [\nA=" + point_A + ", \nB=" + point_B + ", \nC=" + point_C + ", \na=" + line_a + ", \nb=" + line_b + ", \nc=" + line_c + ", \na/2="
+		return "Triangle [\n Area: " +area+"\nA=" + point_A + ", \nB=" + point_B + ", \nC=" + point_C + ", \na=" + line_a + ", \nb=" + line_b + ", \nc=" + line_c + ", \na/2="
 				+ bisecting_a + ", \nb/2=" + bisecting_b + ", \nc/2=" + bisecting_c + "\n]";
 	}
 
@@ -249,6 +249,11 @@ public class Triangle {
 		return bisecting_c;
 	}
 
+	/**
+	 * Error when points on one line (Area 0.0)
+	 * @param points
+	 * @return
+	 */
 	public static Triangle getSmallestTriangelArea(ArrayList<Point> points) {
 		double minArea = Double.MAX_VALUE;
 		Triangle smallest = null;

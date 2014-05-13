@@ -36,13 +36,13 @@ public class Trilateration {
 			return null;
 		}
 
-		System.out.println("--- trilaterate  points of intersection");
-		for (Point i : points_of_intersection) {
-			System.out.println(i);
-		}
+//		System.out.println("--- trilaterate  points of intersection");
+//		for (Point i : points_of_intersection) {
+//			System.out.println(i);
+//		}
 
-//		triangle = Triangle.getSmallestTriangel(points_of_intersection);
-		triangle = Triangle.getSmallestTriangelArea(points_of_intersection);
+		triangle = Triangle.getSmallestTriangel(points_of_intersection);
+//		triangle = Triangle.getSmallestTriangelArea(points_of_intersection); Error when Points 
 		System.out.println(triangle);
 		return Triangle.getCentroidOfTriangle(triangle);
 	}

@@ -56,13 +56,13 @@ public class Test {
 		//
 		// System.out.println(s.toString());
 
-		Point t1 = new Point(2, 2);
-		Point t2 = new Point(5.5, 2);
-		Point t3 = new Point(3.75, 5);
+		Point t1 = new Point(1, 1);
+		Point t2 = new Point(2, 2);
+		Point t3 = new Point(1, 2);
 		
 		System.out.println(Triangle.calcArea(new Triangle(t1, t2, t3))+" area");
 		
-		Point p = Trilateration.trilaterate(t1, t2, t3, 2, 2, 2);
+		Point p = Trilateration.trilaterate(t1, t2, t3, 1, 1, 1);
 		System.out.println(p);
 	}
 }
