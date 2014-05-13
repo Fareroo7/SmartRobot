@@ -278,7 +278,6 @@ public class Triangle {
 
 		Line min1 = new Line();
 		Line min2 = new Line();
-		Line min3 = new Line();
 
 		for (int i = 0; i < points.size(); i++) {
 			// System.out.println(points.get(i));
@@ -287,7 +286,7 @@ public class Triangle {
 			}
 		}
 
-		for (int z = 0; z < 3; z++) {
+		for (int z = 0; z < 2; z++) {
 			double tmp_min = Double.MAX_VALUE;
 			int index_of_min = 0;
 			for (int i = 0; i < lines.size(); i++) {
@@ -303,17 +302,27 @@ public class Triangle {
 			case 1:
 				min2 = lines.get(index_of_min);
 				break;
-			case 2:
-				min3 = lines.get(index_of_min);
-				break;
 			}
 			lines.remove(index_of_min);
 		}
-
-		System.out.println("---- getSmallestTriangle ---------");
-		System.out.println(min1);
-		System.out.println(min2);
-		System.out.println(min3);
+		
+		Line min3 = null;
+		
+		if(min1.getPoint1().equals(min2.getPoint1())){
+			min3 = new Line(min1.getPoint2(), min2.getPoint2());
+		}else if(min1.getPoint1().equals(min2.getPoint2())){
+			min3 = new Line(min1.getPoint2(), min2.getPoint1());
+		}else if(min1.getPoint2().equals(min2.getPoint1())){
+			min3 = new Line(min1.getPoint1(), min2.getPoint2());
+		}else if(min1.getPoint2().equals(min2.getPoint2())){
+			min3 = new Line(min1.getPoint1(), min2.getPoint1());
+		}else{
+			System.out.println("These Lines are not a Triangle");
+		}
+		
+//		System.out.println("---- getSmallestTriangle ---------");
+//		System.out.println(min1);
+//		System.out.println(min2);
 
 		return new Triangle(min1, min2, min3);
 	}
