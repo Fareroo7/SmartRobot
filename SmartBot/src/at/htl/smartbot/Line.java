@@ -49,7 +49,7 @@ public class Line {
 		return distance;
 	}
 
-	public static Point getPointsOfIntersectionLine(Line line1, Line line2) {
+	public static Point getPointOfIntersectionLine(Line line1, Line line2) {
 
 		double deltaY1, deltaY2, k_line1, d_line1, k_line2, d_line2, x, y;
 		
@@ -62,7 +62,7 @@ public class Line {
 			Point line1B = new Point(line1.getPoint2().getY(), line1.getPoint2().getX());
 
 			Point line2A = new Point(line2.getPoint1().getY(), line2.getPoint1().getX());
-			Point line2B = new Point(line2.getPoint2().getY(), line2.getPoint2().getY());
+			Point line2B = new Point(line2.getPoint2().getY(), line2.getPoint2().getX());
 
 			deltaX1 = line1B.getX() - line1A.getX();
 			deltaY1 = line1B.getY() - line1A.getY();

@@ -327,9 +327,9 @@ public class Triangle {
 		Line bisectionC = new Line(triangle.getPointC(),
 				triangle.getBisectingC());
 
-		Point s1 = Line.getPointsOfIntersectionLine(bisectionA, bisectionB);
-		Point s2 = Line.getPointsOfIntersectionLine(bisectionB, bisectionC);
-		Point s3 = Line.getPointsOfIntersectionLine(bisectionC, bisectionA);
+		Point s1 = Line.getPointOfIntersectionLine(bisectionA, bisectionB);
+		Point s2 = Line.getPointOfIntersectionLine(bisectionB, bisectionC);
+		Point s3 = Line.getPointOfIntersectionLine(bisectionC, bisectionA);
 
 		if (s1.getDistanceTo(s2) < 1.0E-9 && s2.getDistanceTo(s3) < 1.0E-9
 				&& s3.getDistanceTo(s1) < 1.0E-9)
