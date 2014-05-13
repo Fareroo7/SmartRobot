@@ -142,10 +142,11 @@ public class GUI_Trilateration extends JFrame {
 		panel_draw = new JPanel() {
 			private static final long serialVersionUID = 1L;
 			public void paintComponent(Graphics g) {
+				int step=100;
 				GUI_Trilateration.width = this.getWidth();
 				GUI_Trilateration.height = this.getHeight();
 				GUI_Trilateration.origin = new Point(width * 0.1, height - (height * (0.1)));
-				Utils.drawCoordinateSystem(width, height, origin, g);
+				Utils.drawCoordinateSystem(width, height,step, origin, g);
 
 				// nicht genau....
 				// for(int i=0;i<width/GUI_Trilateration.STEP;i++){

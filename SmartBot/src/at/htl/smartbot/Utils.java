@@ -53,6 +53,23 @@ public class Utils {
 		int y=(int)(Math.round(origin.getY()));
 		g.drawLine(x, 0, x,height);
 		g.drawLine(0, y, width, y);
+		
+	}
+	
+	public static void drawCoordinateSystem(int width, int height, int step, Point origin, Graphics g){
+		int x=(int)(Math.round(origin.getX()));
+		int y=(int)(Math.round(origin.getY()));
+		g.drawLine(x, 0, x,height);
+		g.drawLine(0, y, width, y);
+		
+		for(int i=0;(i*step)<width||(i*step)>0;i++){
+			g.drawLine(i*step+x, y-2, i*step+x, y+2);
+			g.drawLine(x-i*step, y-2, x-i*step, y+2);
+		}
+		for(int i=0;(i*step)<height||(i*step)>0;i++){
+			g.drawLine(x-2, i*step+y, x+2, i*step+y);
+			g.drawLine(x-2, y-i*step, x+2, y-i*step);
+		}
 	}
 
 }
