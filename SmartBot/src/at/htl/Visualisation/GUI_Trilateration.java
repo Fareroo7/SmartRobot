@@ -31,7 +31,7 @@ public class GUI_Trilateration extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JPanel panel_draw;
+	private CoordinatePanel panel_draw;
 	private JPanel panel_menu;
 	private JLabel lblKreis;
 	private JLabel lblX;
@@ -139,27 +139,30 @@ public class GUI_Trilateration extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 
-		panel_draw = new JPanel() {
-			private static final long serialVersionUID = 1L;
-			public void paintComponent(Graphics g) {
-				int step=100;
-				GUI_Trilateration.width = this.getWidth();
-				GUI_Trilateration.height = this.getHeight();
-				GUI_Trilateration.origin = new Point(width * 0.1, height - (height * (0.1)));
-				Utils.drawCoordinateSystem(width, height,step, origin, g);
-
-				// nicht genau....
-				// for(int i=0;i<width/GUI_Trilateration.STEP;i++){
-				// g.drawLine(i*GUI_Trilateration.STEP, (height/2)-2,
-				// i*GUI_Trilateration.STEP, (height/2)+2);
-				// }
-				// for(int i=0;i<height/GUI_Trilateration.STEP;i++){
-				// g.drawLine((width/2)-2, i*GUI_Trilateration.STEP,
-				// (width/2)+2, i*GUI_Trilateration.STEP);
-				// }
-
-			}
-		};
+		panel_draw = new CoordinatePanel();
+		
+//		panel_draw = new JPanel() {
+//			private static final long serialVersionUID = 1L;
+//
+//			public void paintComponent(Graphics g) {
+//				int step = 100;
+//				GUI_Trilateration.width = this.getWidth();
+//				GUI_Trilateration.height = this.getHeight();
+//				GUI_Trilateration.origin = new Point(width * 0.1, height - (height * (0.1)));
+//				Utils.drawCoordinateSystem(width, height, step, origin, g);
+//
+//				// nicht genau....
+//				// for(int i=0;i<width/GUI_Trilateration.STEP;i++){
+//				// g.drawLine(i*GUI_Trilateration.STEP, (height/2)-2,
+//				// i*GUI_Trilateration.STEP, (height/2)+2);
+//				// }
+//				// for(int i=0;i<height/GUI_Trilateration.STEP;i++){
+//				// g.drawLine((width/2)-2, i*GUI_Trilateration.STEP,
+//				// (width/2)+2, i*GUI_Trilateration.STEP);
+//				// }
+//
+//			}
+//		};
 		panel_draw.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -167,7 +170,7 @@ public class GUI_Trilateration extends JFrame {
 			}
 		});
 		panel_draw.setBackground(Color.WHITE);
-		panel_draw.setBorder(new LineBorder(new Color(0, 0, 0)));
+//		panel_draw.setBorder(new LineBorder(new Color(0, 0, 0)));
 
 		panel_menu = new JPanel();
 		panel_menu.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
@@ -447,7 +450,7 @@ public class GUI_Trilateration extends JFrame {
 		height = panel_draw.getHeight();
 
 		g.clearRect(1, 1, width - 2, height - 2);
-		Utils.drawCoordinateSystem(panel_draw.getWidth(), panel_draw.getHeight(), origin, g);
+		Utils.drawCoordinateSystem(panel_draw.getWidth(), panel_draw.getHeight(), step, origin, g);
 
 		String input = m1_X.getText();
 		double x = Double.parseDouble(input);
@@ -476,12 +479,12 @@ public class GUI_Trilateration extends JFrame {
 		long before = System.nanoTime();
 		Point position = Trilateration.trilaterate(m1, m2, m3, r1, r2, r3);
 		long after = System.nanoTime();
-		double time_ms =(after-before)/(1E6);
-		//System.out.println(after-before+" ns Laufzeit Trilateration");
-//		System.out.println(position.toString());
-		lblState.setText("Status: Ausführungszeit(ms): " + time_ms+" Position: "+position.toString());
-		//lblState.setText("Position: " + position.toString());
-		
+		double time_ms = (after - before) / (1E6);
+		// System.out.println(after-before+" ns Laufzeit Trilateration");
+		// System.out.println(position.toString());
+		lblState.setText("Status: Position: " + position.toString() + " / " + "Ausführungszeit(ms): " + time_ms);
+		// lblState.setText("Position: " + position.toString());
+
 		// Ans Java-Koordinatensystem Anpassen
 		int x_offset = (int) Math.round(origin.getX());
 		int y_offset = (int) (Math.round(origin.getY()));
