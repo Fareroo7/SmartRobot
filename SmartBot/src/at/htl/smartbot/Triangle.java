@@ -15,6 +15,8 @@ public class Triangle {
 	private Point bisecting_a;
 	private Point bisecting_b;
 	private Point bisecting_c;
+	
+	private double area;
 
 	public Triangle(Point p1, Point p2, Point p3) {
 		this.point_A = p1;
@@ -24,6 +26,7 @@ public class Triangle {
 		refreshLines(p1, p2, p3);
 		sortPoints();
 		refreshBisectingPoints();
+		refreshArea();
 	}
 
 	public Triangle(Line a, Line b, Line c) {
@@ -35,6 +38,7 @@ public class Triangle {
 		refreshPoints(a, b, c);
 		sortPoints();
 		refreshBisectingPoints();
+		refreshArea();
 	}
 
 	private void sortPoints() {
@@ -102,22 +106,16 @@ public class Triangle {
 	}
 
 	private void refreshBisectingPoints() {
-		double x = ((line_a.getPoint2().getX() - line_a.getPoint1().getX()) / 2)
-				+ line_a.getPoint1().getX();
-		double y = ((line_a.getPoint2().getY() - line_a.getPoint1().getY()) / 2)
-				+ line_a.getPoint1().getY();
+		double x = ((line_a.getPoint2().getX() - line_a.getPoint1().getX()) / 2) + line_a.getPoint1().getX();
+		double y = ((line_a.getPoint2().getY() - line_a.getPoint1().getY()) / 2) + line_a.getPoint1().getY();
 		bisecting_a = new Point(x, y);
 
-		x = ((line_b.getPoint2().getX() - line_b.getPoint1().getX()) / 2)
-				+ line_b.getPoint1().getX();
-		y = ((line_b.getPoint2().getY() - line_b.getPoint1().getY()) / 2)
-				+ line_b.getPoint1().getY();
+		x = ((line_b.getPoint2().getX() - line_b.getPoint1().getX()) / 2) + line_b.getPoint1().getX();
+		y = ((line_b.getPoint2().getY() - line_b.getPoint1().getY()) / 2) + line_b.getPoint1().getY();
 		bisecting_b = new Point(x, y);
 
-		x = ((line_c.getPoint2().getX() - line_c.getPoint1().getX()) / 2)
-				+ line_c.getPoint1().getX();
-		y = ((line_c.getPoint2().getY() - line_c.getPoint1().getY()) / 2)
-				+ line_c.getPoint1().getY();
+		x = ((line_c.getPoint2().getX() - line_c.getPoint1().getX()) / 2) + line_c.getPoint1().getX();
+		y = ((line_c.getPoint2().getY() - line_c.getPoint1().getY()) / 2) + line_c.getPoint1().getY();
 		bisecting_c = new Point(x, y);
 
 	}
@@ -235,10 +233,8 @@ public class Triangle {
 
 	@Override
 	public String toString() {
-		return "Triangle [\nA=" + point_A + ", \nB=" + point_B + ", \nC="
-				+ point_C + ", \na=" + line_a + ", \nb=" + line_b + ", \nc="
-				+ line_c + ", \na/2=" + bisecting_a + ", \nb/2=" + bisecting_b
-				+ ", \nc/2=" + bisecting_c + "\n]";
+		return "Triangle [\nA=" + point_A + ", \nB=" + point_B + ", \nC=" + point_C + ", \na=" + line_a + ", \nb=" + line_b + ", \nc=" + line_c + ", \na/2="
+				+ bisecting_a + ", \nb/2=" + bisecting_b + ", \nc/2=" + bisecting_c + "\n]";
 	}
 
 	public Point getBisectingA() {
@@ -251,6 +247,45 @@ public class Triangle {
 
 	public Point getBisectingC() {
 		return bisecting_c;
+	}
+
+	public static Triangle getSmallestTriangelArea(ArrayList<Point> points) {
+		double minArea = Double.MAX_VALUE;
+		Triangle smallest = null;
+
+		for (int i = 0; i < points.size(); i++) {
+			for (int j = i + 1; j < points.size(); j++) {
+				for (int k = j + 1; k < points.size(); k++) {
+
+					Triangle current = new Triangle(points.get(i), points.get(j), points.get(k));
+					double currentArea = current.getArea();
+
+					if (minArea > currentArea) {
+						minArea = currentArea;
+						smallest = current;
+					}
+				}
+			}
+		}
+
+		return smallest;
+	}
+
+	public double getArea() {
+		return area;
+	}
+
+	public static double calcArea(Triangle triangle) {
+		double a = triangle.getLineA().getDistance();
+		double b = triangle.getLineB().getDistance();
+		double c = triangle.getLineC().getDistance();
+		return (Math.sqrt((a + b + c) * (a + b - c) * (b + c - a) * (c + a - b))) / 4.0;
+	}
+
+	public void refreshArea() {
+		this.area= (Math.sqrt((line_a.getDistance() + line_b.getDistance() + line_c.getDistance())
+				* (line_a.getDistance() + line_b.getDistance() - line_c.getDistance()) * (line_b.getDistance() + line_c.getDistance() - line_a.getDistance())
+				* (line_c.getDistance() + line_a.getDistance() - line_b.getDistance()))) / 4.0;
 	}
 
 	/**
@@ -320,22 +355,18 @@ public class Triangle {
 
 	public static Point getCentroidOfTriangle(Triangle triangle) {
 
-		Line bisectionA = new Line(triangle.getPointA(),
-				triangle.getBisectingA());
-		Line bisectionB = new Line(triangle.getPointB(),
-				triangle.getBisectingB());
-		Line bisectionC = new Line(triangle.getPointC(),
-				triangle.getBisectingC());
+		Line bisectionA = new Line(triangle.getPointA(), triangle.getBisectingA());
+		Line bisectionB = new Line(triangle.getPointB(), triangle.getBisectingB());
+		Line bisectionC = new Line(triangle.getPointC(), triangle.getBisectingC());
 
 		Point s1 = Line.getPointOfIntersectionLine(bisectionA, bisectionB);
 		Point s2 = Line.getPointOfIntersectionLine(bisectionB, bisectionC);
 		Point s3 = Line.getPointOfIntersectionLine(bisectionC, bisectionA);
 
-		if (s1.getDistanceTo(s2) < 1.0E-9 && s2.getDistanceTo(s3) < 1.0E-9
-				&& s3.getDistanceTo(s1) < 1.0E-9)
+		if (s1.getDistanceTo(s2) < 1.0E-9 && s2.getDistanceTo(s3) < 1.0E-9 && s3.getDistanceTo(s1) < 1.0E-9)
 			return s1;
 
 		return null;
 	}
-	
+
 }
