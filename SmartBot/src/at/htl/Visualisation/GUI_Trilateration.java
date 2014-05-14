@@ -70,6 +70,7 @@ public class GUI_Trilateration extends JFrame {
 
 	protected boolean firstStart = true;
 	private boolean newOrigin = false;
+	private boolean launchedFromAction = false;
 	private JLabel lblState;
 	private JMenuItem mntmScale;
 
@@ -259,6 +260,7 @@ public class GUI_Trilateration extends JFrame {
 		btnTrilaterate = new JButton("Trilaterate");
 		btnTrilaterate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				launchedFromAction = true;
 				btnTrilaterateActionPerformed(arg0);
 			}
 		});
@@ -458,13 +460,15 @@ public class GUI_Trilateration extends JFrame {
 		Utils.drawCoordinateSystem(panel_draw.getWidth(), panel_draw.getHeight(), step, origin, g);
 
 		String input;
-		double x=0, y=0, r1=0, r2=0, r3=0;
+		double x = 0, y = 0, r1 = 0, r2 = 0, r3 = 0;
 		boolean notCorrect = false;
-		Point m1=null,m2=null,m3=null;
+		Point m1 = null, m2 = null, m3 = null;
 
 		if (Utils.isDouble(m1_X.getText())) {
 			input = m1_X.getText();
 			x = Double.parseDouble(input);
+		} else if (!launchedFromAction) {
+			notCorrect = true;
 		} else {
 			lblState.setText("Status: Fehler, bitte Kreis 1-X korrekt ausfüllen");
 			notCorrect = true;
@@ -473,17 +477,21 @@ public class GUI_Trilateration extends JFrame {
 		if (Utils.isDouble(m1_Y.getText())) {
 			input = m1_Y.getText();
 			y = Double.parseDouble(input);
+		} else if (!launchedFromAction) {
+			notCorrect = true;
 		} else {
 			lblState.setText("Status: Fehler, bitte Kreis 1-Y korrekt ausfüllen");
 			notCorrect = true;
 		}
-		if(!notCorrect){
-			m1=new Point(x,y);
+		if (!notCorrect) {
+			m1 = new Point(x, y);
 		}
 
 		if (Utils.isDouble(m1_r.getText())) {
 			input = m1_r.getText();
 			r1 = Double.parseDouble(input);
+		} else if (!launchedFromAction) {
+			notCorrect = true;
 		} else {
 			lblState.setText("Status: Fehler, bitte Kreis 1-r korrekt ausfüllen");
 			notCorrect = true;
@@ -492,62 +500,72 @@ public class GUI_Trilateration extends JFrame {
 		if (Utils.isDouble(m2_X.getText())) {
 			input = m2_X.getText();
 			x = Double.parseDouble(input);
+		} else if (!launchedFromAction) {
+			notCorrect = true;
 		} else {
 			lblState.setText("Status: Fehler, bitte Kreis 2-X korrekt ausfüllen");
 			notCorrect = true;
 		}
-
 		if (Utils.isDouble(m2_Y.getText())) {
 			input = m2_Y.getText();
 			y = Double.parseDouble(input);
+		} else if (!launchedFromAction) {
+			notCorrect = true;
 		} else {
 			lblState.setText("Status: Fehler, bitte Kreis 2-Y korrekt ausfüllen");
 			notCorrect = true;
 		}
-		if(!notCorrect){
-			m2=new Point(x,y);
+		if (!notCorrect) {
+			m2 = new Point(x, y);
 		}
 
 		if (Utils.isDouble(m2_r.getText())) {
 			input = m2_r.getText();
 			r2 = Double.parseDouble(input);
-		} else {
-			lblState.setText("Status: Fehler, bitte Kreis 2-r korrekt ausfüllen");
+		}else if(!launchedFromAction){
 			notCorrect = true;
+		}else{
+			lblState.setText("Status: Fehler, bitte Kreis 2-r korrekt ausfüllen");
+			notCorrect=true;
 		}
-
 		if (Utils.isDouble(m3_X.getText())) {
 			input = m3_X.getText();
 			x = Double.parseDouble(input);
-		} else {
+		}else if(!launchedFromAction){
+			notCorrect = true;
+		}else{
 			lblState.setText("Status: Fehler, bitte Kreis 3-X korrekt ausfüllen");
+			notCorrect=true;
 		}
-
 		if (Utils.isDouble(m3_Y.getText())) {
 			input = m3_Y.getText();
 			y = Double.parseDouble(input);
-		} else {
-			lblState.setText("Status: Fehler, bitte Kreis 3-Y korrekt ausfüllen");
+		}else if(!launchedFromAction){
 			notCorrect = true;
+		}else{
+			lblState.setText("Status: Fehler, bitte Kreis 3-Y korrekt ausfüllen");
+			notCorrect=true;
 		}
-		if(!notCorrect){
-			m3=new Point(x,y);
+		if (!notCorrect) {
+			m3 = new Point(x, y);
 		}
 
 		if (Utils.isDouble(m3_r.getText())) {
 			input = m3_r.getText();
 			r3 = Double.parseDouble(input);
-		} else {
-			lblState.setText("Status: Fehler, bitte Kreis 3-r korrekt ausfüllen");
+		}else if(!launchedFromAction){
 			notCorrect = true;
+		}else{
+			lblState.setText("Status: Fehler, bitte Kreis 3-r korrekt ausfüllen");
+			notCorrect=true;
 		}
+		// System.out.println(notCorrect);
+		// System.out.println(m1+" "+r1);
+		// System.out.println(m2+" "+r2);
+		// System.out.println(m3+" "+r3);
 
-		System.out.println(notCorrect);
-		System.out.println(m1+" "+r1);
-		System.out.println(m2+" "+r2);
-		System.out.println(m3+" "+r3);
 		if (!notCorrect) {
-			
+
 			long before = System.nanoTime();
 			Point position = Trilateration.trilaterate(m1, m2, m3, r1, r2, r3);
 			long after = System.nanoTime();
@@ -609,6 +627,7 @@ public class GUI_Trilateration extends JFrame {
 	protected void mntmNewOriginActionPerformed(ActionEvent e) {
 		newOrigin = true;
 		lblState.setText("Status: Bitte auf der Zeichenfläche auf den neuen Ursprung klicken");
+		btnTrilaterateActionPerformed(null);
 	}
 
 	protected void panel_drawMouseClicked(MouseEvent arg0) {
@@ -621,7 +640,7 @@ public class GUI_Trilateration extends JFrame {
 			System.out.println(origin);
 			newOrigin = false;
 			lblState.setText("Status: Neuer Ursprung :" + origin);
-			Utils.drawCoordinateSystem(width, height, step, origin, g);
+			// Utils.drawCoordinateSystem(width, height, step, origin, g);
 			btnTrilaterateActionPerformed(null);
 		}
 	}
