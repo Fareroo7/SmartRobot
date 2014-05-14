@@ -1,5 +1,10 @@
 package at.htl.smartbot;
 
+/**
+ * Stores two points and the distance between them as a line. Also provides methods that refer to a line
+ * @author Jakob Ecker, Dominik Simon
+ *
+ */
 public class Line {
 
 	@Override
@@ -49,6 +54,12 @@ public class Line {
 		return distance;
 	}
 
+	/**
+	 * Calculates the point of intersection of two lines
+	 * @param line1 
+	 * @param line2 
+	 * @return Point of intersection
+	 */
 	public static Point getPointOfIntersectionLine(Line line1, Line line2) {
 
 		double deltaY1, deltaY2, k_line1, d_line1, k_line2, d_line2, x, y;

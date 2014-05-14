@@ -2,8 +2,23 @@ package at.htl.smartbot;
 
 import java.util.ArrayList;
 
+/**
+ * Provides methods used for trilateration.
+ * @author Jakob
+ *
+ */
 public class Trilateration {
 
+	/**
+	 * Calculates the position 
+	 * @param pos_S1
+	 * @param pos_S2
+	 * @param pos_S3
+	 * @param distance_S1
+	 * @param distance_S2
+	 * @param distance_S3
+	 * @return
+	 */
 	public static Point trilaterate(Point pos_S1, Point pos_S2, Point pos_S3, double distance_S1, double distance_S2, double distance_S3) {
 
 		Triangle triangle;

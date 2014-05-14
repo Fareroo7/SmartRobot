@@ -1,5 +1,10 @@
 package at.htl.smartbot;
 
+/**
+ * Class that stores Position of and distance to an ultrasonic nois source. Additionally the time of the last distance measurement is stored
+ * @author Jakob Ecker , Dominik Simon
+ *
+ */
 public class UltrasonicSource {
 
 	private final Point pos;
