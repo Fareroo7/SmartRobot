@@ -56,7 +56,7 @@ public class GUI_Trilateration extends JFrame {
 	private JLabel lblKreis_2;
 	private JButton btnTrilaterate;
 
-	private Graphics g;
+	protected Graphics g;
 
 	private static int width;
 	private static int height;
@@ -68,6 +68,7 @@ public class GUI_Trilateration extends JFrame {
 	private JMenuItem mntmNewOrigin;
 	private JMenuItem mntmClose;
 
+	protected boolean firstStart = true;
 	private boolean newOrigin = false;
 	private JLabel lblState;
 	private JMenuItem mntmScale;
@@ -138,16 +139,22 @@ public class GUI_Trilateration extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		
+
 		panel_draw = new JPanel() {
 			private static final long serialVersionUID = 1L;
 
-			public void paintComponent(Graphics g) {
-				int step = 100;
+			public void paintComponent(Graphics gp) {
+				int step = GUI_Trilateration.step;
 				GUI_Trilateration.width = this.getWidth();
 				GUI_Trilateration.height = this.getHeight();
-				GUI_Trilateration.origin = new Point(width * 0.1, height - (height * (0.1)));
-				Utils.drawCoordinateSystem(width, height, step, origin, g);
+				if (firstStart) {
+					GUI_Trilateration.origin = new Point(0.1 * width, height - (height * 0.1));
+					step = 100;
+				}
+				g = gp;
+
+				GUI_Trilateration.origin = new Point(GUI_Trilateration.origin.getX(), GUI_Trilateration.origin.getY());
+				Utils.drawCoordinateSystem(width, height, step, origin, gp);
 
 				// nicht genau....
 				// for(int i=0;i<width/GUI_Trilateration.STEP;i++){
@@ -168,7 +175,7 @@ public class GUI_Trilateration extends JFrame {
 			}
 		});
 		panel_draw.setBackground(Color.WHITE);
-//		panel_draw.setBorder(new LineBorder(new Color(0, 0, 0)));
+		// panel_draw.setBorder(new LineBorder(new Color(0, 0, 0)));
 
 		panel_menu = new JPanel();
 		panel_menu.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
@@ -450,82 +457,149 @@ public class GUI_Trilateration extends JFrame {
 		g.clearRect(1, 1, width - 2, height - 2);
 		Utils.drawCoordinateSystem(panel_draw.getWidth(), panel_draw.getHeight(), step, origin, g);
 
-		String input = m1_X.getText();
-		double x = Double.parseDouble(input);
-		input = m1_Y.getText();
-		double y = Double.parseDouble(input);
-		Point m1 = new Point(x, y);
-		input = m1_r.getText();
-		double r1 = Double.parseDouble(input);
+		String input;
+		double x=0, y=0, r1=0, r2=0, r3=0;
+		boolean notCorrect = false;
+		Point m1=null,m2=null,m3=null;
 
-		input = m2_X.getText();
-		x = Double.parseDouble(input);
-		input = m2_Y.getText();
-		y = Double.parseDouble(input);
-		Point m2 = new Point(x, y);
-		input = m2_r.getText();
-		double r2 = Double.parseDouble(input);
+		if (Utils.isDouble(m1_X.getText())) {
+			input = m1_X.getText();
+			x = Double.parseDouble(input);
+		} else {
+			lblState.setText("Status: Fehler, bitte Kreis 1-X korrekt ausfüllen");
+			notCorrect = true;
+		}
 
-		input = m3_X.getText();
-		x = Double.parseDouble(input);
-		input = m3_Y.getText();
-		y = Double.parseDouble(input);
-		Point m3 = new Point(x, y);
-		input = m3_r.getText();
-		double r3 = Double.parseDouble(input);
+		if (Utils.isDouble(m1_Y.getText())) {
+			input = m1_Y.getText();
+			y = Double.parseDouble(input);
+		} else {
+			lblState.setText("Status: Fehler, bitte Kreis 1-Y korrekt ausfüllen");
+			notCorrect = true;
+		}
+		if(!notCorrect){
+			m1=new Point(x,y);
+		}
 
-		long before = System.nanoTime();
-		Point position = Trilateration.trilaterate(m1, m2, m3, r1, r2, r3);
-		long after = System.nanoTime();
-		double time_ms = (after - before) / (1E6);
-		// System.out.println(after-before+" ns Laufzeit Trilateration");
-		// System.out.println(position.toString());
-		lblState.setText("Status: Position: " + position.toString() + " / " + "Ausführungszeit(ms): " + time_ms);
-		// lblState.setText("Position: " + position.toString());
-		
-		// Ans Java-Koordinatensystem Anpassen
-		int x_offset = (int) Math.round(origin.getX());
-		int y_offset = (int) (Math.round(origin.getY()));
+		if (Utils.isDouble(m1_r.getText())) {
+			input = m1_r.getText();
+			r1 = Double.parseDouble(input);
+		} else {
+			lblState.setText("Status: Fehler, bitte Kreis 1-r korrekt ausfüllen");
+			notCorrect = true;
+		}
 
-		int cx = (int) Math.round((m1.getX() - r1) * step) + x_offset;
-		// cy = (int) (panel_draw.getHeight() -
-		// Math.round((m1.getY()+r1)*step)-y_offset);
-		int cy = (int) (y_offset - Math.round((m1.getY() + r1) * step));
-		int cd = (int) (Math.round(2 * r1 * step));
-		g.drawOval(cx, cy, cd, cd);
+		if (Utils.isDouble(m2_X.getText())) {
+			input = m2_X.getText();
+			x = Double.parseDouble(input);
+		} else {
+			lblState.setText("Status: Fehler, bitte Kreis 2-X korrekt ausfüllen");
+			notCorrect = true;
+		}
 
-		cx = (int) Math.round(m1.getX() * step) + x_offset;
-		cy = (int) (y_offset - Math.round(m1.getY() * step));
-		g.drawLine(cx - 2, cy - 2, cx + 2, cy + 2);
-		g.drawLine(cx - 2, cy + 2, cx + 2, cy - 2);
+		if (Utils.isDouble(m2_Y.getText())) {
+			input = m2_Y.getText();
+			y = Double.parseDouble(input);
+		} else {
+			lblState.setText("Status: Fehler, bitte Kreis 2-Y korrekt ausfüllen");
+			notCorrect = true;
+		}
+		if(!notCorrect){
+			m2=new Point(x,y);
+		}
 
-		cx = (int) Math.round((m2.getX() - r2) * step) + x_offset;
-		cy = (int) (y_offset - Math.round((m2.getY() + r2) * step));
-		cd = (int) (Math.round(2 * r2 * step));
-		g.drawOval(cx, cy, cd, cd);
+		if (Utils.isDouble(m2_r.getText())) {
+			input = m2_r.getText();
+			r2 = Double.parseDouble(input);
+		} else {
+			lblState.setText("Status: Fehler, bitte Kreis 2-r korrekt ausfüllen");
+			notCorrect = true;
+		}
 
-		cx = (int) Math.round(m2.getX() * step) + x_offset;
-		cy = (int) (y_offset - Math.round(m2.getY() * step));
-		g.drawLine(cx - 2, cy - 2, cx + 2, cy + 2);
-		g.drawLine(cx - 2, cy + 2, cx + 2, cy - 2);
+		if (Utils.isDouble(m3_X.getText())) {
+			input = m3_X.getText();
+			x = Double.parseDouble(input);
+		} else {
+			lblState.setText("Status: Fehler, bitte Kreis 3-X korrekt ausfüllen");
+		}
 
-		cx = (int) Math.round((m3.getX() - r3) * step) + x_offset;
-		cy = (int) (y_offset - Math.round((m3.getY() + r3) * step));
-		cd = (int) (Math.round(2 * r3 * step));
-		g.drawOval(cx, cy, cd, cd);
-		cx = (int) Math.round(m3.getX() * step) + x_offset;
-		cy = (int) (y_offset - Math.round(m3.getY() * step));
-		g.drawLine(cx - 2, cy - 2, cx + 2, cy + 2);
-		g.drawLine(cx - 2, cy + 2, cx + 2, cy - 2);
+		if (Utils.isDouble(m3_Y.getText())) {
+			input = m3_Y.getText();
+			y = Double.parseDouble(input);
+		} else {
+			lblState.setText("Status: Fehler, bitte Kreis 3-Y korrekt ausfüllen");
+			notCorrect = true;
+		}
+		if(!notCorrect){
+			m3=new Point(x,y);
+		}
 
-		g.setColor(Color.MAGENTA);
-		cx = (int) Math.round(position.getX() * step) + x_offset;
-		// int cy = (int) (panel_draw.getHeight() -
-		// Math.round(position.getY()*step) - y_offset);
-		cy = (int) (y_offset - Math.round((position.getY()) * step));
-		g.drawLine(cx - 2, cy - 2, cx + 2, cy + 2);
-		g.drawLine(cx - 2, cy + 2, cx + 2, cy - 2);
+		if (Utils.isDouble(m3_r.getText())) {
+			input = m3_r.getText();
+			r3 = Double.parseDouble(input);
+		} else {
+			lblState.setText("Status: Fehler, bitte Kreis 3-r korrekt ausfüllen");
+			notCorrect = true;
+		}
 
+		System.out.println(notCorrect);
+		System.out.println(m1+" "+r1);
+		System.out.println(m2+" "+r2);
+		System.out.println(m3+" "+r3);
+		if (!notCorrect) {
+			
+			long before = System.nanoTime();
+			Point position = Trilateration.trilaterate(m1, m2, m3, r1, r2, r3);
+			long after = System.nanoTime();
+			double time_ms = (after - before) / (1E6);
+			// System.out.println(after-before+" ns Laufzeit Trilateration");
+			// System.out.println(position.toString());
+			lblState.setText("Status: Position: " + position.toString() + " / " + "Ausführungszeit(ms): " + time_ms);
+			// lblState.setText("Position: " + position.toString());
+
+			// Ans Java-Koordinatensystem Anpassen
+			int x_offset = (int) Math.round(origin.getX());
+			int y_offset = (int) (Math.round(origin.getY()));
+
+			int cx = (int) Math.round((m1.getX() - r1) * step) + x_offset;
+			// cy = (int) (panel_draw.getHeight() -
+			// Math.round((m1.getY()+r1)*step)-y_offset);
+			int cy = (int) (y_offset - Math.round((m1.getY() + r1) * step));
+			int cd = (int) (Math.round(2 * r1 * step));
+			g.drawOval(cx, cy, cd, cd);
+
+			cx = (int) Math.round(m1.getX() * step) + x_offset;
+			cy = (int) (y_offset - Math.round(m1.getY() * step));
+			g.drawLine(cx - 2, cy - 2, cx + 2, cy + 2);
+			g.drawLine(cx - 2, cy + 2, cx + 2, cy - 2);
+
+			cx = (int) Math.round((m2.getX() - r2) * step) + x_offset;
+			cy = (int) (y_offset - Math.round((m2.getY() + r2) * step));
+			cd = (int) (Math.round(2 * r2 * step));
+			g.drawOval(cx, cy, cd, cd);
+
+			cx = (int) Math.round(m2.getX() * step) + x_offset;
+			cy = (int) (y_offset - Math.round(m2.getY() * step));
+			g.drawLine(cx - 2, cy - 2, cx + 2, cy + 2);
+			g.drawLine(cx - 2, cy + 2, cx + 2, cy - 2);
+
+			cx = (int) Math.round((m3.getX() - r3) * step) + x_offset;
+			cy = (int) (y_offset - Math.round((m3.getY() + r3) * step));
+			cd = (int) (Math.round(2 * r3 * step));
+			g.drawOval(cx, cy, cd, cd);
+			cx = (int) Math.round(m3.getX() * step) + x_offset;
+			cy = (int) (y_offset - Math.round(m3.getY() * step));
+			g.drawLine(cx - 2, cy - 2, cx + 2, cy + 2);
+			g.drawLine(cx - 2, cy + 2, cx + 2, cy - 2);
+
+			g.setColor(Color.MAGENTA);
+			cx = (int) Math.round(position.getX() * step) + x_offset;
+			// int cy = (int) (panel_draw.getHeight() -
+			// Math.round(position.getY()*step) - y_offset);
+			cy = (int) (y_offset - Math.round((position.getY()) * step));
+			g.drawLine(cx - 2, cy - 2, cx + 2, cy + 2);
+			g.drawLine(cx - 2, cy + 2, cx + 2, cy - 2);
+		}
 	}
 
 	protected void mntmCloseActionPerformed(ActionEvent arg0) {
@@ -547,7 +621,7 @@ public class GUI_Trilateration extends JFrame {
 			System.out.println(origin);
 			newOrigin = false;
 			lblState.setText("Status: Neuer Ursprung :" + origin);
-			Utils.drawCoordinateSystem(width, height, origin, g);
+			Utils.drawCoordinateSystem(width, height, step, origin, g);
 			btnTrilaterateActionPerformed(null);
 		}
 	}
@@ -555,6 +629,7 @@ public class GUI_Trilateration extends JFrame {
 	protected void mntmScaleActionPerformed(ActionEvent arg0) {
 
 		String input = JOptionPane.showInputDialog("Bitte Skalierung eingeben: ");
+		g.clearRect(1, 1, width - 2, height - 2);
 		step = Integer.parseInt(input);
 		lblState.setText("Status: Neue Skalierung: " + input + "px");
 		btnTrilaterateActionPerformed(null);

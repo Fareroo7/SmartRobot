@@ -63,13 +63,26 @@ public class Utils {
 		g.drawLine(x, 0, x, height);
 		g.drawLine(0, y, width, y);
 
-		for (int i = 0; (i * step) < width && (i * step) > 0; i++) {
-			g.drawLine(i * step + x, y - 2, i * step + x, y + 2);
-			g.drawLine(x - i * step, y - 2, x - i * step, y + 2);
+//		for (int i = 0; (i * step) < width && (i * step) > 0; i++) {
+//			g.drawLine(i * step + x, y - 2, i * step + x, y + 2);
+//			g.drawLine(x - i * step, y - 2, x - i * step, y + 2);
+//		}
+//		for (int i = 0; (i * step) < height && (i * step) > 0; i++) {
+//			g.drawLine(x - 2, i * step + y, x + 2, i * step + y);
+//			g.drawLine(x - 2, y - i * step, x + 2, y - i * step);
+//		}
+		
+		for(int i = x; i<width; i+=step){
+			g.drawLine(i, y-3, i, y+3);
 		}
-		for (int i = 0; (i * step) < height && (i * step) > 0; i++) {
-			g.drawLine(x - 2, i * step + y, x + 2, i * step + y);
-			g.drawLine(x - 2, y - i * step, x + 2, y - i * step);
+		for(int i=x; i>0;i-=step){
+			g.drawLine(i, y-3, i, y+3);
+		}
+		for(int i=y;i<height;i+=step){
+			g.drawLine(x-3, i, x+3, i);
+		}
+		for(int i=y;i>0;i-=step){
+			g.drawLine(x-3, i, x+3, i);
 		}
 	}
 
