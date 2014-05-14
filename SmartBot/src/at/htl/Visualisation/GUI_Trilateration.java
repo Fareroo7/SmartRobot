@@ -151,6 +151,9 @@ public class GUI_Trilateration extends JFrame {
 				if (firstStart) {
 					GUI_Trilateration.origin = new Point(0.1 * width, height - (height * 0.1));
 					step = 100;
+					firstStart=false;
+				}else{
+					btnTrilaterateActionPerformed(null);
 				}
 				g = gp;
 
@@ -641,12 +644,13 @@ public class GUI_Trilateration extends JFrame {
 			newOrigin = false;
 			lblState.setText("Status: Neuer Ursprung :" + origin);
 			// Utils.drawCoordinateSystem(width, height, step, origin, g);
-			btnTrilaterateActionPerformed(null);
 		}
+		btnTrilaterateActionPerformed(null);
 	}
 
 	protected void mntmScaleActionPerformed(ActionEvent arg0) {
 
+		btnTrilaterateActionPerformed(null);
 		String input = JOptionPane.showInputDialog("Bitte Skalierung eingeben: ");
 		g.clearRect(1, 1, width - 2, height - 2);
 		step = Integer.parseInt(input);
