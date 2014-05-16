@@ -210,6 +210,7 @@ public class GUI_Trilateration extends JFrame {
 						.addComponent(lblState)));
 
 		lblKreis = new JLabel("Kreis 1:");
+		lblKreis.setForeground(Color.RED);
 
 		lblX = new JLabel("X");
 
@@ -242,6 +243,7 @@ public class GUI_Trilateration extends JFrame {
 		label_2 = new JLabel("X");
 
 		lblKreis_1 = new JLabel("Kreis 2:");
+		lblKreis_1.setForeground(Color.BLUE);
 
 		label_4 = new JLabel("r");
 
@@ -587,6 +589,7 @@ public class GUI_Trilateration extends JFrame {
 			// Math.round((m1.getY()+r1)*step)-y_offset);
 			int cy = (int) (y_offset - Math.round((m1.getY() + r1) * step));
 			int cd = (int) (Math.round(2 * r1 * step));
+			g.setColor(Color.RED);
 			g.drawOval(cx, cy, cd, cd);
 
 			cx = (int) Math.round(m1.getX() * step) + x_offset;
@@ -597,6 +600,7 @@ public class GUI_Trilateration extends JFrame {
 			cx = (int) Math.round((m2.getX() - r2) * step) + x_offset;
 			cy = (int) (y_offset - Math.round((m2.getY() + r2) * step));
 			cd = (int) (Math.round(2 * r2 * step));
+			g.setColor(Color.BLUE);
 			g.drawOval(cx, cy, cd, cd);
 
 			cx = (int) Math.round(m2.getX() * step) + x_offset;
@@ -607,6 +611,7 @@ public class GUI_Trilateration extends JFrame {
 			cx = (int) Math.round((m3.getX() - r3) * step) + x_offset;
 			cy = (int) (y_offset - Math.round((m3.getY() + r3) * step));
 			cd = (int) (Math.round(2 * r3 * step));
+			g.setColor(Color.BLACK);
 			g.drawOval(cx, cy, cd, cd);
 			cx = (int) Math.round(m3.getX() * step) + x_offset;
 			cy = (int) (y_offset - Math.round(m3.getY() * step));
