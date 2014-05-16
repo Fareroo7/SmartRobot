@@ -88,6 +88,7 @@ public class GUI_Trilateration extends JFrame {
 				try {
 					GUI_Trilateration frame = new GUI_Trilateration();
 					frame.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

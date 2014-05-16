@@ -79,8 +79,7 @@ public class Trilateration {
 	public static Line getPointsOfIntersectionCrircle(Point m1, Point m2, double r1, double r2) {
 
 		Line distance = new Line(m1, m2);
-		Line result = new Line();
-		double temp_m2_x;
+		double temp_m2_x, x1, x2, y1, y2;
 		double temp_m2_y;
 		boolean isSwaped = false;
 
@@ -113,35 +112,27 @@ public class Trilateration {
 			 * System.out.println(p); System.out.println(q);
 			 */
 
-			double y1 = -(p / 2.0) + Math.sqrt((Utils.sqr(p / 2.0) - q));
-			double y2 = -(p / 2.0) - Math.sqrt((Utils.sqr(p / 2.0) - q));
+			y1 = -(p / 2.0) + Math.sqrt((Utils.sqr(p / 2.0) - q));
+			y2 = -(p / 2.0) - Math.sqrt((Utils.sqr(p / 2.0) - q));
 
-			double x1 = a + b * y1;
-			double x2 = a + b * y2;
+			x1 = a + b * y1;
+			x2 = a + b * y2;
 
-			Point intersection1 = new Point(x1 + m1.getX(), y1 + m1.getY());
-			Point intersection2 = new Point(x2 + m1.getX(), y2 + m1.getY());
-			result = new Line(intersection1, intersection2);
 		} else {
 			double vectorlength_to_point = ((distance.getDistance() - r1 - r2) / 2.0) + r1;
 			double k = (distance.getDistance()) / vectorlength_to_point;
-			double x = (temp_m2_x / k) + m1.getX();
-			double y = (temp_m2_y / k) + m1.getY();
-
-			result = new Line(new Point(x, y), new Point(x, y));
+			x1 = (temp_m2_x / k);
+			x2 = (temp_m2_x / k);
+			y1 = (temp_m2_y / k);
+			y2 = (temp_m2_y / k);
 		}
 
 		// Zurückdrehen wenn notwendig
 		if (isSwaped) {
-			double temp = result.getPoint1().getX();
-			result.getPoint1().setX(result.getPoint1().getY());
-			result.getPoint1().setY(temp);
-
-			temp = result.getPoint2().getX();
-			result.getPoint2().setX(result.getPoint2().getY());
-			result.getPoint2().setY(temp);
+			// x mit y austauschen und der offset wieder dazuaddiert
+			return new Line(new Point(y1 + m1.getX(), x1 + m1.getY()), new Point(y2 + m1.getX(), x2 + m1.getY()));
 		}
 
-		return result;
+		return new Line(new Point(x1 + m1.getX(), y1 + m1.getY()), new Point(x2 + m1.getX(), y2 + m1.getY()));
 	}
 }
