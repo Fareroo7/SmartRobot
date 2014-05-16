@@ -102,10 +102,10 @@ public class Trilateration {
 
 		if (r1 + r2 >= distance.getDistance()) {
 
-			double a = (Utils.sqr(r1) - Utils.sqr(r2) + Utils.sqr(temp_m2_x) + Utils.sqr(temp_m2_y)) / (2 * temp_m2_x);
-			double b = -(2 * temp_m2_y) / (2 * temp_m2_x);
-			double p = (2 * a * b) / (Utils.sqr(b) + 1);
-			double q = (Utils.sqr(a) - Utils.sqr(r1)) / (Utils.sqr(b) + 1);
+			double a = (Utils.sqr(r1) - Utils.sqr(r2) + Utils.sqr(temp_m2_x) + Utils.sqr(temp_m2_y)) / (2.0 * temp_m2_x);
+			double b = -(2.0 * temp_m2_y) / (2.0 * temp_m2_x);
+			double p = (2.0 * a * b) / (Utils.sqr(b) + 1.0);
+			double q = (Utils.sqr(a) - Utils.sqr(r1)) / (Utils.sqr(b) + 1.0);
 
 			// Test output
 			/*
@@ -113,8 +113,8 @@ public class Trilateration {
 			 * System.out.println(p); System.out.println(q);
 			 */
 
-			double y1 = -(p / 2) + Math.sqrt((Utils.sqr(p / 2) - q));
-			double y2 = -(p / 2) - Math.sqrt((Utils.sqr(p / 2) - q));
+			double y1 = -(p / 2.0) + Math.sqrt((Utils.sqr(p / 2.0) - q));
+			double y2 = -(p / 2.0) - Math.sqrt((Utils.sqr(p / 2.0) - q));
 
 			double x1 = a + b * y1;
 			double x2 = a + b * y2;
@@ -123,7 +123,7 @@ public class Trilateration {
 			Point intersection2 = new Point(x2 + m1.getX(), y2 + m1.getY());
 			result = new Line(intersection1, intersection2);
 		} else {
-			double vectorlength_to_point = ((distance.getDistance() - r1 - r2) / 2) + r1;
+			double vectorlength_to_point = ((distance.getDistance() - r1 - r2) / 2.0) + r1;
 			double k = (distance.getDistance()) / vectorlength_to_point;
 			double x = (temp_m2_x / k) + m1.getX();
 			double y = (temp_m2_y / k) + m1.getY();
