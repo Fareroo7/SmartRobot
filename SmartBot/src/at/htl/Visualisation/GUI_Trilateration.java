@@ -173,6 +173,7 @@ public class GUI_Trilateration extends JFrame {
 
 			}
 		};
+		panel_draw.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel_draw.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {

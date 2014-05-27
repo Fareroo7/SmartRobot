@@ -4,13 +4,15 @@ import java.util.ArrayList;
 
 /**
  * Provides methods used for trilateration.
+ * 
  * @author Jakob
- *
+ * 
  */
 public class Trilateration {
 
 	/**
-	 * Calculates the position 
+	 * Calculates the position
+	 * 
 	 * @param pos_S1
 	 * @param pos_S2
 	 * @param pos_S3
@@ -22,6 +24,7 @@ public class Trilateration {
 	public static Point trilaterate(Point pos_S1, Point pos_S2, Point pos_S3, double distance_S1, double distance_S2, double distance_S3) {
 
 		Triangle triangle;
+		boolean onePoint = false;
 
 		ArrayList<Point> points_of_intersection = new ArrayList<Point>();
 
@@ -36,8 +39,10 @@ public class Trilateration {
 		temp_points_of_intersection = getPointsOfIntersectionCrircle(pos_S1, pos_S3, distance_S1, distance_S3);
 		points_of_intersection.add(temp_points_of_intersection.getPoint1());
 		points_of_intersection.add(temp_points_of_intersection.getPoint2());
-
-		points_of_intersection = Point.eliminateRedundance(points_of_intersection);
+		
+		points_of_intersection=Point.checkOneIntersectionPoint(points_of_intersection);
+		// points_of_intersection =
+		// Point.eliminateRedundance(points_of_intersection);
 
 		// for(Point i:points_of_intersection){
 		// System.out.println(i);
@@ -51,14 +56,15 @@ public class Trilateration {
 			return null;
 		}
 
-//		System.out.println("--- trilaterate  points of intersection");
-//		for (Point i : points_of_intersection) {
-//			System.out.println(i);
-//		}
+		// System.out.println("--- trilaterate  points of intersection");
+		// for (Point i : points_of_intersection) {
+		// System.out.println(i);
+		// }
 
 		triangle = Triangle.getSmallestTriangel(points_of_intersection);
-//		triangle = Triangle.getSmallestTriangelArea(points_of_intersection); Error when Points 
-//		System.out.println(triangle);
+		// triangle = Triangle.getSmallestTriangelArea(points_of_intersection);
+		// Error when Points
+		// System.out.println(triangle);
 		return Triangle.getCentroidOfTriangle(triangle);
 	}
 

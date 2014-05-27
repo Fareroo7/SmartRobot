@@ -88,6 +88,7 @@ public class Point {
 		}
 
 		for (int i = 0; i < result.size(); i++) {
+			
 			for (int z = i + 1; z < result.size(); z++) {
 				if (result.get(i).equals(result.get(z))) {
 					result.remove(z);
@@ -98,5 +99,40 @@ public class Point {
 
 		return result;
 	}
+	
+	public static ArrayList<Point> checkOneIntersectionPoint(ArrayList<Point> points) {
+
+		// "Entkoppeln" - da sonst nur die Speicheradresse und nicht der Inhalt
+		// kopiert wird;
+		ArrayList<Point> result = new ArrayList<Point>();
+		for (Point i : points) {
+			result.add(i);
+		}
+
+		for (int i = 0; i < result.size(); i++) {
+			
+			//<Test>
+			int redundanceCount=0;
+			//</Test>
+			
+			for (int z = i + 1; z < result.size(); z++) {
+				if (result.get(i).equals(result.get(z))) {
+					result.remove(z);
+					redundanceCount++;
+					z--;
+				}
+			}
+			//<Test>
+			if(redundanceCount>2){
+				result=new ArrayList<Point>();
+				result.add(points.get(i));
+				return result;
+			}
+			//</Test>
+		}
+
+		return result;
+	}
+
 
 }
