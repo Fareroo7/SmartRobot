@@ -17,6 +17,11 @@ public class Line {
 
 	private double distance;
 
+	/**
+	 * Constructs a line from 2 points and calculates the distance between them.
+	 * @param point1 First Point as point-Object
+	 * @param point2
+	 */
 	public Line(Point point1, Point point2) {
 		this.point1 = point1;
 		this.point2 = point2;

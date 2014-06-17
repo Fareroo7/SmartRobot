@@ -3,7 +3,7 @@ package at.htl.smartbot;
 import java.util.ArrayList;
 
 /**
- * Stores coordinates of a single Point that provides custom toString and equals
+ * Stores coordinates of a single Point that provides custom toString and equals methods
  * 
  * @author Jakob Ecker & Dominik Simon
  * 
