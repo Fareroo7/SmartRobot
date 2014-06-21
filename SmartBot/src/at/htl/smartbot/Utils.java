@@ -2,6 +2,8 @@ package at.htl.smartbot;
 
 import java.awt.Graphics;
 
+import at.htl.geometrics.Point;
+
 /**
  * Class of useful little methods.
  * 

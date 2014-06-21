@@ -2,6 +2,10 @@ package at.htl.smartbot;
 
 import java.util.ArrayList;
 
+import at.htl.geometrics.Line;
+import at.htl.geometrics.Point;
+import at.htl.geometrics.Triangle;
+
 /**
  * Provides methods used for trilateration.
  * 

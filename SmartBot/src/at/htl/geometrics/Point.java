@@ -1,6 +1,8 @@
-package at.htl.smartbot;
+package at.htl.geometrics;
 
 import java.util.ArrayList;
+
+import at.htl.smartbot.Utils;
 
 /**
  * Stores coordinates of a single Point that provides custom toString and equals methods

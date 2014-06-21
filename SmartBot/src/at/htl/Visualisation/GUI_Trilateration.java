@@ -2,25 +2,33 @@ package at.htl.Visualisation;
 
 import java.awt.EventQueue;
 import java.awt.Graphics;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.border.LineBorder;
+
 import java.awt.Color;
+
 import javax.swing.JOptionPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
+import at.htl.geometrics.Point;
 import at.htl.smartbot.*;
+
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.UIManager;
 import javax.swing.JMenuItem;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 

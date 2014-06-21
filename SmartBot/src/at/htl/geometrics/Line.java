@@ -1,4 +1,6 @@
-package at.htl.smartbot;
+package at.htl.geometrics;
+
+import at.htl.smartbot.Utils;
 
 /**
  * Stores two points and the distance between them as a line. Also provides methods that refer to a line

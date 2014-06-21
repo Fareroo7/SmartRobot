@@ -1,5 +1,7 @@
 package at.htl.smartbot;
 
+import at.htl.geometrics.Point;
+
 /**
  * Test Class
  * 
