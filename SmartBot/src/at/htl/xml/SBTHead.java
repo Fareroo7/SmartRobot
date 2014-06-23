@@ -20,6 +20,15 @@ public class SBTHead {
 		this.name=name;
 	}
 	
+	public SBTHead(Date creationDate,Date lastUpdate, String name){
+		this.creationDate=creationDate;
+		this.lastUpdate=lastUpdate;
+		this.name=name;
+	}
+	
+	protected void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
 	public String getName() {
 		return name;
 	}
