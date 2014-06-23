@@ -39,8 +39,8 @@ public class SBTHead {
 	public String toXMLString() {
 		return "<head> \n"
 				+ "\t <name>"+name+"</name> \n"
-				+ "\t <creationdate>"+Utils.dateFormat(creationDate)+"</creationdate>\n"
-				+ "\t <lastupdate>"+Utils.dateFormat(lastUpdate)+"</lastupdate>\n"
+				+ "\t <creationdate>"+Utils.dateToFormattedString(creationDate)+"</creationdate>\n"
+				+ "\t <lastupdate>"+Utils.dateToFormattedString(lastUpdate)+"</lastupdate>\n"
 				+ "</head>\n";
 	}
 	

@@ -1,6 +1,7 @@
 package at.htl.smartbot;
 
 import java.awt.Graphics;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -14,6 +15,8 @@ import at.htl.geometrics.Point;
  */
 
 public class Utils {
+	
+	private static final String DATEPATTERN ="dd.MM.yyyy hh:mm:ss";
 
 	/**
 	 * Rounds to two decimals.
@@ -90,8 +93,18 @@ public class Utils {
 		}
 	}
 	
-	public static String dateFormat(Date toFormat){
-		return new SimpleDateFormat("dd.MM.yyyy hh:mm:ss").format(toFormat);
+	public static String dateToFormattedString(Date toFormat){
+		return new SimpleDateFormat(DATEPATTERN).format(toFormat);
+	}
+	
+	public static Date formattedStringToDate(String date){
+		SimpleDateFormat formatter = new SimpleDateFormat(DATEPATTERN);
+		try{
+			return formatter.parse(date);
+		}catch(ParseException e){
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 }

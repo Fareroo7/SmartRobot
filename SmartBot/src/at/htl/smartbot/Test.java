@@ -68,6 +68,6 @@ public class Test {
 //		Point p = Trilateration.trilaterate(t1, t2, t3, 1, 1, 1);
 //		System.out.println(p);
 		
-		System.out.println(Utils.dateFormat(new Date()));
+		System.out.println(Utils.dateToFormattedString(new Date()));
 	}
 }
