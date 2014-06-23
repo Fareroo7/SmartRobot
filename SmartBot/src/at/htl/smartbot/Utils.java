@@ -1,6 +1,8 @@
 package at.htl.smartbot;
 
 import java.awt.Graphics;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import at.htl.geometrics.Point;
 
@@ -86,6 +88,10 @@ public class Utils {
 		for(int i=y;i>0;i-=step){
 			g.drawLine(x-3, i, x+3, i);
 		}
+	}
+	
+	public static String dateFormat(Date toFormat){
+		return new SimpleDateFormat("dd.MM.yyyy hh:mm:ss").format(toFormat);
 	}
 
 }

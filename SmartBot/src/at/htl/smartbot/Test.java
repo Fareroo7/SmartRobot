@@ -1,5 +1,7 @@
 package at.htl.smartbot;
 
+import java.util.Date;
+
 import at.htl.geometrics.Point;
 
 /**
@@ -57,13 +59,15 @@ public class Test {
 		// Point s = Line.getPointsOfIntersectionLine(l1, l2);
 		//
 		// System.out.println(s.toString());
-
-		Point t1 = new Point(1, 1);
-		Point t2 = new Point(2, 1);
-		Point t3 = new Point(2, 2);
-
+//
+//		Point t1 = new Point(1, 1);
+//		Point t2 = new Point(2, 1);
+//		Point t3 = new Point(2, 2);
+//
+//		
+//		Point p = Trilateration.trilaterate(t1, t2, t3, 1, 1, 1);
+//		System.out.println(p);
 		
-		Point p = Trilateration.trilaterate(t1, t2, t3, 1, 1, 1);
-		System.out.println(p);
+		System.out.println(Utils.dateFormat(new Date()));
 	}
 }
