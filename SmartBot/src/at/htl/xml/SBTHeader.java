@@ -41,7 +41,7 @@ public class SBTHeader {
 	}
 
 	public String toXMLString() {
-		String ln = System.getProperty("line.separator");
+		String ln = System.lineSeparator();
 		return "<head>" + ln
 				+ "\t <name>"+name+"</name>" + ln
 				+ "\t <creationdate>"+Utils.dateToFormattedString(creationDate)+"</creationdate>" + ln

@@ -67,18 +67,26 @@ public class Test {
 		//
 		// System.out.println(s.toString());
 //
-		Point t1 = new Point(1, 1);
-		Point t2 = new Point(2, 1);
-		Point t3 = new Point(2, 2);
-		ArrayList<Point> list = new ArrayList<Point>();
-		list.add(t1);
-		list.add(t2);
-		list.add(t3);
-		Track track1 = new Track(list);
-
-		SBTFile sbt = new SBTFile(new SBTHeader(new Date(), new Date(), "test"), new SBTData(track1));
+//		Point t1 = new Point(1, 1);
+//		Point t2 = new Point(2, 1);
+//		Point t3 = new Point(2, 2);
+//		ArrayList<Point> list = new ArrayList<Point>();
+//		list.add(t1);
+//		list.add(t2);
+//		list.add(t3);
+//		Track track1 = new Track(list);
+//
+//		SBTFile sbt = new SBTFile(new SBTHeader(new Date(), new Date(), "test"), new SBTData(track1));
+//		try {
+//			SBTTranslator.exportSBT(new File("./test.sbt"), sbt);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
 		try {
-			SBTTranslator.exportSBT(new File("./test.sbt"), sbt);
+			SBTFile sbt = SBTTranslator.importSBTFile(new File("./test.sbt"));
+			System.out.println(sbt.toXMLString());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

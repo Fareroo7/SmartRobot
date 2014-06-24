@@ -15,7 +15,7 @@ public class SBTData {
 
 	public String toXMLString() {
 		StringBuffer xmlstring = new StringBuffer();
-		String ln = System.getProperty("line.separator");
+		String ln = System.lineSeparator();
 
 		xmlstring.append("<data>" + ln);
 

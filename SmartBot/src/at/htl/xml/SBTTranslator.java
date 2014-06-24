@@ -74,6 +74,17 @@ public class SBTTranslator {
 
 				String piece = cruncher.nextToken();
 
+				if (piece.equals("/data")) {
+				data = false;
+				} else if (piece.equals("/navpoint") && data) {
+					importedPoints.add(new Point(x, y));
+					navPoint = false;
+				} else if (piece.equals("/x") && navPoint) {
+					xFlag = false;
+				} else if (piece.equals("/y") && navPoint) {
+					yFlag = false;
+				}
+				
 				if (xFlag) {
 					x = Double.parseDouble(piece);
 				} else if (yFlag) {
@@ -82,21 +93,12 @@ public class SBTTranslator {
 
 				if (piece.equals("data")) {
 					data = true;
-				} else if (piece.equals("/data")) {
-					data = false;
 				} else if (piece.equals("navpoint") && data) {
 					navPoint = true;
-				} else if (piece.equals("/navpoint") && data) {
-					importedPoints.add(new Point(x, y));
-					navPoint = false;
 				} else if (piece.equals("x") && navPoint) {
 					xFlag = true;
-				} else if (piece.equals("/x") && navPoint) {
-					xFlag = false;
 				} else if (piece.equals("y") && navPoint) {
 					yFlag = true;
-				} else if (piece.equals("/y") && navPoint) {
-					yFlag = false;
 				}
 
 			}
