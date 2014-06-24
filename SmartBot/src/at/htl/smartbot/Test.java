@@ -77,7 +77,12 @@ public class Test {
 		Track track1 = new Track(list);
 
 		SBTFile sbt = new SBTFile(new SBTHeader(new Date(), new Date(), "test"), new SBTData(track1));
-		SBTTranslator.exportSBT(new File("./test.sbt"), sbt);
+		try {
+			SBTTranslator.exportSBT(new File("./test.sbt"), sbt);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	
 		

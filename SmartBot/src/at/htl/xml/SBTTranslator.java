@@ -8,16 +8,10 @@ import at.htl.smartbot.Utils;
 
 public class SBTTranslator {
 
-	public static boolean exportSBT(File destinationFile, SBTFile sbt) {
-		try {
-			BufferedWriter sbtExport = new BufferedWriter(new FileWriter(destinationFile));
-			sbtExport.write(sbt.toXMLString());
-			sbtExport.close();
-			return true;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
+	public static void exportSBT(File destinationFile, SBTFile sbt) throws IOException {
+		BufferedWriter sbtExport = new BufferedWriter(new FileWriter(destinationFile));
+		sbtExport.write(sbt.toXMLString());
+		sbtExport.close();
 	}
 
 	public static SBTHeader importSBTHeader(File sourceFile) throws IOException {
@@ -25,21 +19,16 @@ public class SBTTranslator {
 		BufferedReader sbtImport = new BufferedReader(new FileReader(sourceFile));
 		String input;
 		boolean head = false, stop = false;
-		String name=null;
-		Date creationDate=null, lastUpdate=null;
+		String name = null;
+		Date creationDate = null, lastUpdate = null;
 
 		while ((input = sbtImport.readLine()) != null && !stop) {
-
 			StringTokenizer cruncher = new StringTokenizer(input, "<>");
-
 			while (cruncher.hasMoreTokens() && !stop) {
-
 				String piece = cruncher.nextToken();
-
 				if (piece.equals("head")) {
 					head = true;
 				} else if (piece.equals("/head")) {
-					head = false;
 					stop = true;
 				} else if (head && piece.equals("name")) {
 					name = cruncher.nextToken();
@@ -60,6 +49,6 @@ public class SBTTranslator {
 			}
 		}
 		sbtImport.close();
-		return new SBTHeader(creationDate,lastUpdate,name);
+		return new SBTHeader(creationDate, lastUpdate, name);
 	}
 }
