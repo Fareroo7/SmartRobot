@@ -8,11 +8,10 @@ import at.htl.smartbot.Utils;
 
 public class SBTTranslator {
 
-	public static boolean exportSBT(File destinationFile, SBTHeader header, SBTData data) {
+	public static boolean exportSBT(File destinationFile, SBTFile sbt) {
 		try {
 			BufferedWriter sbtExport = new BufferedWriter(new FileWriter(destinationFile));
-			sbtExport.write(header.toXMLString());
-			sbtExport.write(data.toXMLString());
+			sbtExport.write(sbt.toXMLString());
 			sbtExport.close();
 			return true;
 		} catch (IOException e) {

@@ -7,6 +7,7 @@ import java.util.Date;
 
 import at.htl.geometrics.Point;
 import at.htl.xml.SBTData;
+import at.htl.xml.SBTFile;
 import at.htl.xml.SBTHeader;
 import at.htl.xml.SBTTranslator;
 
@@ -73,24 +74,11 @@ public class Test {
 		list.add(t1);
 		list.add(t2);
 		list.add(t3);
-//
-//		
-//		Point p = Trilateration.trilaterate(t1, t2, t3, 1, 1, 1);
-//		System.out.println(p);
+		Track track1 = new Track(list);
+
+		SBTFile sbt = new SBTFile(new SBTHeader(new Date(), new Date(), "test"), new SBTData(track1));
+		SBTTranslator.exportSBT(new File("./test.sbt"), sbt);
 		
-//		System.out.println(Utils.dateToFormattedString(new Date()));
-		
-//		SBTHead head = new SBTHead(new Date(), new Date(), "test");
-//		SBTData data = new SBTData(list);
-//		SBTTranslator.exportSBT(new File("./test.sbt"), head, data);
-		
-		try {
-			SBTHeader header =  SBTTranslator.importSBTHeader(new File("./test.sbt"));
-			System.out.println(header.toXMLString());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	
 		
 	}
