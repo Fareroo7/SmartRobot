@@ -1,9 +1,12 @@
 package at.htl.xml;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.StringTokenizer;
 
+import at.htl.geometrics.Point;
+import at.htl.smartbot.Track;
 import at.htl.smartbot.Utils;
 
 public class SBTTranslator {
@@ -50,5 +53,56 @@ public class SBTTranslator {
 		}
 		sbtImport.close();
 		return new SBTHeader(creationDate, lastUpdate, name);
+	}
+
+	public SBTData importSBTData(File sourceFile) throws IOException {
+
+		BufferedReader sbtImport = new BufferedReader(new FileReader(sourceFile));
+
+		ArrayList<Point> importedPoints = new ArrayList<Point>();
+		double x = 0;
+		double y = 0;
+
+		boolean data = false, navPoint = false, xFlag = false, yFlag = false, stop = false;
+		String input = null;
+
+		while ((input = sbtImport.readLine()) != null && !stop) {
+
+			StringTokenizer cruncher = new StringTokenizer(input, "<>");
+
+			while (cruncher.hasMoreTokens() && !stop) {
+
+				String piece = cruncher.nextToken();
+
+				if (xFlag) {
+					x = Double.parseDouble(piece);
+				} else if (yFlag) {
+					y = Double.parseDouble(piece);
+				}
+
+				if (piece.equals("data")) {
+					data = true;
+				} else if (piece.equals("/data")) {
+					data = false;
+				} else if (piece.equals("navpoint") && data) {
+					navPoint = true;
+				} else if (piece.equals("/navpoint") && data) {
+					importedPoints.add(new Point(x, y));
+					navPoint = false;
+				} else if (piece.equals("x") && navPoint) {
+					xFlag = true;
+				} else if (piece.equals("/x") && navPoint) {
+					xFlag = false;
+				} else if (piece.equals("y") && navPoint) {
+					yFlag = true;
+				} else if (piece.equals("/y") && navPoint) {
+					yFlag = false;
+				}
+
+			}
+
+		}
+
+		return new SBTData(new Track(importedPoints));
 	}
 }
