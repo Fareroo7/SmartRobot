@@ -55,7 +55,7 @@ public class SBTTranslator {
 		return new SBTHeader(creationDate, lastUpdate, name);
 	}
 
-	public SBTData importSBTData(File sourceFile) throws IOException {
+	public static SBTData importSBTData(File sourceFile) throws IOException {
 
 		BufferedReader sbtImport = new BufferedReader(new FileReader(sourceFile));
 
@@ -104,5 +104,9 @@ public class SBTTranslator {
 		}
 
 		return new SBTData(new Track(importedPoints));
+	}
+
+	public static SBTFile importSBTFile(File sourceFile) throws IOException {
+		return new SBTFile(importSBTHeader(sourceFile), importSBTData(sourceFile));
 	}
 }
