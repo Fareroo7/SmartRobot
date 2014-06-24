@@ -1,8 +1,13 @@
 package at.htl.smartbot;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 
 import at.htl.geometrics.Point;
+import at.htl.xml.SBTData;
+import at.htl.xml.SBTHead;
+import at.htl.xml.SBTTranslator;
 
 /**
  * Test Class
@@ -60,14 +65,23 @@ public class Test {
 		//
 		// System.out.println(s.toString());
 //
-//		Point t1 = new Point(1, 1);
-//		Point t2 = new Point(2, 1);
-//		Point t3 = new Point(2, 2);
+		Point t1 = new Point(1, 1);
+		Point t2 = new Point(2, 1);
+		Point t3 = new Point(2, 2);
+		ArrayList<Point> list = new ArrayList<Point>();
+		list.add(t1);
+		list.add(t2);
+		list.add(t3);
 //
 //		
 //		Point p = Trilateration.trilaterate(t1, t2, t3, 1, 1, 1);
 //		System.out.println(p);
 		
-		System.out.println(Utils.dateToFormattedString(new Date()));
+//		System.out.println(Utils.dateToFormattedString(new Date()));
+		
+		SBTHead head = new SBTHead(new Date(), new Date(), "test");
+		SBTData data = new SBTData(list);
+		SBTTranslator.sbtExport(new File("./test.sbt"), head, data);
+		
 	}
 }

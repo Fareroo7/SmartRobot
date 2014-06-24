@@ -1,8 +1,6 @@
 package at.htl.smartbot;
 
-import java.io.*;
 import java.util.ArrayList;
-
 import at.htl.geometrics.*;
 
 public class Track {

@@ -14,17 +14,18 @@ public class SBTData {
 	
 	public String toXMLString(){
 		StringBuffer xmlstring = new StringBuffer();
+		String ln = System.getProperty("line.separator");
 		
-		xmlstring.append("<data>\n");
+		xmlstring.append("<data>" + ln);
 		
 		for(Point i:data){
-			xmlstring.append("\t<navpoint>\n"
-					+ "\t\t<x>"+i.getX()+"</x>\n"
-					+ "\t\t<y>"+i.getY()+"</y>\n"
-					+ "\t</navpoint>");
+			xmlstring.append("\t<navpoint>" + ln
+					+ "\t\t<x>"+i.getX()+"</x>" + ln
+					+ "\t\t<y>"+i.getY()+"</y>" + ln
+					+ "\t</navpoint>" + ln);
 		}
 		
-		xmlstring.append("</data>");
+		xmlstring.append("</data>" + ln);
 		
 		return xmlstring.toString();
 	}

@@ -1,11 +1,6 @@
 package at.htl.xml;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import javax.swing.text.DateFormatter;
-
 import at.htl.smartbot.Utils;
 
 public class SBTHead {
@@ -46,11 +41,12 @@ public class SBTHead {
 	}
 
 	public String toXMLString() {
-		return "<head> \n"
-				+ "\t <name>"+name+"</name> \n"
-				+ "\t <creationdate>"+Utils.dateToFormattedString(creationDate)+"</creationdate>\n"
-				+ "\t <lastupdate>"+Utils.dateToFormattedString(lastUpdate)+"</lastupdate>\n"
-				+ "</head>\n";
+		String ln = System.getProperty("line.separator");
+		return "<head>" + ln
+				+ "\t <name>"+name+"</name>" + ln
+				+ "\t <creationdate>"+Utils.dateToFormattedString(creationDate)+"</creationdate>" + ln
+				+ "\t <lastupdate>"+Utils.dateToFormattedString(lastUpdate)+"</lastupdate>" +ln
+				+ "</head>" + ln;
 	}
 	
 	

@@ -16,7 +16,7 @@ import at.htl.geometrics.Point;
 
 public class Utils {
 	
-	public static final String DATEPATTERN ="dd.MM.yyyy hh:mm:ss";
+	public static final String DATEPATTERN ="dd.MM.yyyy HH:mm:ss";
 
 	/**
 	 * Rounds to two decimals.
