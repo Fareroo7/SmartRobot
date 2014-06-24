@@ -1,7 +1,6 @@
 package at.htl.smartbot;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import at.htl.geometrics.*;
 
