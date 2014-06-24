@@ -8,7 +8,7 @@ import at.htl.smartbot.Utils;
 
 public class SBTTranslator {
 
-	public static boolean sbtExport(File destinationFile, SBTHead header, SBTData data) {
+	public static boolean exportSBT(File destinationFile, SBTHeader header, SBTData data) {
 		try {
 			BufferedWriter sbtExport = new BufferedWriter(new FileWriter(destinationFile));
 			sbtExport.write(header.toXMLString());
@@ -16,13 +16,12 @@ public class SBTTranslator {
 			sbtExport.close();
 			return true;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
 		}
 	}
 
-	public static SBTHead sbtImportHeader(File sourceFile) throws IOException {
+	public static SBTHeader importSBTHeader(File sourceFile) throws IOException {
 
 		BufferedReader sbtImport = new BufferedReader(new FileReader(sourceFile));
 		String input;
@@ -32,7 +31,7 @@ public class SBTTranslator {
 
 		while ((input = sbtImport.readLine()) != null && !stop) {
 
-			StringTokenizer cruncher = new StringTokenizer("<", ">");
+			StringTokenizer cruncher = new StringTokenizer(input, "<>");
 
 			while (cruncher.hasMoreTokens() && !stop) {
 
@@ -61,6 +60,7 @@ public class SBTTranslator {
 				}
 			}
 		}
-		return new SBTHead(creationDate,lastUpdate,name);
+		sbtImport.close();
+		return new SBTHeader(creationDate,lastUpdate,name);
 	}
 }

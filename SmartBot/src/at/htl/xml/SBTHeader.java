@@ -3,19 +3,19 @@ package at.htl.xml;
 import java.util.Date;
 import at.htl.smartbot.Utils;
 
-public class SBTHead {
+public class SBTHeader {
 
 	private String name;
 	private Date creationDate;
 	private Date lastUpdate;
 	
-	public SBTHead(Date creationDate, String name){
+	public SBTHeader(Date creationDate, String name){
 		this.creationDate=creationDate;
 		this.lastUpdate=creationDate;
 		this.name=name;
 	}
 	
-	public SBTHead(Date creationDate,Date lastUpdate, String name){
+	public SBTHeader(Date creationDate,Date lastUpdate, String name){
 		this.creationDate=creationDate;
 		this.lastUpdate=lastUpdate;
 		this.name=name;

@@ -25,7 +25,7 @@ public class SBTData {
 					+ "\t</navpoint>" + ln);
 		}
 		
-		xmlstring.append("</data>" + ln);
+		xmlstring.append("</data>");
 		
 		return xmlstring.toString();
 	}

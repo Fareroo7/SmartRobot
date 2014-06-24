@@ -1,12 +1,13 @@
 package at.htl.smartbot;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
 import at.htl.geometrics.Point;
 import at.htl.xml.SBTData;
-import at.htl.xml.SBTHead;
+import at.htl.xml.SBTHeader;
 import at.htl.xml.SBTTranslator;
 
 /**
@@ -79,9 +80,18 @@ public class Test {
 		
 //		System.out.println(Utils.dateToFormattedString(new Date()));
 		
-		SBTHead head = new SBTHead(new Date(), new Date(), "test");
-		SBTData data = new SBTData(list);
-		SBTTranslator.sbtExport(new File("./test.sbt"), head, data);
+//		SBTHead head = new SBTHead(new Date(), new Date(), "test");
+//		SBTData data = new SBTData(list);
+//		SBTTranslator.exportSBT(new File("./test.sbt"), head, data);
+		
+		try {
+			SBTHeader header =  SBTTranslator.importSBTHeader(new File("./test.sbt"));
+			System.out.println(header.toXMLString());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
 		
 	}
 }
