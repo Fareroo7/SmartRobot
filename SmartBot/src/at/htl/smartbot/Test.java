@@ -2,14 +2,9 @@ package at.htl.smartbot;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-
-import at.htl.geometrics.Point;
-import at.htl.xml.SBTData;
-import at.htl.xml.SBTFile;
-import at.htl.xml.SBTHeader;
-import at.htl.xml.SBTTranslator;
+import java.util.*;
+import at.htl.geometrics.*;
+import at.htl.xml.*;
 
 /**
  * Test Class

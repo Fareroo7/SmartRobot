@@ -29,35 +29,35 @@ public class SBTTranslator {
 			StringTokenizer cruncher = new StringTokenizer(input, "<>");
 			while (cruncher.hasMoreTokens() && !stop) {
 				String piece = cruncher.nextToken();
-				if(piece.equals("/head")){
+				if (piece.equals("/head")) {
 					head = false;
 					stop = true;
-				}else if(piece.equals("/name")){
+				} else if (piece.equals("/name") && head) {
 					nameFlag = false;
-				}else if(piece.equals("/creationdate")){
+				} else if (piece.equals("/creationdate") && head) {
 					creationdate = false;
-				}else if(piece.equals("/lastupdate")){
+				} else if (piece.equals("/lastupdate") && head) {
 					lastupdate = false;
 				}
-				
-				if(nameFlag){
+
+				if (nameFlag) {
 					name = piece;
-				}else if(creationdate){
+				} else if (creationdate) {
 					creationDate = Utils.formattedStringToDate(piece);
-				}else if(lastupdate){
+				} else if (lastupdate) {
 					lastUpdate = Utils.formattedStringToDate(piece);
 				}
-				
-				if(piece.equals("head")){
+
+				if (piece.equals("head")) {
 					head = true;
-				}else if(piece.equals("name")){
+				} else if (piece.equals("name") && head) {
 					nameFlag = true;
-				}else if(piece.equals("creationdate")){
+				} else if (piece.equals("creationdate") && head) {
 					creationdate = true;
-				}else if(piece.equals("lastupdate")){
+				} else if (piece.equals("lastupdate") && head) {
 					lastupdate = true;
 				}
-				
+
 			}
 		}
 		sbtImport.close();
@@ -84,8 +84,8 @@ public class SBTTranslator {
 				String piece = cruncher.nextToken();
 
 				if (piece.equals("/data")) {
-				data = false;
-				stop = true;
+					data = false;
+					stop = true;
 				} else if (piece.equals("/navpoint") && data) {
 					importedPoints.add(new Point(x, y));
 					navPoint = false;
@@ -94,7 +94,7 @@ public class SBTTranslator {
 				} else if (piece.equals("/y") && navPoint) {
 					yFlag = false;
 				}
-				
+
 				if (xFlag) {
 					x = Double.parseDouble(piece);
 				} else if (yFlag) {
@@ -114,7 +114,7 @@ public class SBTTranslator {
 			}
 
 		}
-
+		sbtImport.close();
 		return new SBTData(new Track(importedPoints));
 	}
 
