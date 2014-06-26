@@ -21,7 +21,7 @@ public class SBTTranslator {
 
 		BufferedReader sbtImport = new BufferedReader(new FileReader(sourceFile));
 		String input;
-		boolean head = false, stop = false;
+		boolean head = false, stop = false, nameFlag = false, creationdate = false, lastupdate = false;
 		String name = null;
 		Date creationDate = null, lastUpdate = null;
 
@@ -29,26 +29,35 @@ public class SBTTranslator {
 			StringTokenizer cruncher = new StringTokenizer(input, "<>");
 			while (cruncher.hasMoreTokens() && !stop) {
 				String piece = cruncher.nextToken();
-				if (piece.equals("head")) {
-					head = true;
-				} else if (piece.equals("/head")) {
+				if(piece.equals("/head")){
+					head = false;
 					stop = true;
-				} else if (head && piece.equals("name")) {
-					name = cruncher.nextToken();
-					if (!cruncher.nextToken().equals("/name")) {
-						System.err.println("Tag-Ende fehlt");
-					}
-				} else if (head && piece.equals("creationdate")) {
-					creationDate = Utils.formattedStringToDate(cruncher.nextToken());
-					if (!cruncher.nextToken().equals("/creationdate")) {
-						System.err.println("Tag-Ende fehlt");
-					}
-				} else if (head && piece.equals("lastupdate")) {
-					lastUpdate = Utils.formattedStringToDate(cruncher.nextToken());
-					if (!cruncher.nextToken().equals("/lastupdate")) {
-						System.err.println("Tag-Ende fehlt");
-					}
+				}else if(piece.equals("/name")){
+					nameFlag = false;
+				}else if(piece.equals("/creationdate")){
+					creationdate = false;
+				}else if(piece.equals("/lastupdate")){
+					lastupdate = false;
 				}
+				
+				if(nameFlag){
+					name = piece;
+				}else if(creationdate){
+					creationDate = Utils.formattedStringToDate(piece);
+				}else if(lastupdate){
+					lastUpdate = Utils.formattedStringToDate(piece);
+				}
+				
+				if(piece.equals("head")){
+					head = true;
+				}else if(piece.equals("name")){
+					nameFlag = true;
+				}else if(piece.equals("creationdate")){
+					creationdate = true;
+				}else if(piece.equals("lastupdate")){
+					lastupdate = true;
+				}
+				
 			}
 		}
 		sbtImport.close();
@@ -76,6 +85,7 @@ public class SBTTranslator {
 
 				if (piece.equals("/data")) {
 				data = false;
+				stop = true;
 				} else if (piece.equals("/navpoint") && data) {
 					importedPoints.add(new Point(x, y));
 					navPoint = false;

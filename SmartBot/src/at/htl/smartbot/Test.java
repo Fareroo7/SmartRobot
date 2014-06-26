@@ -85,7 +85,7 @@ public class Test {
 //		}
 		
 		try {
-			SBTFile sbt = SBTTranslator.importSBTFile(new File("./test.sbt"));
+			SBTHeader sbt = SBTTranslator.importSBTHeader(new File("./test.sbt"));
 			System.out.println(sbt.toXMLString());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
