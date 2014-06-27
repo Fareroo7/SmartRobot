@@ -43,8 +43,8 @@ public class Trilateration {
 		temp_points_of_intersection = getPointsOfIntersectionCrircle(pos_S1, pos_S3, distance_S1, distance_S3);
 		points_of_intersection.add(temp_points_of_intersection.getPoint1());
 		points_of_intersection.add(temp_points_of_intersection.getPoint2());
-		
-		points_of_intersection=Point.checkOneIntersectionPoint(points_of_intersection);
+
+		points_of_intersection = Point.checkOneIntersectionPoint(points_of_intersection);
 		// points_of_intersection =
 		// Point.eliminateRedundance(points_of_intersection);
 
@@ -70,6 +70,60 @@ public class Trilateration {
 		// Error when Points
 		// System.out.println(triangle);
 		return Triangle.getCentroidOfTriangle(triangle);
+	}
+
+	public Point trilaterationV2(Point m1, Point m2, Point m3, double r1, double r2, double r3) {
+
+		Line a = getPointsOfIntersectionCrircle(m1, m2, r1, r2);
+		Line b = getPointsOfIntersectionCrircle(m2, m3, r2, r3);
+		Line c = getPointsOfIntersectionCrircle(m3, m1, r3, r1);
+
+		Point pA = null;
+		Point pB = null;
+		Point pC = null;
+
+		if (a.getPoint1().equals(a.getPoint2())) {
+			pA = a.getPoint1();
+		} else {
+			double[] distances = new double[4];
+			distances[0] = a.getPoint1().getDistanceTo(b.getPoint1());
+			distances[1] = a.getPoint1().getDistanceTo(b.getPoint2());
+			distances[2] = a.getPoint1().getDistanceTo(c.getPoint1());
+			distances[3] = a.getPoint1().getDistanceTo(c.getPoint2());
+
+			double smallesDistance = Double.MAX_VALUE;
+			int index = 0 ;
+			
+			for (int i = 0; i < 4; i++) {
+				if(distances[i] < smallesDistance){
+					smallesDistance = distances[i];
+					index = i;
+				}
+			}
+			
+			double[] distances2 = new double[4];
+			distances2[0] = a.getPoint2().getDistanceTo(b.getPoint1());
+			distances2[1] = a.getPoint2().getDistanceTo(b.getPoint2());
+			distances2[2] = a.getPoint2().getDistanceTo(c.getPoint1());
+			distances2[3] = a.getPoint2().getDistanceTo(c.getPoint2());
+
+			double smallesDistance2 = Double.MAX_VALUE;
+			int index2 = 0 ;
+			
+			for (int i = 0; i < 4; i++) {
+				if(distances2[i] < smallesDistance2){
+					smallesDistance2 = distances2[i];
+					index2 = i;
+				}
+			}
+			
+			if(smallesDistance < smallesDistance2){
+			
+			}
+
+		}
+
+		return null;
 	}
 
 	/**

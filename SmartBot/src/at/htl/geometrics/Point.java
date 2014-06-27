@@ -60,16 +60,6 @@ public class Point {
 		double deltaX = this.pos_x - p.getX();
 		double deltaY = this.pos_y - p.getY();
 
-		// if (deltaX != 0.0 && deltaY != 0.0) {
-		// return Math.sqrt(Utils.sqr(deltaX)+Utils.sqr(deltaY));
-		// }
-
-		// if(!this.equals(p)){
-		// return Math.sqrt(Utils.sqr(deltaX)+Utils.sqr(deltaY));
-		// // }
-		//
-		// return 0.0;
-
 		return Math.sqrt(Utils.sqr(deltaX) + Utils.sqr(deltaY));
 	}
 

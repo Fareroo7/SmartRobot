@@ -79,14 +79,15 @@ public class Test {
 //			e.printStackTrace();
 //		}
 		
-		try {
-			SBTHeader sbt = SBTTranslator.importSBTHeader(new File("./test.sbt"));
-			System.out.println(sbt.toXMLString());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			SBTHeader sbt = SBTTranslator.importSBTHeader(new File("./test.sbt"));
+//			System.out.println(sbt.toXMLString());
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
+		System.out.println(new Line(new Point(1.0,1.0), new Point(1.0,1.0)));
 	
 		
 	}
