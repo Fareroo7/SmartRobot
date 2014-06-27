@@ -90,16 +90,6 @@ public class Trilateration {
 			distances[1] = a.getPoint1().getDistanceTo(b.getPoint2());
 			distances[2] = a.getPoint1().getDistanceTo(c.getPoint1());
 			distances[3] = a.getPoint1().getDistanceTo(c.getPoint2());
-
-			double smallesDistance = Double.MAX_VALUE;
-			int index = 0 ;
-			
-			for (int i = 0; i < 4; i++) {
-				if(distances[i] < smallesDistance){
-					smallesDistance = distances[i];
-					index = i;
-				}
-			}
 			
 			double[] distances2 = new double[4];
 			distances2[0] = a.getPoint2().getDistanceTo(b.getPoint1());
@@ -107,10 +97,16 @@ public class Trilateration {
 			distances2[2] = a.getPoint2().getDistanceTo(c.getPoint1());
 			distances2[3] = a.getPoint2().getDistanceTo(c.getPoint2());
 
+			double smallesDistance = Double.MAX_VALUE;
+			int index = 0 ;
 			double smallesDistance2 = Double.MAX_VALUE;
 			int index2 = 0 ;
 			
 			for (int i = 0; i < 4; i++) {
+				if(distances[i] < smallesDistance){
+					smallesDistance = distances[i];
+					index = i;
+				}
 				if(distances2[i] < smallesDistance2){
 					smallesDistance2 = distances2[i];
 					index2 = i;
