@@ -582,7 +582,7 @@ public class GUI_Trilateration extends JFrame {
 		if (!notCorrect) {
 
 			long before = System.nanoTime();
-			Point position = Trilateration.trilaterate(m1, m2, m3, r1, r2, r3);
+			Point position = Trilateration.trilaterateV2(m1, m2, m3, r1, r2, r3);
 			long after = System.nanoTime();
 			double time_ms = (after - before) / (1E6);
 			// System.out.println(after-before+" ns Laufzeit Trilateration");
