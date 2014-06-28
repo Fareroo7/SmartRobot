@@ -72,7 +72,7 @@ public class Trilateration {
 		return Triangle.getCentroidOfTriangle(triangle);
 	}
 
-	public Point trilaterationV2(Point m1, Point m2, Point m3, double r1, double r2, double r3) {
+	public static Point trilaterateV2(Point m1, Point m2, Point m3, double r1, double r2, double r3) {
 
 		// Line a = getPointsOfIntersectionCrircle(m1, m2, r1, r2);
 		// Line b = getPointsOfIntersectionCrircle(m2, m3, r2, r3);
@@ -198,8 +198,29 @@ public class Trilateration {
 			}
 
 		}
-
-		return null;
+		
+		if(pB == null){
+			if(pA.getDistanceTo(b.getPoint1()) < pA.getDistanceTo(b.getPoint2())){
+				pB = b.getPoint1();
+			}else{
+				pB = b.getPoint2();
+			}
+		}
+		if(pC == null){
+			if(pA.getDistanceTo(c.getPoint1()) < pA.getDistanceTo(c.getPoint2())){
+				pC = c.getPoint1();
+			}else{
+				pC = c.getPoint2();
+			}
+		}
+		
+		System.out.println(pA.toString());
+		System.out.println(pB.toString());
+		System.out.println(pC.toString());
+		
+		Triangle sTrinagle = new Triangle(pA, pB, pC);
+		
+		return Triangle.getCentroidOfTriangle(sTrinagle);
 	}
 
 	/**
