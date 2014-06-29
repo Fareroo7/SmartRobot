@@ -12,6 +12,7 @@ import javax.swing.border.LineBorder;
 
 import java.awt.Color;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JLabel;
@@ -31,6 +32,8 @@ import javax.swing.JMenuItem;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import javax.swing.JRadioButton;
 
 public class GUI_Trilateration extends JFrame {
 
@@ -81,6 +84,9 @@ public class GUI_Trilateration extends JFrame {
 	private boolean launchedFromAction = false;
 	private JLabel lblState;
 	private JMenuItem mntmScale;
+	private ButtonGroup chooseAlgorithem;
+	private JRadioButton selectV1;
+	private JRadioButton selectV2;
 
 	/**
 	 * Launch the application.
@@ -96,7 +102,7 @@ public class GUI_Trilateration extends JFrame {
 				try {
 					GUI_Trilateration frame = new GUI_Trilateration();
 					frame.setVisible(true);
-					
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -115,7 +121,7 @@ public class GUI_Trilateration extends JFrame {
 	private void initComponents() {
 		setTitle("SmartBot Trilateration");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 673, 477);
+		setBounds(100, 100, 674, 501);
 
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -160,8 +166,8 @@ public class GUI_Trilateration extends JFrame {
 				if (firstStart) {
 					GUI_Trilateration.origin = new Point(0.1 * width, height - (height * 0.1));
 					step = 100;
-					firstStart=false;
-				}else{
+					firstStart = false;
+				} else {
 					btnTrilaterateActionPerformed(null);
 				}
 				g = gp;
@@ -279,6 +285,16 @@ public class GUI_Trilateration extends JFrame {
 				btnTrilaterateActionPerformed(arg0);
 			}
 		});
+
+		chooseAlgorithem=new ButtonGroup();
+		
+		selectV1 = new JRadioButton("V1");
+		chooseAlgorithem.add(selectV1);
+
+		selectV2 = new JRadioButton("V2");
+		selectV2.setSelected(true);
+		chooseAlgorithem.add(selectV2);
+
 		GroupLayout gl_panel_menu = new GroupLayout(panel_menu);
 		gl_panel_menu
 				.setHorizontalGroup(gl_panel_menu.createParallelGroup(Alignment.LEADING)
@@ -325,36 +341,16 @@ public class GUI_Trilateration extends JFrame {
 																						.addComponent(label_1, GroupLayout.DEFAULT_SIZE,
 																								GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 																						.addComponent(label_2, GroupLayout.DEFAULT_SIZE, 12, Short.MAX_VALUE))
+																		.addPreferredGap(ComponentPlacement.RELATED)
 																		.addGroup(
 																				gl_panel_menu
-																						.createParallelGroup(Alignment.LEADING)
-																						.addGroup(
-																								gl_panel_menu
-																										.createParallelGroup(Alignment.LEADING)
-																										.addGroup(
-																												gl_panel_menu
-																														.createSequentialGroup()
-																														.addPreferredGap(
-																																ComponentPlacement.RELATED)
-																														.addComponent(m2_X,
-																																GroupLayout.PREFERRED_SIZE, 80,
-																																GroupLayout.PREFERRED_SIZE))
-																										.addGroup(
-																												Alignment.TRAILING,
-																												gl_panel_menu
-																														.createSequentialGroup()
-																														.addPreferredGap(
-																																ComponentPlacement.RELATED)
-																														.addComponent(m2_Y,
-																																GroupLayout.PREFERRED_SIZE, 80,
-																																GroupLayout.PREFERRED_SIZE)))
-																						.addGroup(
-																								Alignment.TRAILING,
-																								gl_panel_menu
-																										.createSequentialGroup()
-																										.addPreferredGap(ComponentPlacement.RELATED)
-																										.addComponent(m2_r, GroupLayout.PREFERRED_SIZE, 80,
-																												GroupLayout.PREFERRED_SIZE))))
+																						.createParallelGroup(Alignment.TRAILING)
+																						.addComponent(m2_X, GroupLayout.PREFERRED_SIZE, 80,
+																								GroupLayout.PREFERRED_SIZE)
+																						.addComponent(m2_Y, GroupLayout.PREFERRED_SIZE, 80,
+																								GroupLayout.PREFERRED_SIZE)
+																						.addComponent(m2_r, GroupLayout.PREFERRED_SIZE, 80,
+																								GroupLayout.PREFERRED_SIZE)))
 														.addGroup(
 																gl_panel_menu
 																		.createSequentialGroup()
@@ -367,33 +363,25 @@ public class GUI_Trilateration extends JFrame {
 																								GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 																						.addComponent(label_6, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 12,
 																								Short.MAX_VALUE))
+																		.addPreferredGap(ComponentPlacement.RELATED)
 																		.addGroup(
 																				gl_panel_menu
-																						.createParallelGroup(Alignment.LEADING)
+																						.createParallelGroup(Alignment.TRAILING)
 																						.addGroup(
 																								gl_panel_menu
-																										.createSequentialGroup()
-																										.addPreferredGap(ComponentPlacement.RELATED)
-																										.addGroup(
-																												gl_panel_menu
-																														.createParallelGroup(
-																																Alignment.TRAILING, false)
-																														.addComponent(m3_X, 0, 0,
-																																Short.MAX_VALUE)
-																														.addComponent(m3_Y,
-																																GroupLayout.DEFAULT_SIZE, 80,
-																																Short.MAX_VALUE)))
-																						.addGroup(
-																								Alignment.TRAILING,
-																								gl_panel_menu
-																										.createSequentialGroup()
-																										.addPreferredGap(ComponentPlacement.RELATED)
-																										.addComponent(m3_r, GroupLayout.PREFERRED_SIZE, 80,
-																												GroupLayout.PREFERRED_SIZE))))
+																										.createParallelGroup(Alignment.TRAILING, false)
+																										.addComponent(m3_X, 0, 0, Short.MAX_VALUE)
+																										.addComponent(m3_Y, GroupLayout.DEFAULT_SIZE, 80,
+																												Short.MAX_VALUE))
+																						.addComponent(m3_r, GroupLayout.PREFERRED_SIZE, 80,
+																								GroupLayout.PREFERRED_SIZE)))
 														.addComponent(lblKreis_2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 														.addComponent(lblKreis_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-														.addComponent(lblKreis, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-										.addContainerGap(28, Short.MAX_VALUE)));
+														.addComponent(lblKreis, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+														.addGroup(
+																gl_panel_menu.createSequentialGroup().addComponent(selectV1)
+																		.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+																		.addComponent(selectV2))).addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 		gl_panel_menu.setVerticalGroup(gl_panel_menu.createParallelGroup(Alignment.LEADING).addGroup(
 				gl_panel_menu
 						.createSequentialGroup()
@@ -459,7 +447,9 @@ public class GUI_Trilateration extends JFrame {
 								gl_panel_menu.createParallelGroup(Alignment.LEADING)
 										.addComponent(m3_r, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 										.addGroup(gl_panel_menu.createSequentialGroup().addGap(9).addComponent(label_4))).addGap(18)
-						.addComponent(btnTrilaterate).addContainerGap(15, Short.MAX_VALUE)));
+						.addComponent(btnTrilaterate).addPreferredGap(ComponentPlacement.UNRELATED)
+						.addGroup(gl_panel_menu.createParallelGroup(Alignment.BASELINE).addComponent(selectV1).addComponent(selectV2))
+						.addContainerGap(31, Short.MAX_VALUE)));
 		panel_menu.setLayout(gl_panel_menu);
 		contentPane.setLayout(gl_contentPane);
 
@@ -537,29 +527,29 @@ public class GUI_Trilateration extends JFrame {
 		if (Utils.isDouble(m2_r.getText())) {
 			input = m2_r.getText();
 			r2 = Double.parseDouble(input);
-		}else if(!launchedFromAction){
+		} else if (!launchedFromAction) {
 			notCorrect = true;
-		}else{
+		} else {
 			lblState.setText("Status: Fehler, bitte Kreis 2-r korrekt ausfüllen");
-			notCorrect=true;
+			notCorrect = true;
 		}
 		if (Utils.isDouble(m3_X.getText())) {
 			input = m3_X.getText();
 			x = Double.parseDouble(input);
-		}else if(!launchedFromAction){
+		} else if (!launchedFromAction) {
 			notCorrect = true;
-		}else{
+		} else {
 			lblState.setText("Status: Fehler, bitte Kreis 3-X korrekt ausfüllen");
-			notCorrect=true;
+			notCorrect = true;
 		}
 		if (Utils.isDouble(m3_Y.getText())) {
 			input = m3_Y.getText();
 			y = Double.parseDouble(input);
-		}else if(!launchedFromAction){
+		} else if (!launchedFromAction) {
 			notCorrect = true;
-		}else{
+		} else {
 			lblState.setText("Status: Fehler, bitte Kreis 3-Y korrekt ausfüllen");
-			notCorrect=true;
+			notCorrect = true;
 		}
 		if (!notCorrect) {
 			m3 = new Point(x, y);
@@ -568,11 +558,11 @@ public class GUI_Trilateration extends JFrame {
 		if (Utils.isDouble(m3_r.getText())) {
 			input = m3_r.getText();
 			r3 = Double.parseDouble(input);
-		}else if(!launchedFromAction){
+		} else if (!launchedFromAction) {
 			notCorrect = true;
-		}else{
+		} else {
 			lblState.setText("Status: Fehler, bitte Kreis 3-r korrekt ausfüllen");
-			notCorrect=true;
+			notCorrect = true;
 		}
 		// System.out.println(notCorrect);
 		// System.out.println(m1+" "+r1);
@@ -581,10 +571,23 @@ public class GUI_Trilateration extends JFrame {
 
 		if (!notCorrect) {
 
-			long before = System.nanoTime();
-			Point position = Trilateration.trilaterateV2(m1, m2, m3, r1, r2, r3);
-			long after = System.nanoTime();
-			double time_ms = (after - before) / (1E6);
+			long before;
+			Point position = null;
+			long after;
+			double time_ms = 0;
+
+			if (selectV1.isSelected()) {
+				before = System.nanoTime();
+				position = Trilateration.trilaterate(m1, m2, m3, r1, r2, r3);
+				after = System.nanoTime();
+				time_ms = (after - before) / (1E6);
+			} else if (selectV2.isSelected()) {
+				before = System.nanoTime();
+				position = Trilateration.trilaterateV2(m1, m2, m3, r1, r2, r3);
+				after = System.nanoTime();
+				time_ms = (after - before) / (1E6);
+			}
+
 			// System.out.println(after-before+" ns Laufzeit Trilateration");
 			// System.out.println(position.toString());
 			lblState.setText("Status: Position: " + position.toString() + " / " + "Ausführungszeit(ms): " + time_ms);
