@@ -322,13 +322,13 @@ public class Trilateration {
 
 		if (r1 + r2 >= distance.getDistance()) {
 
-			if (distance.getDistance() < r1) {
+			if (distance.getDistance() < r1 && r2 < r1 - distance.getDistance()) {
 
 				x1 = 0;
 				y1 = 0;
 				x2 = 0;
 				y2 = 0;
-			} else if (distance.getDistance() < r2) {
+			} else if (distance.getDistance() < r2 && r1 < r2 - distance.getDistance()) {
 
 				x1 = 0;
 				y1 = 0;
@@ -357,9 +357,9 @@ public class Trilateration {
 			double vectorlength_to_point = ((distance.getDistance() - r1 - r2) / 2.0) + r1;
 			double k = (distance.getDistance()) / vectorlength_to_point;
 			x1 = (temp_m2_x / k);
-			x2 = (temp_m2_x / k);
+			x2 = x1;
 			y1 = (temp_m2_y / k);
-			y2 = (temp_m2_y / k);
+			y2 = y1;
 		}
 
 		// Zurückdrehen wenn notwendig
