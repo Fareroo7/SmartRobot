@@ -378,5 +378,9 @@ public class Triangle {
 
 		return null;
 	}
+	
+	public Point getCentroidOfTriangel(){
+		return Triangle.getCentroidOfTriangle(this);
+	}
 
 }

@@ -198,29 +198,29 @@ public class Trilateration {
 			}
 
 		}
-		
-		if(pB == null){
-			if(pA.getDistanceTo(b.getPoint1()) < pA.getDistanceTo(b.getPoint2())){
+
+		if (pB == null) {
+			if (pA.getDistanceTo(b.getPoint1()) < pA.getDistanceTo(b.getPoint2())) {
 				pB = b.getPoint1();
-			}else{
+			} else {
 				pB = b.getPoint2();
 			}
 		}
-		if(pC == null){
-			if(pA.getDistanceTo(c.getPoint1()) < pA.getDistanceTo(c.getPoint2())){
+		if (pC == null) {
+			if (pA.getDistanceTo(c.getPoint1()) < pA.getDistanceTo(c.getPoint2())) {
 				pC = c.getPoint1();
-			}else{
+			} else {
 				pC = c.getPoint2();
 			}
 		}
-		
+
 		System.out.println(pA.toString());
 		System.out.println(pB.toString());
 		System.out.println(pC.toString());
-		
-		Triangle sTrinagle = new Triangle(pA, pB, pC);
-		
-		return Triangle.getCentroidOfTriangle(sTrinagle);
+
+		Triangle sTriangle = new Triangle(pA, pB, pC);
+
+		return sTriangle.getCentroidOfTriangel();
 	}
 
 	/**
@@ -279,6 +279,80 @@ public class Trilateration {
 			x1 = a + b * y1;
 			x2 = a + b * y2;
 
+		} else {
+			double vectorlength_to_point = ((distance.getDistance() - r1 - r2) / 2.0) + r1;
+			double k = (distance.getDistance()) / vectorlength_to_point;
+			x1 = (temp_m2_x / k);
+			x2 = (temp_m2_x / k);
+			y1 = (temp_m2_y / k);
+			y2 = (temp_m2_y / k);
+		}
+
+		// Zurückdrehen wenn notwendig
+		if (isSwaped) {
+			// x mit y austauschen und der offset wieder dazuaddiert
+			return new Line(new Point(y1 + m1.getX(), x1 + m1.getY()), new Point(y2 + m1.getX(), x2 + m1.getY()));
+		}
+
+		return new Line(new Point(x1 + m1.getX(), y1 + m1.getY()), new Point(x2 + m1.getX(), y2 + m1.getY()));
+	}
+
+	public static Line getPointsOfIntersectionCrircleV2(Point m1, Point m2, double r1, double r2) {
+
+		Line distance = new Line(m1, m2);
+		double temp_m2_x, x1, x2, y1, y2;
+		double temp_m2_y;
+		boolean isSwaped = false;
+
+		// Mit freundlicher unterstuetzung von Mag. Harald Tranacher
+		temp_m2_x = (m2.getX() - m1.getX());
+		temp_m2_y = (m2.getY() - m1.getY());
+
+		// 90° Drehung wenn Punkte auf gleicher X-Achse liegen
+		if (0 == temp_m2_x) {
+			temp_m2_x = temp_m2_y;
+			temp_m2_y = 0;
+			isSwaped = true;
+		}
+
+		// Test output
+		// System.out.println();
+		// System.out.println(distance);
+		// System.out.println(r1 + r2);
+
+		if (r1 + r2 >= distance.getDistance()) {
+
+			if (distance.getDistance() < r1) {
+
+				x1 = 0;
+				y1 = 0;
+				x2 = 0;
+				y2 = 0;
+			} else if (distance.getDistance() < r2) {
+
+				x1 = 0;
+				y1 = 0;
+				x2 = 0;
+				y2 = 0;
+			} else {
+
+				double a = (Utils.sqr(r1) - Utils.sqr(r2) + Utils.sqr(temp_m2_x) + Utils.sqr(temp_m2_y)) / (2.0 * temp_m2_x);
+				double b = -(2.0 * temp_m2_y) / (2.0 * temp_m2_x);
+				double p = (2.0 * a * b) / (Utils.sqr(b) + 1.0);
+				double q = (Utils.sqr(a) - Utils.sqr(r1)) / (Utils.sqr(b) + 1.0);
+
+				// Test output
+				/*
+				 * System.out.println(a); System.out.println(b);
+				 * System.out.println(p); System.out.println(q);
+				 */
+
+				y1 = -(p / 2.0) + Math.sqrt((Utils.sqr(p / 2.0) - q));
+				y2 = -(p / 2.0) - Math.sqrt((Utils.sqr(p / 2.0) - q));
+
+				x1 = a + b * y1;
+				x2 = a + b * y2;
+			}
 		} else {
 			double vectorlength_to_point = ((distance.getDistance() - r1 - r2) / 2.0) + r1;
 			double k = (distance.getDistance()) / vectorlength_to_point;
