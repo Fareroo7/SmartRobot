@@ -74,53 +74,6 @@ public class Trilateration {
 
 	public static Point trilaterateV2(Point m1, Point m2, Point m3, double r1, double r2, double r3) {
 
-		// Line a = getPointsOfIntersectionCrircle(m1, m2, r1, r2);
-		// Line b = getPointsOfIntersectionCrircle(m2, m3, r2, r3);
-		// Line c = getPointsOfIntersectionCrircle(m3, m1, r3, r1);
-		//
-		// Point pA = null;
-		// Point pB = null;
-		// Point pC = null;
-		//
-		// if (a.getPoint1().equals(a.getPoint2())) {
-		// pA = a.getPoint1();
-		// } else {
-		// double[] distances = new double[4];
-		// distances[0] = a.getPoint1().getDistanceTo(b.getPoint1());
-		// distances[1] = a.getPoint1().getDistanceTo(b.getPoint2());
-		// distances[2] = a.getPoint1().getDistanceTo(c.getPoint1());
-		// distances[3] = a.getPoint1().getDistanceTo(c.getPoint2());
-		//
-		// double smallesDistance = Double.MAX_VALUE;
-		// int index = 0 ;
-		//
-		// for (int i = 0; i < 4; i++) {
-		// if(distances[i] < smallesDistance){
-		// smallesDistance = distances[i];
-		// index = i;
-		// }
-		// }
-		//
-		// double[] distances2 = new double[4];
-		// distances2[0] = a.getPoint2().getDistanceTo(b.getPoint1());
-		// distances2[1] = a.getPoint2().getDistanceTo(b.getPoint2());
-		// distances2[2] = a.getPoint2().getDistanceTo(c.getPoint1());
-		// distances2[3] = a.getPoint2().getDistanceTo(c.getPoint2());
-		//
-		// double smallesDistance2 = Double.MAX_VALUE;
-		// int index2 = 0 ;
-		//
-		// for (int i = 0; i < 4; i++) {
-		// if(distances2[i] < smallesDistance2){
-		// smallesDistance2 = distances2[i];
-		// index2 = i;
-		// }
-		// }
-		//
-		// if(smallesDistance < smallesDistance2){
-		//
-		// }
-
 		Line a = getPointsOfIntersectionCrircle(m1, m2, r1, r2);
 		Line b = getPointsOfIntersectionCrircle(m2, m3, r2, r3);
 		Line c = getPointsOfIntersectionCrircle(m3, m1, r3, r1);
@@ -164,36 +117,36 @@ public class Trilateration {
 				pA = a.getPoint1();
 
 				switch (index) {
-				case 0:
-					pB = b.getPoint1();
-					break;
-				case 1:
-					pB = b.getPoint2();
-					break;
-				case 2:
-					pC = c.getPoint1();
-					break;
-				case 3:
-					pC = c.getPoint2();
-					break;
+					case 0:
+						pB = b.getPoint1();
+						break;
+					case 1:
+						pB = b.getPoint2();
+						break;
+					case 2:
+						pC = c.getPoint1();
+						break;
+					case 3:
+						pC = c.getPoint2();
+						break;
 				}
 
 			} else {
 				pA = a.getPoint2();
 
 				switch (index2) {
-				case 0:
-					pB = b.getPoint1();
-					break;
-				case 1:
-					pB = b.getPoint2();
-					break;
-				case 2:
-					pC = c.getPoint1();
-					break;
-				case 3:
-					pC = c.getPoint2();
-					break;
+					case 0:
+						pB = b.getPoint1();
+						break;
+					case 1:
+						pB = b.getPoint2();
+						break;
+					case 2:
+						pC = c.getPoint1();
+						break;
+					case 3:
+						pC = c.getPoint2();
+						break;
 				}
 			}
 
@@ -214,13 +167,12 @@ public class Trilateration {
 			}
 		}
 
-		System.out.println(pA.toString());
-		System.out.println(pB.toString());
-		System.out.println(pC.toString());
+		if (pA.equals(pB) && pA.equals(pC))
+			return pA;
 
-		Triangle sTriangle = new Triangle(pA, pB, pC);
+		Triangle sTrinagle = new Triangle(pA, pB, pC);
 
-		return sTriangle.getCentroidOfTriangel();
+		return Triangle.getCentroidOfTriangle(sTrinagle);
 	}
 
 	/**
