@@ -30,6 +30,13 @@ public class PolarVector {
 	public void setPhi(double phi) {
 		this.phi = phi;
 	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "PolarVector [z="+z+", &phi;="+phi+"]";
+	}
+	
 	
 	
 	
