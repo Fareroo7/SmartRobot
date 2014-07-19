@@ -106,5 +106,13 @@ public class Utils {
 			return null;
 		}
 	}
+	
+	public static double radToDeg(double rad){
+		return rad*180/Math.PI;
+	}
+	
+	public static double degToRad(double deg){
+		return deg*Math.PI/180;
+	}
 
 }
