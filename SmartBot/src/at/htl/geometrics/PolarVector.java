@@ -34,7 +34,7 @@ public class PolarVector {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "PolarVector [z="+z+", &phi;="+phi+"]";
+		return "PolarVector [z="+z+", phi="+phi+"]";
 	}
 	
 	
