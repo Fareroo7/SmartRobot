@@ -326,8 +326,8 @@ public class Triangle {
 			double tmp_min = Double.MAX_VALUE;
 			int index_of_min = 0;
 			for (int i = 0; i < lines.size(); i++) {
-				if (tmp_min > lines.get(i).getDistance()) {
-					tmp_min = lines.get(i).getDistance();
+				if (tmp_min > lines.get(i).getLength()) {
+					tmp_min = lines.get(i).getLength();
 					index_of_min = i;
 				}
 			}

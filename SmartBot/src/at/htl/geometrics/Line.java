@@ -57,7 +57,7 @@ public class Line {
 		refreshDistance();
 	}
 
-	public double getDistance() {
+	public double getLength() {
 		return distance;
 	}
 
@@ -108,5 +108,7 @@ public class Line {
 			return new Point(x, y);
 		}
 	}
+	
+	
 
 }
