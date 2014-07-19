@@ -1,5 +1,7 @@
 package at.htl.geometrics;
 
+import at.htl.smartbot.Utils;
+
 public class PolarVector {
 	private double z;
 	private double phi;
@@ -34,7 +36,7 @@ public class PolarVector {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "PolarVector [z="+z+", phi="+phi+"]";
+		return "PolarVector [z="+z+", phi="+ Utils.radToDeg(phi)+"]";
 	}
 	
 	
