@@ -125,6 +125,13 @@ public class Point {
 
 		return result;
 	}
+	
+	public double getDeltaX(Point p){
+		return p.getX()-this.pos_x;
+	}
 
+	public double getDeltaY(Point p){
+		return p.getY()-this.pos_y;
+	}
 
 }

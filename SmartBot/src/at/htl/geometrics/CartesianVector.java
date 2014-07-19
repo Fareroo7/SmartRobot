@@ -12,10 +12,10 @@ public class CartesianVector {
 		this.y = y;
 	}
 	
-	public PolarVektor toPolarVektor(){
+	public PolarVector toPolarVektor(){
 		double z = Math.sqrt(Utils.sqr(this.x) + Utils.sqr(this.y));
 		double phi = Math.tan(this.y/this.x);
-		return new PolarVektor(z, phi);
+		return new PolarVector(z, phi);
 	}
 
 	public double getX() {

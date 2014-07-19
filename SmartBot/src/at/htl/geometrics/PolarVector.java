@@ -1,10 +1,10 @@
 package at.htl.geometrics;
 
-public class PolarVektor {
+public class PolarVector {
 	private double z;
 	private double phi;
 	
-	public PolarVektor(double z, double phi){
+	public PolarVector(double z, double phi){
 		this.z = z;
 		this.phi = phi;
 	}

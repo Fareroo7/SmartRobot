@@ -16,7 +16,7 @@ public class Test {
 
 	public static void main(String[] args) {
 
-		 CartesianVector vector = new CartesianVector(1.0, 2.0);
+		System.out.println(Trilateration.getPointsOfIntersectionCrircleV2(new Point(5,5), new Point(3.5,3.5), 4, 1));
 		 
 		
 	}

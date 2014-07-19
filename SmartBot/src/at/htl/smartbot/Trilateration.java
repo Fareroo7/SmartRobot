@@ -2,8 +2,10 @@ package at.htl.smartbot;
 
 import java.util.ArrayList;
 
+import at.htl.geometrics.CartesianVector;
 import at.htl.geometrics.Line;
 import at.htl.geometrics.Point;
+import at.htl.geometrics.PolarVector;
 import at.htl.geometrics.Triangle;
 
 /**
@@ -276,16 +278,24 @@ public class Trilateration {
 
 			if (distance.getLength() + r2 < r1) {
 
-				x1 = 0;
-				y1 = 0;
-				x2 = 0;
-				y2 = 0;
+				PolarVector pv = new PolarVector(r1, distance.getPolarVektor().getPhi());
+				pv.setZ(pv.getZ()-((r1-distance.getLength()-r2)/2));
+				CartesianVector cv = pv.toCartesianVector();
+
+				x1 = m1.getX()+cv.getX();
+				y1 = m1.getY()+cv.getY();
+				x2 = x1;
+				y2 = y1;
 			} else if (distance.getLength() + r1 < r2) {
 
-				x1 = 0;
-				y1 = 0;
-				x2 = 0;
-				y2 = 0;
+				PolarVector pv = new PolarVector(r2, distance.getPolarVektor().getPhi());
+				pv.setZ(pv.getZ()-((r2-distance.getLength()-r1)/2));
+				CartesianVector cv = pv.toCartesianVector();
+				
+				x1 = m2.getX()+cv.getX();
+				y1 = m2.getY()+cv.getY();
+				x2 = x1;
+				y2 = y1;
 			} else {
 
 				double a = (Utils.sqr(r1) - Utils.sqr(r2) + Utils.sqr(temp_m2_x) + Utils.sqr(temp_m2_y)) / (2.0 * temp_m2_x);
