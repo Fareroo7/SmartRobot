@@ -14,7 +14,8 @@ public class CartesianVector {
 	
 	public PolarVector toPolarVektor(){
 		double z = Math.sqrt(Utils.sqr(this.x) + Utils.sqr(this.y));
-		double phi = Math.atan(this.y/this.x);
+		double phi = Math.atan2(this.y,this.x);
+		
 		return new PolarVector(z, phi);
 	}
 
