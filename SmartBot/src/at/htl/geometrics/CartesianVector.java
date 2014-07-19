@@ -34,5 +34,12 @@ public class CartesianVector {
 	public void setY(double y) {
 		this.y = y;
 	}
+
+	@Override
+	public String toString() {
+		return "CartesianVector [x=" + x + ", y=" + y + "]";
+	}
+	
+	
 	
 }
