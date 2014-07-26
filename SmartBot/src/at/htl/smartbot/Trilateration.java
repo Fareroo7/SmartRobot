@@ -76,9 +76,9 @@ public class Trilateration {
 
 	public static Point trilaterateV2(Point m1, Point m2, Point m3, double r1, double r2, double r3) {
 
-		Line a = getPointsOfIntersectionCrircle(m1, m2, r1, r2);
-		Line b = getPointsOfIntersectionCrircle(m2, m3, r2, r3);
-		Line c = getPointsOfIntersectionCrircle(m3, m1, r3, r1);
+		Line a = getPointsOfIntersectionCrircleV2(m1, m2, r1, r2);
+		Line b = getPointsOfIntersectionCrircleV2(m2, m3, r2, r3);
+		Line c = getPointsOfIntersectionCrircleV2(m3, m1, r3, r1);
 
 		Point pA = null;
 		Point pB = null;
