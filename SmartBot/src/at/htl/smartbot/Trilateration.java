@@ -3,6 +3,7 @@ package at.htl.smartbot;
 import java.util.ArrayList;
 
 import at.htl.geometrics.CartesianVector;
+import at.htl.geometrics.Circle;
 import at.htl.geometrics.Line;
 import at.htl.geometrics.Point;
 import at.htl.geometrics.PolarVector;
@@ -75,31 +76,42 @@ public class Trilateration {
 		return triangle.getCentroidOfTriangle();
 	}
 
-	
-	public static Point trilaterateV2(Point m1, Point m2, Point m3, double r1, double r2, double r3) {
-
-		Line a = getPointsOfIntersectionCrircleV2(m1, m2, r1, r2);
-		Line b = getPointsOfIntersectionCrircleV2(m2, m3, r2, r3);
-		Line c = getPointsOfIntersectionCrircleV2(m3, m1, r3, r1);
+	/**
+	 * Calculates the position, using the Distance to three known Points 
+	 * Version 2.0
+	 * @param m1 Point one
+	 * @param m2 Point two
+	 * @param m3 Point three
+	 * @param r1 Distance to Point one
+	 * @param r2 Distance to Point two
+	 * @param r3 Distance to Point three
+	 * @return the Position as Point-Object
+	 * 
+	 */
+	public static Point trilaterate(Circle c1, Circle c2, Circle c3) {
+		
+		Point[] intersA = c1.getPointsOfIntersection(c2);
+		Point[] intersB = c2.getPointsOfIntersection(c3);
+		Point[] intersC = c3.getPointsOfIntersection(c1);
 
 		Point pA = null;
 		Point pB = null;
 		Point pC = null;
 
-		if (a.getPoint1().equals(a.getPoint2())) {
-			pA = a.getPoint1();
+		if (intersA[0].equals(intersA[1])) {
+			pA = intersA[0];
 		} else {
 			double[] distances = new double[4];
-			distances[0] = a.getPoint1().getDistanceTo(b.getPoint1());
-			distances[1] = a.getPoint1().getDistanceTo(b.getPoint2());
-			distances[2] = a.getPoint1().getDistanceTo(c.getPoint1());
-			distances[3] = a.getPoint1().getDistanceTo(c.getPoint2());
+			distances[0] = intersA[0].getDistanceTo(intersB[0]);
+			distances[1] = intersA[0].getDistanceTo(intersB[1]);
+			distances[2] = intersA[0].getDistanceTo(intersC[0]);
+			distances[3] = intersA[0].getDistanceTo(intersC[1]);
 
 			double[] distances2 = new double[4];
-			distances2[0] = a.getPoint2().getDistanceTo(b.getPoint1());
-			distances2[1] = a.getPoint2().getDistanceTo(b.getPoint2());
-			distances2[2] = a.getPoint2().getDistanceTo(c.getPoint1());
-			distances2[3] = a.getPoint2().getDistanceTo(c.getPoint2());
+			distances2[0] = intersA[1].getDistanceTo(intersB[0]);
+			distances2[1] = intersA[1].getDistanceTo(intersB[1]);
+			distances2[2] = intersA[1].getDistanceTo(intersC[0]);
+			distances2[3] = intersA[1].getDistanceTo(intersC[1]);
 
 			double smallesDistance = Double.MAX_VALUE;
 			int index = 0;
@@ -118,38 +130,38 @@ public class Trilateration {
 			}
 
 			if (smallesDistance < smallesDistance2) {
-				pA = a.getPoint1();
+				pA = intersA[0];
 
 				switch (index) {
 				case 0:
-					pB = b.getPoint1();
+					pB = intersB[0];
 					break;
 				case 1:
-					pB = b.getPoint2();
+					pB = intersB[1];
 					break;
 				case 2:
-					pC = c.getPoint1();
+					pC = intersC[0];
 					break;
 				case 3:
-					pC = c.getPoint2();
+					pC = intersC[1];
 					break;
 				}
 
 			} else {
-				pA = a.getPoint2();
+				pA = intersA[1];
 
 				switch (index2) {
 				case 0:
-					pB = b.getPoint1();
+					pB = intersB[0];
 					break;
 				case 1:
-					pB = b.getPoint2();
+					pB = intersB[1];
 					break;
 				case 2:
-					pC = c.getPoint1();
+					pC = intersC[0];
 					break;
 				case 3:
-					pC = c.getPoint2();
+					pC = intersC[1];
 					break;
 				}
 			}
@@ -157,17 +169,17 @@ public class Trilateration {
 		}
 
 		if (pB == null) {
-			if (pA.getDistanceTo(b.getPoint1()) < pA.getDistanceTo(b.getPoint2())) {
-				pB = b.getPoint1();
+			if (pA.getDistanceTo(intersB[0]) < pA.getDistanceTo(intersB[1])) {
+				pB = intersB[0];
 			} else {
-				pB = b.getPoint2();
+				pB = intersB[1];
 			}
 		}
 		if (pC == null) {
-			if (pA.getDistanceTo(c.getPoint1()) < pA.getDistanceTo(c.getPoint2())) {
-				pC = c.getPoint1();
+			if (pA.getDistanceTo(intersC[0]) < pA.getDistanceTo(intersC[1])) {
+				pC = intersC[0];
 			} else {
-				pC = c.getPoint2();
+				pC = intersC[1];
 			}
 		}
 
@@ -177,9 +189,8 @@ public class Trilateration {
 		return new Triangle(pA, pB, pC).getCentroidOfTriangle();
 	}
 
-	/**
-	 * Methode berechnet die Schnittpunkte 2er Kreise
-	 * 
+	/**@deprecated
+	 * Calculates the intersectionpoints of two circles
 	 * @param m1
 	 *            Mittelpunkt Kreis 1 (0:X, 1:Y)
 	 * @param m2
@@ -251,88 +262,4 @@ public class Trilateration {
 		return new Line(new Point(x1 + m1.getX(), y1 + m1.getY()), new Point(x2 + m1.getX(), y2 + m1.getY()));
 	}
 
-	public static Line getPointsOfIntersectionCrircleV2(Point m1, Point m2, double r1, double r2) {
-
-		Line distance = new Line(m1, m2);
-		double temp_m2_x, x1, x2, y1, y2;
-		double temp_m2_y;
-		boolean isSwaped = false;
-
-		// Mit freundlicher unterstuetzung von Mag. Harald Tranacher
-		temp_m2_x = (m2.getX() - m1.getX());
-		temp_m2_y = (m2.getY() - m1.getY());
-
-		// 90° Drehung wenn Punkte auf gleicher X-Achse liegen
-		if (0 == temp_m2_x) {
-			temp_m2_x = temp_m2_y;
-			temp_m2_y = 0;
-			isSwaped = true;
-		}
-
-		// Test output
-		// System.out.println();
-		// System.out.println(distance);
-		// System.out.println(r1 + r2);
-
-		if (r1 + r2 >= distance.getLength()) {
-
-			if (distance.getLength() + r2 < r1) {
-
-				PolarVector pv = new PolarVector(r1, distance.getPolarVektor().getPhi());
-				pv.setZ(pv.getZ() - ((r1 - distance.getLength() - r2) / 2));
-				CartesianVector cv = pv.toCartesianVector();
-
-				x1 = m1.getX() + cv.getX();
-				y1 = m1.getY() + cv.getY();
-				x2 = x1;
-				y2 = y1;
-
-				return new Line(new Point(x1, y1), new Point(x2, y2));
-			} else if (distance.getLength() + r1 < r2) {
-
-				PolarVector pv = new PolarVector(r2, distance.getPolarVektor().getPhi());
-				pv.setZ(pv.getZ() - ((r2 - distance.getLength() - r1) / 2));
-				CartesianVector cv = pv.toCartesianVector();
-
-				x1 = m2.getX() + cv.getX();
-				y1 = m2.getY() + cv.getY();
-				x2 = x1;
-				y2 = y1;
-				return new Line(new Point(x1, y1), new Point(x2, y2));
-			} else {
-
-				double a = (Utils.sqr(r1) - Utils.sqr(r2) + Utils.sqr(temp_m2_x) + Utils.sqr(temp_m2_y)) / (2.0 * temp_m2_x);
-				double b = -(2.0 * temp_m2_y) / (2.0 * temp_m2_x);
-				double p = (2.0 * a * b) / (Utils.sqr(b) + 1.0);
-				double q = (Utils.sqr(a) - Utils.sqr(r1)) / (Utils.sqr(b) + 1.0);
-
-				// Test output
-				/*
-				 * System.out.println(a); System.out.println(b);
-				 * System.out.println(p); System.out.println(q);
-				 */
-
-				y1 = -(p / 2.0) + Math.sqrt((Utils.sqr(p / 2.0) - q));
-				y2 = -(p / 2.0) - Math.sqrt((Utils.sqr(p / 2.0) - q));
-
-				x1 = a + b * y1;
-				x2 = a + b * y2;
-			}
-		} else {
-			double vectorlength_to_point = ((distance.getLength() - r1 - r2) / 2.0) + r1;
-			double k = (distance.getLength()) / vectorlength_to_point;
-			x1 = (temp_m2_x / k);
-			x2 = x1;
-			y1 = (temp_m2_y / k);
-			y2 = y1;
-		}
-
-		// Zurückdrehen wenn notwendig
-		if (isSwaped) {
-			// x mit y austauschen und der offset wieder dazuaddiert
-			return new Line(new Point(y1 + m1.getX(), x1 + m1.getY()), new Point(y2 + m1.getX(), x2 + m1.getY()));
-		}
-
-		return new Line(new Point(x1 + m1.getX(), y1 + m1.getY()), new Point(x2 + m1.getX(), y2 + m1.getY()));
-	}
 }

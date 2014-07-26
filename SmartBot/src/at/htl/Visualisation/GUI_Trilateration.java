@@ -22,6 +22,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+import at.htl.geometrics.Circle;
 import at.htl.geometrics.Point;
 import at.htl.smartbot.*;
 
@@ -286,8 +287,8 @@ public class GUI_Trilateration extends JFrame {
 			}
 		});
 
-		chooseAlgorithem=new ButtonGroup();
-		
+		chooseAlgorithem = new ButtonGroup();
+
 		selectV1 = new JRadioButton("V1");
 		chooseAlgorithem.add(selectV1);
 
@@ -583,7 +584,7 @@ public class GUI_Trilateration extends JFrame {
 				time_ms = (after - before) / (1E6);
 			} else if (selectV2.isSelected()) {
 				before = System.nanoTime();
-				position = Trilateration.trilaterateV2(m1, m2, m3, r1, r2, r3);
+				position = Trilateration.trilaterate(new Circle(m1, r1), new Circle(m2, r2), new Circle(m3, r3));
 				after = System.nanoTime();
 				time_ms = (after - before) / (1E6);
 			}
