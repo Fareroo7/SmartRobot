@@ -19,6 +19,7 @@ public class Trilateration {
 	/**
 	 * Calculates the position
 	 * 
+	 * @deprecated
 	 * @param pos_S1
 	 * @param pos_S2
 	 * @param pos_S3
@@ -74,6 +75,7 @@ public class Trilateration {
 		return triangle.getCentroidOfTriangle();
 	}
 
+	
 	public static Point trilaterateV2(Point m1, Point m2, Point m3, double r1, double r2, double r3) {
 
 		Line a = getPointsOfIntersectionCrircleV2(m1, m2, r1, r2);
