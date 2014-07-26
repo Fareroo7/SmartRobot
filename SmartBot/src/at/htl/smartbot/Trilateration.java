@@ -286,6 +286,8 @@ public class Trilateration {
 				y1 = m1.getY()+cv.getY();
 				x2 = x1;
 				y2 = y1;
+				
+				return new Line(new Point(x1,y1),new Point(x2,y2));
 			} else if (distance.getLength() + r1 < r2) {
 
 				PolarVector pv = new PolarVector(r2, distance.getPolarVektor().getPhi());
@@ -296,6 +298,7 @@ public class Trilateration {
 				y1 = m2.getY()+cv.getY();
 				x2 = x1;
 				y2 = y1;
+				return new Line(new Point(x1,y1),new Point(x2,y2));
 			} else {
 
 				double a = (Utils.sqr(r1) - Utils.sqr(r2) + Utils.sqr(temp_m2_x) + Utils.sqr(temp_m2_y)) / (2.0 * temp_m2_x);
