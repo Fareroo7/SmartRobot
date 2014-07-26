@@ -5,36 +5,59 @@ import java.util.ArrayList;
 import at.htl.smartbot.Utils;
 
 /**
- * Stores coordinates of a single Point that provides custom toString and equals methods
+ * Represents a point with x and y coordinate
  * 
- * @author Jakob Ecker & Dominik Simon
+ * @author Jakob Ecker
+ * @author Dominik Simon
  * 
  */
 public class Point {
 	private double pos_x;
 	private double pos_y;
 
+	/**
+	 * Constructs a new Point-Object with x and y coordinate
+	 * @param x
+	 * @param y
+	 */
 	public Point(double x, double y) {
 		pos_x = x;
 		pos_y = y;
 	}
 
-	public Point() {
+	/**
+	 * Constructs a new empty Point-Object
+	 */
+	public Point() {}
 
-	}
-
+	/**
+	 * Getter
+	 * @return
+	 */
 	public double getX() {
 		return pos_x;
 	}
 
+	/**
+	 * Setter
+	 * @param pos_y
+	 */
 	public void setX(double pos_x) {
 		this.pos_x = pos_x;
 	}
 
+	/**
+	 * Getter
+	 * @return
+	 */
 	public double getY() {
 		return pos_y;
 	}
 
+	/**
+	 * Setter
+	 * @param pos_y
+	 */
 	public void setY(double pos_y) {
 		this.pos_y = pos_y;
 	}
@@ -55,43 +78,21 @@ public class Point {
 		return this.pos_x == p.getX() && this.pos_y == p.getY();
 	}
 
-	public double getDistanceTo(Point p) {
-
-		double deltaX = this.pos_x - p.getX();
-		double deltaY = this.pos_y - p.getY();
-
-		return Math.sqrt(Utils.sqr(deltaX) + Utils.sqr(deltaY));
-	}
-
 	/**
-	 * Removes points from a list that have same coordinates
-	 * 
-	 * @param points
-	 *            List to remove the redundant points
-	 * @return ArrayList of Points without redundant points
+	 * Calculates the distance to another Point
+	 * @param p
+	 * @return Distance to Point p
 	 */
-	public static ArrayList<Point> eliminateRedundance(ArrayList<Point> points) {
-
-		// "Entkoppeln" - da sonst nur die Speicheradresse und nicht der Inhalt
-		// kopiert wird;
-		ArrayList<Point> result = new ArrayList<Point>();
-		for (Point i : points) {
-			result.add(i);
-		}
-
-		for (int i = 0; i < result.size(); i++) {
-			
-			for (int z = i + 1; z < result.size(); z++) {
-				if (result.get(i).equals(result.get(z))) {
-					result.remove(z);
-					z--;
-				}
-			}
-		}
-
-		return result;
+	public double getDistanceTo(Point p) {
+		return Math.sqrt(Utils.sqr(this.getDeltaX(p))+Utils.sqr(this.getDeltaY(p)));
 	}
 	
+	/**
+	 * Checks a list of points for redundant points. If there is a point that is more than 2 times in the list only this point is returned, else a new list without redundancy is returned.
+	 * @deprecated
+	 * @param points 
+	 * @return 
+	 */
 	public static ArrayList<Point> checkOneIntersectionPoint(ArrayList<Point> points) {
 
 		// "Entkoppeln" - da sonst nur die Speicheradresse und nicht der Inhalt
@@ -126,10 +127,20 @@ public class Point {
 		return result;
 	}
 	
+	/**
+	 * Calculates the distance in the x-axis to another Point
+	 * @param p
+	 * @return Distance in x-axis to Point p
+	 */
 	public double getDeltaX(Point p){
 		return p.getX()-this.pos_x;
 	}
 
+	/**
+	 * Calculates the distance in the y-axis to another Point
+	 * @param p
+	 * @return Distance in y-axis to Point p
+	 */
 	public double getDeltaY(Point p){
 		return p.getY()-this.pos_y;
 	}
