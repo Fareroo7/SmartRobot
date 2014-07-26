@@ -20,7 +20,7 @@ public class Test {
 		//System.out.println(l);
 		 
 		CartesianVector cv = new CartesianVector(2, 0);
-		System.out.println(cv.toPolarVektor());
+		System.out.println(cv.toPolarVector());
 		
 	}
 }

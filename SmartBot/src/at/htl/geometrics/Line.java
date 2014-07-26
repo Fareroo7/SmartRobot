@@ -110,7 +110,7 @@ public class Line {
 	}
 	
 	public PolarVector getPolarVektor(){	
-		return new CartesianVector(this.point1.getDeltaX(point2), this.point1.getDeltaY(point2)).toPolarVektor();
+		return new CartesianVector(this.point1.getDeltaX(point2), this.point1.getDeltaY(point2)).toPolarVector();
 	}
 
 	public CartesianVector getCartesianVector(){
