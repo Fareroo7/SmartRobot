@@ -3,8 +3,10 @@ package at.htl.geometrics;
 import at.htl.smartbot.Utils;
 
 /**
- * Stores two points and the distance between them as a line. Also provides methods that refer to a line
- * @author Jakob Ecker, Dominik Simon
+ * This class represent a line by storing two points and the length of the line.
+ *
+ * @author Jakob Ecker
+ * @author Domink Simon
  *
  */
 public class Line {
@@ -20,9 +22,9 @@ public class Line {
 	private double distance;
 
 	/**
-	 * Constructs a line from 2 points and calculates the distance between them.
-	 * @param point1 First Point as point-Object
-	 * @param point2
+	 * Constructs a new Line-Object from 2 points and calculates the distance between them.
+	 * @param point1 Point 1 as Point-Object
+	 * @param point2 Point 2 as Point-Object
 	 */
 	public Line(Point point1, Point point2) {
 		this.point1 = point1;
@@ -30,33 +32,59 @@ public class Line {
 		this.distance = Math.sqrt(Math.pow(point2.getX() - point1.getX(), 2) + Math.pow(point2.getY() - point1.getY(), 2));
 	}
 
+	/**
+	 * Constructs a new empty Line-Object
+	 */
 	public Line() {
 
 	}
 
+	/**
+	 * Recalculates the distance between the two points after setters
+	 */
 	private void refreshDistance() {
 		this.distance = Math.sqrt(Math.pow(point2.getX() - point1.getX(), 2) + Math.pow(point2.getY() - point1.getY(), 2));
 	}
 
+	/**
+	 * Getter
+	 * @return
+	 */
 	public Point getPoint1() {
 		return point1;
 
 	}
 
+	/**
+	 * Setter
+	 * @param point1
+	 */
 	public void setPoint1(Point point1) {
 		this.point1 = point1;
 		refreshDistance();
 	}
 
+	/**
+	 * Getter
+	 * @return
+	 */
 	public Point getPoint2() {
 		return point2;
 	}
 
+	/**
+	 * Setter
+	 * @param point1
+	 */
 	public void setPoint2(Point point2) {
 		this.point2 = point2;
 		refreshDistance();
 	}
 
+	/**
+	 * Getter
+	 * @return
+	 */
 	public double getLength() {
 		return distance;
 	}
@@ -109,10 +137,19 @@ public class Line {
 		}
 	}
 	
+	/**
+	 * Gets the vector in polar form that represents this line
+	 * @return PolarVector-Object that is equal to the line
+	 */
 	public PolarVector getPolarVektor(){	
 		return new CartesianVector(this.point1.getDeltaX(point2), this.point1.getDeltaY(point2)).toPolarVector();
 	}
 
+
+	/**
+	 * Gets the vector in cartesian form that represents this line
+	 * @return CartesianVector-Object that is equal to the line
+	 */
 	public CartesianVector getCartesianVector(){
 		return new CartesianVector(this.point1.getDeltaX(point2), this.point1.getDeltaY(point2));
 	}

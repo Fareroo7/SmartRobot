@@ -17,7 +17,7 @@ public class CartesianVector {
 	private double y;
 	
 	/**
-	 * Constructs a new cartesian vector with x and y value
+	 * Constructs a new cartesian vector - object with x and y value
 	 * @param x
 	 * @param y
 	 */
@@ -27,7 +27,7 @@ public class CartesianVector {
 	}
 	
 	/**
-	 * Constructs a new empty cartesian vector
+	 * Constructs a new empty cartesian vector - object
 	 */
 	public CartesianVector(){};
 	
