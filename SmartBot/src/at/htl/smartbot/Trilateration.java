@@ -71,7 +71,7 @@ public class Trilateration {
 		// triangle = Triangle.getSmallestTriangelArea(points_of_intersection);
 		// Error when Points
 		// System.out.println(triangle);
-		return Triangle.getCentroidOfTriangle(triangle);
+		return triangle.getCentroidOfTriangle();
 	}
 
 	public static Point trilaterateV2(Point m1, Point m2, Point m3, double r1, double r2, double r3) {
@@ -172,9 +172,7 @@ public class Trilateration {
 		if (pA.equals(pB) && pA.equals(pC))
 			return pA;
 
-		Triangle sTrinagle = new Triangle(pA, pB, pC);
-
-		return Triangle.getCentroidOfTriangle(sTrinagle);
+		return new Triangle(pA, pB, pC).getCentroidOfTriangle();
 	}
 
 	/**
@@ -279,26 +277,26 @@ public class Trilateration {
 			if (distance.getLength() + r2 < r1) {
 
 				PolarVector pv = new PolarVector(r1, distance.getPolarVektor().getPhi());
-				pv.setZ(pv.getZ()-((r1-distance.getLength()-r2)/2));
+				pv.setZ(pv.getZ() - ((r1 - distance.getLength() - r2) / 2));
 				CartesianVector cv = pv.toCartesianVector();
 
-				x1 = m1.getX()+cv.getX();
-				y1 = m1.getY()+cv.getY();
+				x1 = m1.getX() + cv.getX();
+				y1 = m1.getY() + cv.getY();
 				x2 = x1;
 				y2 = y1;
-				
-				return new Line(new Point(x1,y1),new Point(x2,y2));
+
+				return new Line(new Point(x1, y1), new Point(x2, y2));
 			} else if (distance.getLength() + r1 < r2) {
 
 				PolarVector pv = new PolarVector(r2, distance.getPolarVektor().getPhi());
-				pv.setZ(pv.getZ()-((r2-distance.getLength()-r1)/2));
+				pv.setZ(pv.getZ() - ((r2 - distance.getLength() - r1) / 2));
 				CartesianVector cv = pv.toCartesianVector();
-				
-				x1 = m2.getX()+cv.getX();
-				y1 = m2.getY()+cv.getY();
+
+				x1 = m2.getX() + cv.getX();
+				y1 = m2.getY() + cv.getY();
 				x2 = x1;
 				y2 = y1;
-				return new Line(new Point(x1,y1),new Point(x2,y2));
+				return new Line(new Point(x1, y1), new Point(x2, y2));
 			} else {
 
 				double a = (Utils.sqr(r1) - Utils.sqr(r2) + Utils.sqr(temp_m2_x) + Utils.sqr(temp_m2_y)) / (2.0 * temp_m2_x);
