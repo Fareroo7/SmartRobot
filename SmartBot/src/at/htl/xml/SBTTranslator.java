@@ -9,14 +9,32 @@ import at.htl.geometrics.Point;
 import at.htl.smartbot.Track;
 import at.htl.smartbot.Utils;
 
+/**
+ * This class provides methods to export/import SmartBotTracks(*.sbt)
+ * @author Jakob Ecker
+ * @author Dominik Simon
+ *
+ */
 public class SBTTranslator {
 
+	/**
+	 * Writes the SBTFile as xml-Sting to the destination file
+	 * @param destinationFile
+	 * @param sbt
+	 * @throws IOException
+	 */
 	public static void exportSBT(File destinationFile, SBTFile sbt) throws IOException {
 		BufferedWriter sbtExport = new BufferedWriter(new FileWriter(destinationFile));
 		sbtExport.write(sbt.toXMLString());
 		sbtExport.close();
 	}
 
+	/**
+	 * Imports only the Header of an *.sbt-File 
+	 * @param sourceFile
+	 * @return SBTHeader of the source file
+	 * @throws IOException
+	 */
 	public static SBTHeader importSBTHeader(File sourceFile) throws IOException {
 
 		BufferedReader sbtImport = new BufferedReader(new FileReader(sourceFile));
@@ -64,6 +82,12 @@ public class SBTTranslator {
 		return new SBTHeader(creationDate, lastUpdate, name);
 	}
 
+	/**
+	 * Imports only the data of an *.sbt-File
+	 * @param sourceFile
+	 * @return SBTData of the source file
+	 * @throws IOException
+	 */
 	public static SBTData importSBTData(File sourceFile) throws IOException {
 
 		BufferedReader sbtImport = new BufferedReader(new FileReader(sourceFile));
@@ -118,6 +142,12 @@ public class SBTTranslator {
 		return new SBTData(new Track(importedPoints));
 	}
 
+	/**
+	 * Imports an SBTFile
+	 * @param sourceFile
+	 * @return
+	 * @throws IOException
+	 */
 	public static SBTFile importSBTFile(File sourceFile) throws IOException {
 		return new SBTFile(importSBTHeader(sourceFile), importSBTData(sourceFile));
 	}
