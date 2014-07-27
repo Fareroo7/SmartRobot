@@ -29,7 +29,6 @@ public class Trilateration {
 	public static Point trilaterate(Point pos_S1, Point pos_S2, Point pos_S3, double distance_S1, double distance_S2, double distance_S3) {
 
 		Triangle triangle;
-		boolean onePoint = false;
 
 		ArrayList<Point> points_of_intersection = new ArrayList<Point>();
 

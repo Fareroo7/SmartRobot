@@ -1,10 +1,6 @@
 package at.htl.smartbot;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
 import at.htl.geometrics.*;
-import at.htl.xml.*;
 
 /**
  * Test Class
