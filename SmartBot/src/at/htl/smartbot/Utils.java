@@ -145,5 +145,18 @@ public class Utils {
 	public static double degToRad(double deg){
 		return deg*Math.PI/180;
 	}
+	
+	/**
+	 * If the parameter has only four digits (<=9999) returns true, else returns false
+	 * @param chk
+	 * @return
+	 */
+	public static boolean check4Digits(int chk){
+		if(chk<10000){
+			return true;
+		}else{
+			return false;
+		}
+	}
 
 }
