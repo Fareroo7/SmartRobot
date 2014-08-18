@@ -2,19 +2,39 @@ package at.htl.geometrics;
 
 import at.htl.smartbot.Utils;
 
+/**
+ * Represent a circle with a centre-point and a radius
+ * @author Jakob Ecker
+ * @author Dominik Simon
+ *
+ */
 public class Circle {
 	private Point m;
 	private double r;
 	
+	/**
+	 * Constructs a new Circle-Object witch centre-point m and radius r
+	 * @param m
+	 * @param r
+	 */
 	public Circle(Point m, double r){
 		this.m = m;
 		this.r = r;
 	}
 	
+	/**
+	 * Constructs a new empty Circle-Object
+	 */
 	public Circle(){
 		
 	}
 	
+	/**
+	 * Calculates the points of intersection with the circle c.
+	 * If there are no points of intersection the method will interpolate one representative point as intersection point
+	 * @param c
+	 * @return Returns a Point-Array with the size 2. If there is only one intersection point both array-slots contain this point.
+	 */
 	public Point[] getPointsOfIntersection(Circle c) {
 
 		Line distance = new Line(this.m, c.m);
@@ -89,25 +109,41 @@ public class Circle {
 		return new Point[] {new Point(x1 + this.m.getX(), y1 + this.m.getY()), new Point(x2 + this.m.getX(), y2 + this.m.getY())};
 	}
 
+	/**
+	 * Getter
+	 * @return
+	 */
 	public Point getCentre() {
 		return m;
 	}
 
+	/**
+	 * Setter
+	 * @return
+	 */
 	public void setCentre(Point m) {
 		this.m = m;
 	}
 
+	/**
+	 * Getter
+	 * @return
+	 */
 	public double getRadius() {
 		return r;
 	}
 
+	/**
+	 * Setter
+	 * @return
+	 */
 	public void setRadius(double r) {
 		this.r = r;
 	}
 
 	@Override
 	public String toString() {
-		return "Circle [c=" + m + ", r=" + r + "]";
+		return "Circle [centre=" + m + ", radius=" + r + "]";
 	}
 	
 }

@@ -5,14 +5,34 @@ import java.util.ArrayList;
 import at.htl.geometrics.*;
 import at.htl.smartbot.Track;
 
+/**
+ * Contains the data of an SmartBotTrack (*.sbt) and provides a method to
+ * converts the into an xml string
+ * 
+ * @author Jakob Ecker
+ * @author Dominik Simon
+ */
 public class SBTData {
 
 	private ArrayList<Point> data = new ArrayList<Point>();
-	
-	public SBTData(Track track){
+
+	/**
+	 * Constructs a new SBTData with a track
+	 * @param track
+	 */
+	public SBTData(Track track) {
 		this.data = track.getAllPositions();
 	}
+	
+	/**
+	 * Constructs a new empty SBTData
+	 */
+	public SBTData(){}
 
+	/**
+	 * Converts the data (a track) to an xml-String
+	 * @return
+	 */
 	public String toXMLString() {
 		StringBuffer xmlstring = new StringBuffer();
 		String ln = System.lineSeparator();
@@ -28,4 +48,21 @@ public class SBTData {
 		return xmlstring.toString();
 	}
 
+	/**
+	 * Getter
+	 * @return
+	 */
+	public ArrayList<Point> getData() {
+		return data;
+	}
+
+	/**
+	 * Setter
+	 * @param data
+	 */
+	public void setData(ArrayList<Point> data) {
+		this.data = data;
+	}
+
+	
 }

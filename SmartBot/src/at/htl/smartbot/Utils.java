@@ -10,12 +10,17 @@ import at.htl.geometrics.Point;
 /**
  * Class of useful little methods.
  * 
- * @author Jakob Ecker & Dominik Simon
+ * @author Jakob Ecker
+ * @author Dominik Simon
  * 
  */
 
 public class Utils {
 	
+	/**
+	 * Defines the format of each string that represent a date in our project.
+	 * The pattern is "dd.MM.yyyy HH:mm:ss"
+	 */
 	public static final String DATEPATTERN ="dd.MM.yyyy HH:mm:ss";
 
 	/**
@@ -41,10 +46,10 @@ public class Utils {
 	}
 
 	/**
-	 * Checks a String if it is a double (contains only digits and a point)
+	 * Checks a String if it is a double (contains only digits and one point)
 	 * 
 	 * @param s
-	 *            String that shoud be used as double
+	 *            String that should be used as double
 	 * @return True if parameter is a Double
 	 */
 	public static boolean isDouble(String s) {
@@ -56,6 +61,13 @@ public class Utils {
 		}
 	}
 
+	/**
+	 * Draws a coordinate system (x- and y-axis)
+	 * @param width of the coordinate system
+	 * @param height of the coordinate system
+	 * @param origin the point where the two axes meet
+	 * @param g the Graphics component used to draw the coordinate system
+	 */
 	public static void drawCoordinateSystem(int width, int height, Point origin, Graphics g) {
 		int x = (int) (Math.round(origin.getX()));
 		int y = (int) (Math.round(origin.getY()));
@@ -64,20 +76,19 @@ public class Utils {
 
 	}
 
+	/**
+	 * Draws a coordinate system with a tick every step
+	 * @param width of the coordinate system
+	 * @param height of the coordinate system
+	 * @param step the distance between the ticks
+	 * @param origin the point where the two axes meet
+	 * @param g the Graphics component used to draw the coordinate system
+	 */
 	public static void drawCoordinateSystem(int width, int height, int step, Point origin, Graphics g) {
 		int x = (int) (Math.round(origin.getX()));
 		int y = (int) (Math.round(origin.getY()));
 		g.drawLine(x, 0, x, height);
 		g.drawLine(0, y, width, y);
-
-//		for (int i = 0; (i * step) < width && (i * step) > 0; i++) {
-//			g.drawLine(i * step + x, y - 2, i * step + x, y + 2);
-//			g.drawLine(x - i * step, y - 2, x - i * step, y + 2);
-//		}
-//		for (int i = 0; (i * step) < height && (i * step) > 0; i++) {
-//			g.drawLine(x - 2, i * step + y, x + 2, i * step + y);
-//			g.drawLine(x - 2, y - i * step, x + 2, y - i * step);
-//		}
 		
 		for(int i = x; i<width; i+=step){
 			g.drawLine(i, y-3, i, y+3);
@@ -93,10 +104,20 @@ public class Utils {
 		}
 	}
 	
+	/**
+	 * Converts a Date-Object to a String with the format of the DATEPATTERN
+	 * @param toFormat
+	 * @return
+	 */
 	public static String dateToFormattedString(Date toFormat){
 		return new SimpleDateFormat(DATEPATTERN).format(toFormat);
 	}
 	
+	/**
+	 * Converts a String that represents a Date with the format of DATEPATTERN into a Date-Object
+	 * @param date
+	 * @return
+	 */
 	public static Date formattedStringToDate(String date){
 		SimpleDateFormat formatter = new SimpleDateFormat(DATEPATTERN);
 		try{
@@ -107,12 +128,35 @@ public class Utils {
 		}
 	}
 	
+	/**
+	 * Converts radiant into degrees
+	 * @param rad
+	 * @return
+	 */
 	public static double radToDeg(double rad){
 		return rad*180/Math.PI;
 	}
 	
+	/**
+	 * Converts degrees into radiant
+	 * @param deg
+	 * @return
+	 */
 	public static double degToRad(double deg){
 		return deg*Math.PI/180;
+	}
+	
+	/**
+	 * If the parameter has only four digits (<=9999) returns true, else returns false
+	 * @param chk
+	 * @return
+	 */
+	public static boolean check4Digits(int chk){
+		if(chk<10000){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 }

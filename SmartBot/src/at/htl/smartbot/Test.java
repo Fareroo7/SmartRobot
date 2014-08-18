@@ -18,5 +18,10 @@ public class Test {
 		CartesianVector cv = new CartesianVector(2, 0);
 		System.out.println(cv.toPolarVector());
 		
+		int t=1234;
+		String b = Integer.toString(t);
+		System.out.println(b);
+		System.out.println(b.charAt(4));
+		
 	}
 }
