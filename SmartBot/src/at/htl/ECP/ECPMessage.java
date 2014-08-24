@@ -19,47 +19,52 @@ public class ECPMessage {
 
 	/**
 	 * Add a 'set both engine sides to xxxx rpm'-statement to the message 
-	 * @param rpm only 4 digits are allowed, not checked
+	 * @param rpm only 4 digits are allowed, checked
 	 */
 	public void addSetRPM(int rpm) {
 		message.append(Parameter.ENGINES);
-		message.append(rpm);
+		if(rpm > 9999 || rpm < 0) rpm = 0; 
+		message.append(String.format("%04d", rpm));
 	}
 
 	/**
 	 * Add a 'set left engine side to xxxx rpm'-statement to the message 
-	 * @param rpm only 4 digits are allowed, not checked
+	 * @param rpm only 4 digits are allowed, checked
 	 */
 	public void addSetLeftRPM(int rpm) {
 		message.append(Parameter.ENGINES_LEFT);
-		message.append(rpm);
+		if(rpm > 9999 || rpm < 0) rpm = 0; 
+		message.append(String.format("%04d", rpm));
 	}
 
 	/**
 	 * Add a 'set right engine side to xxxx rpm'-statement to the message 
-	 * @param rpm only 4 digits are allowed, not checked
+	 * @param rpm only 4 digits are allowed, checked
 	 */
 	public void addSetRightRPM(int rpm) {
 		message.append(Parameter.ENGINES_RIGTH);
-		message.append(rpm);
+		if(rpm > 9999 || rpm < 0) rpm = 0; 
+		message.append(String.format("%04d", rpm));
 	}
 
 	/**
 	 * Add a 'increase both engine sides by xxxx rpm'-statement to the message 
-	 * @param rpm only 4 digits are allowed, not checked
+	 * @param rpm only 4 digits are allowed, checked
 	 */
 	public void addIncreaseRPM(int rpm) {
 		message.append(Parameter.INCREASE_RPM);
-		message.append(rpm);
+		if(rpm > 9999 || rpm < 0) rpm = 0; 
+		message.append(String.format("%04d", rpm));
 	}
 
 	/**
 	 * Add a 'decrease both engine sides by xxxx rpm'-statement to the message 
-	 * @param rpm only 4 digits are allowed, not checked
+	 * @param rpm only 4 digits are allowed, checked
 	 */
 	public void addDecreaseRPM(int rpm) {
 		message.append(Parameter.DECREASE_RPM);
-		message.append(rpm);
+		if(rpm > 9999 || rpm < 0) rpm = 0; 
+		message.append(String.format("%04d", rpm));
 	}
 
 	/**
