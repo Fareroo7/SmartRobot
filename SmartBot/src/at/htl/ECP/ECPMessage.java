@@ -43,7 +43,7 @@ public class ECPMessage {
 	 */
 	public void addSetRightRPM(int rpm) {
 		message.append(Parameter.ENGINES_RIGTH);
-		if(rpm > 9999 || rpm < 0) rpm = 0; 
+		if(rpm > 9999 || rpm < 0) rpm = 0;
 		message.append(String.format("%04d", rpm));
 	}
 
