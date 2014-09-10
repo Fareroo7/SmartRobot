@@ -1,9 +1,6 @@
 package at.htl.smartbot;
 
-import java.util.Arrays;
-
-import at.htl.ECP.ECPMessage;
-import at.htl.geometrics.*;
+import at.htl.ECP.ECP;
 
 /**
  * Test Class
@@ -14,9 +11,9 @@ import at.htl.geometrics.*;
 public class Test {
 
 	public static void main(String[] args) {
-		byte c = (byte)ECPMessage.getECString(true, 100, 255).charAt(2);
+		byte c = (byte)ECP.getECMessage(true, 100, 255).charAt(2);
 	
-		System.out.println((Integer.toBinaryString((int)c & 0xFF)));
+		System.out.println((Integer.toBinaryString(c)));
 		
 	}
 }

@@ -28,18 +28,17 @@ public class ECPParameter {
 	 */
 	public static final String DIRECTION_BACKWARD = "B";
 	/**
-	 * Shows an error. Next 2 digits are an Error-Code.
-	 */
-	public static final String ERROR = "E";
-	/**
 	 * End of the Transmission.
 	 */
 	public static final String END = "T";
 	
+	
+	
+	
 	/**
 	 * Code for Acknowladge.
 	 */
-	public static final int E_ACK = 0x00;
+	public static final int C_ACK = 0x00;
 	/**
 	 * Error-Code for Transmission faild.
 	 */

@@ -6,11 +6,11 @@ package at.htl.ECP;
  * @author Jakob Ecker
  *
  */
-public class ECPMessage {
+public class ECP {
+	
+	
 
-	private StringBuffer message = new StringBuffer();
-
-	public static String getECString(boolean forward, int left, int right){
+	public static String getECMessage(boolean forward, int left, int right){
 		return ECPParameter.START + (forward ? ECPParameter.DIRECTION_FORWARD : ECPParameter.DIRECTION_BACKWARD) + (char)left + (char)right + ECPParameter.END ;
 	}
 	
