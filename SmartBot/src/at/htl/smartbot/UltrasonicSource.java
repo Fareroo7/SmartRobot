@@ -80,10 +80,10 @@ public class UltrasonicSource {
 	/**
 	 * Calculates the distance in m to the Ultrasonic Source using the acoustic velocity calculated by {@link EnvironmentalParameter}
 	 * 
-	 * @param duration : the time the acoustic signal need to reach the robot.
+	 * @param duration : the time in ms the acoustic signal need to reach the robot.
 	 */
 	public void calcDistance(double duration) {
-		this.distance = EnvironmentalParameter.getAcousticVelocity() * duration;
+		this.distance = EnvironmentalParameter.getAcousticVelocity() * (duration/1000);
 	}
 
 	/**
