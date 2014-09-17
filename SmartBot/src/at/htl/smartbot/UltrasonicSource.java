@@ -3,10 +3,12 @@ package at.htl.smartbot;
 import at.htl.geometrics.Point;
 
 /**
- * Represents a ultrasonic source hardware and stores its position, distance and the time of the last update
+ * Represents a ultrasonic source hardware and stores its position, distance and
+ * the time of the last update
+ * 
  * @author Jakob Ecker
  * @author Dominik Simon
- *
+ * 
  */
 public class UltrasonicSource {
 
@@ -16,6 +18,7 @@ public class UltrasonicSource {
 
 	/**
 	 * Constructs a new UltrasonicSource with the position
+	 * 
 	 * @param pos
 	 */
 	public UltrasonicSource(Point pos) {
@@ -25,12 +28,13 @@ public class UltrasonicSource {
 	/**
 	 * Constructs a new empty UltrasonicSource
 	 */
-	public UltrasonicSource(){
-		
+	public UltrasonicSource() {
+
 	}
-	
+
 	/**
 	 * Getter
+	 * 
 	 * @return
 	 */
 	public Point getPos() {
@@ -39,6 +43,7 @@ public class UltrasonicSource {
 
 	/**
 	 * Getter
+	 * 
 	 * @return
 	 */
 	public double getPos_X() {
@@ -47,6 +52,7 @@ public class UltrasonicSource {
 
 	/**
 	 * Getter
+	 * 
 	 * @return
 	 */
 	public double getPos_Y() {
@@ -55,6 +61,7 @@ public class UltrasonicSource {
 
 	/**
 	 * Getter
+	 * 
 	 * @return
 	 */
 	public double getDistance() {
@@ -63,6 +70,7 @@ public class UltrasonicSource {
 
 	/**
 	 * Setter
+	 * 
 	 * @return
 	 */
 	public void setDistance(double distance) {
@@ -70,7 +78,17 @@ public class UltrasonicSource {
 	}
 
 	/**
+	 * Calculates the distance in m to the Ultrasonic Source using the acoustic velocity calculated by {@link EnvironmentalParameter}
+	 * 
+	 * @param duration : the time the acoustic signal need to reach the robot.
+	 */
+	public void calcDistance(double duration) {
+		this.distance = EnvironmentalParameter.getAcousticVelocity() * duration;
+	}
+
+	/**
 	 * Getter
+	 * 
 	 * @return
 	 */
 	public double getTime_of_last_measure() {
@@ -79,6 +97,7 @@ public class UltrasonicSource {
 
 	/**
 	 * Setter
+	 * 
 	 * @return
 	 */
 	public void setTime_of_last_measure(double time_of_last_measure) {
