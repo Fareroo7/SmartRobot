@@ -9,13 +9,15 @@ import at.htl.geometrics.Triangle;
 /**
  * Provides methods used for trilateration.
  * 
- * @author Jakob
+ * @author Jakob Ecker
+ * @author Dominik Simon
  * 
  */
 public class Trilateration {
 
 	/**
 	 * Calculates the position
+	 * 
 	 * 
 	 * @deprecated
 	 * @param pos_S1
