@@ -2,8 +2,8 @@ package at.htl.ECP;
 
 /**
  * Defines the parameters of the Engine Control Protocol as constants.
- * @author Jakob Ecker
- *
+ * @author Dominik Simon
+ * @version 1.0
  */
 public class ECPParameter {
 	

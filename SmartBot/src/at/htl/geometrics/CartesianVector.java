@@ -9,7 +9,7 @@ import at.htl.smartbot.Utils;
  * 
  * @author Jakob Ecker
  * @author Dominik Simon
- *
+ * @version 1.0
  */
 public class CartesianVector {
 	
@@ -18,8 +18,8 @@ public class CartesianVector {
 	
 	/**
 	 * Constructs a new cartesian vector - object with x and y value
-	 * @param x
-	 * @param y
+	 * @param x The x value of the cartesian vector
+	 * @param y The y value of the cartesian vector
 	 */
 	public CartesianVector(double x, double y){
 		this.x = x;
@@ -33,7 +33,7 @@ public class CartesianVector {
 	
 	/**
 	 * Converts the cartesian form into a vector of polar form with magnitude z and angle &phi;
-	 * @return The vector in polar form as PolarVector - Object
+	 * @return The vector in polar form as {@link PolarVector}
 	 */
 	public PolarVector toPolarVector(){
 		double z = Math.sqrt(Utils.sqr(this.x) + Utils.sqr(this.y));
@@ -43,37 +43,40 @@ public class CartesianVector {
 	}
 
 	/**
-	 * Getter
-	 * @return
+	 * Returns the x value of the cartesian vector.
+	 * @return The x value of the cartesian vector
 	 */
 	public double getX() {
 		return x;
 	}
 
 	/**
-	 * Setter
-	 * @param x
+	 * Sets the x value of the cartesian vector
+	 * @param x The x value of the cartesian vector
 	 */
 	public void setX(double x) {
 		this.x = x;
 	}
 
 	/**
-	 * Getter
-	 * @return
+	 * Returns the y value of the cartesian vector.
+	 * @return The y value of the cartesian vector
 	 */
 	public double getY() {
 		return y;
 	}
 
 	/**
-	 * Setter
-	 * @param x
+	 * Sets the y value of the cartesian vector
+	 * @param x The y value of the cartesian vector
 	 */
 	public void setY(double y) {
 		this.y = y;
 	}
 
+	/**
+	 * Cutsom toString that returns a formatted cartesian vector
+	 */
 	@Override
 	public String toString() {
 		return "CartesianVector [x=" + x + ", y=" + y + "]";

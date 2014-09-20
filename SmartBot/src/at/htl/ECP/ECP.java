@@ -3,8 +3,8 @@ package at.htl.ECP;
 
 /**
  * Represents a ECP Message. All possible parameters can be added and the mandatory parameters Start and Stop are added automatically.
- * @author Jakob Ecker
- *
+ * @author Dominik Simon
+ * @version 1.0
  */
 public class ECP {
 	
