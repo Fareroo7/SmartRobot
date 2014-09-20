@@ -211,7 +211,7 @@ public class Trilateration {
 		temp_m2_x = (m2.getX() - m1.getX());
 		temp_m2_y = (m2.getY() - m1.getY());
 
-		// 90° Drehung wenn Punkte auf gleicher X-Achse liegen
+		// 90 Grad Drehung wenn Punkte auf gleicher X-Achse liegen
 		if (0 == temp_m2_x) {
 			temp_m2_x = temp_m2_y;
 			temp_m2_y = 0;
@@ -251,7 +251,7 @@ public class Trilateration {
 			y2 = (temp_m2_y / k);
 		}
 
-		// Zurückdrehen wenn notwendig
+		// Zurueckdrehen wenn notwendig
 		if (isSwaped) {
 			// x mit y austauschen und der offset wieder dazuaddiert
 			return new Line(new Point(y1 + m1.getX(), x1 + m1.getY()), new Point(y2 + m1.getX(), x2 + m1.getY()));

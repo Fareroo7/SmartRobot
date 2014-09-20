@@ -46,7 +46,7 @@ public class Circle {
 		temp_m2_x = (c.m.getX() - this.m.getX());
 		temp_m2_y = (c.m.getY() - this.m.getY());
 
-		// 90° Drehung wenn Punkte auf gleicher X-Achse liegen
+		// 90 Grad Drehung wenn Punkte auf gleicher X-Achse liegen
 		if (0 == temp_m2_x) {
 			temp_m2_x = temp_m2_y;
 			temp_m2_y = 0;
@@ -100,7 +100,7 @@ public class Circle {
 			y2 = y1;
 		}
 
-		// Zurückdrehen wenn notwendig
+		// Zurueckdrehen wenn notwendig
 		if (isSwaped) {
 			// x mit y austauschen und der offset wieder dazuaddiert
 			return new Point[] {new Point(y1 + this.m.getX(), x1 + this.m.getY()), new Point(y2 + this.m.getX(), x2 + this.m.getY())};
