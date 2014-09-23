@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import at.htl.smartbot.Utils;
 
 /**
- * Represents a point with x and y coordinate
+ * Represents a point with x and y coordinate.
  * 
  * @author Jakob Ecker
  * @author Dominik Simon
@@ -16,7 +16,7 @@ public class Point {
 	private double pos_y;
 
 	/**
-	 * Constructs a new Point-Object with x and y coordinate
+	 * Constructs a new Point-Object with x and y coordinate.
 	 * 
 	 * @param x
 	 * @param y
@@ -27,78 +27,73 @@ public class Point {
 	}
 
 	/**
-	 * Constructs a new empty Point-Object
+	 * Constructs a new empty Point-Object.
 	 */
-	public Point() {
-	}
+	public Point() {}
 
 	/**
-	 * Getter
-	 * @return
+	 * Returns the x coordinate of the Point.
+	 * @return X coordinate.
 	 */
 	public double getX() {
 		return pos_x;
 	}
 
 	/**
-	 * Setter
-	 * 
-	 * @param pos_y
+	 * Sets the x coordinate of the Point.
+	 * @param pos_x X coordinate.
 	 */
 	public void setX(double pos_x) {
 		this.pos_x = pos_x;
 	}
 
 	/**
-	 * Getter
-	 * 
-	 * @return
+	 * Returns the y coordinate of the Point.
+	 * @return Y coordinate.
 	 */
 	public double getY() {
 		return pos_y;
 	}
 
 	/**
-	 * Setter
-	 * 
-	 * @param pos_y
+	 * Sets the y coordinate of the Point.
+	 * @param pos_y Y coordinate.
 	 */
 	public void setY(double pos_y) {
 		this.pos_y = pos_y;
 	}
 
+	
+	/**
+	 * Custom toString that returns a formatted Point.
+	 */
 	@Override
 	public String toString() {
 		return "Point (" + Utils.round(pos_x) + "|" + Utils.round(pos_y) + ")";
 	}
 
 	/**
-	 * Returns true if x and y coordinates are equal
-	 * 
-	 * @param p
-	 *            second point to compare
-	 * @return true if equal else false
+	 * Returns true if x and y coordinates are equal.
+	 * @param p Second point to compare.
+	 * @return true if equal else false.
 	 */
 	public boolean equals(Point p) {
 		return this.pos_x == p.getX() && this.pos_y == p.getY();
 	}
 
 	/**
-	 * Calculates the distance to another Point
-	 * 
-	 * @param p
-	 * @return Distance to Point p
+	 * Calculates the distance to another Point.
+	 * @param p Second Point.
+	 * @return Distance to Point p.
 	 */
 	public double getDistanceTo(Point p) {
 		return Math.sqrt(Utils.sqr(this.getDeltaX(p)) + Utils.sqr(this.getDeltaY(p)));
 	}
 
 	/**
-	 * Removes points from a list that have same coordinates
-	 * 
-	 * @param points
-	 *            List to remove the redundant points
-	 * @return ArrayList of Points without redundant points
+	 * Removes points from a list that have same coordinates.
+	 * @param points List to remove the redundant points.
+	 * @return ArrayList of Points without redundant points.
 	 */
 	public static ArrayList<Point> eliminateRedundance(ArrayList<Point> points) {
 
@@ -128,8 +123,8 @@ public class Point {
 	 * list without redundancy is returned.
 	 * 
 	 * @deprecated
-	 * @param points
-	 * @return
+	 * @param points List to remove the redundant points.
+	 * @return ArrayList of Points without redundant points.
 	 */
 	public static ArrayList<Point> checkOneIntersectionPoint(ArrayList<Point> points) {
 
@@ -166,20 +161,18 @@ public class Point {
 	}
 
 	/**
-	 * Calculates the distance in the x-axis to another Point
-	 * 
-	 * @param p
-	 * @return Distance in x-axis to Point p
+	 * Calculates the distance in the x-axis to another Point.
+	 * @param p Another Point.
+	 * @return Distance in x-axis to Point p.
 	 */
 	public double getDeltaX(Point p) {
 		return p.getX() - this.pos_x;
 	}
 
 	/**
-	 * Calculates the distance in the y-axis to another Point
-	 * 
-	 * @param p
-	 * @return Distance in y-axis to Point p
+	 * Calculates the distance in the y-axis to another Point.
+	 * @param p Another Point.
+	 * @return Distance in y-axis to Point p.
 	 */
 	public double getDeltaY(Point p) {
 		return p.getY() - this.pos_y;
