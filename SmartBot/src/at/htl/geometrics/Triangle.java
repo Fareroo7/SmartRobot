@@ -299,7 +299,7 @@ public class Triangle {
 	}
 
 	/**
-	 * Returns the Bisecting - Line A of the Triangle.
+	 * Returns the Bisecting - Point A of the Triangle.
 	 * @return Bisecting - Line A as {@link Line}.
 	 */
 	public Point getBisectingA() {
@@ -307,7 +307,7 @@ public class Triangle {
 	}
 
 	/**
-	 * Returns the Bisecting - Line B of the Triangle.
+	 * Returns the Bisecting - Point B of the Triangle.
 	 * @return Bisecting - Line B as {@link Line}.
 	 */
 	public Point getBisectingB() {
@@ -315,7 +315,7 @@ public class Triangle {
 	}
 
 	/**
-	 * Returns the Bisecting - Line C of the Triangle.
+	 * Returns the Bisecting - Point C of the Triangle.
 	 * @return Bisecting - Line C as {@link Line}.
 	 */
 	public Point getBisectingC() {
