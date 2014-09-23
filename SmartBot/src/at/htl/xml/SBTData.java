@@ -7,7 +7,7 @@ import at.htl.smartbot.Track;
 
 /**
  * Contains the data of an SmartBotTrack (*.sbt) and provides a method to
- * converts the into an xml string
+ * converts the into an XML-String.
  * 
  * @author Jakob Ecker
  * @author Dominik Simon
