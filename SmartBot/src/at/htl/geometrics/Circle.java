@@ -3,7 +3,7 @@ package at.htl.geometrics;
 import at.htl.smartbot.Utils;
 
 /**
- * Represent a circle with a centre-point and a radius
+ * Represent a circle with a centre-point and a radius.
  * @author Jakob Ecker
  * @author Dominik Simon
  *
@@ -13,9 +13,9 @@ public class Circle {
 	private double r;
 	
 	/**
-	 * Constructs a new Circle-Object witch centre-point m and radius r
-	 * @param m
-	 * @param r
+	 * Constructs a new Circle-Object witch centre-point m and radius r.
+	 * @param m Centre-point of the Circle.
+	 * @param r Radius of the Circle.
 	 */
 	public Circle(Point m, double r){
 		this.m = m;
@@ -23,7 +23,7 @@ public class Circle {
 	}
 	
 	/**
-	 * Constructs a new empty Circle-Object
+	 * Constructs a new empty Circle-Object.
 	 */
 	public Circle(){
 		
@@ -31,9 +31,9 @@ public class Circle {
 	
 	/**
 	 * Calculates the points of intersection with the circle c.
-	 * If there are no points of intersection the method will interpolate one representative point as intersection point
-	 * @param c
-	 * @return Returns a Point-Array with the size 2. If there is only one intersection point both array-slots contain this point.
+	 * If there are no points of intersection the method will interpolate one representative point as intersection point.
+	 * @param c The second Circle for the intersection calculation.
+	 * @return Point-Array with the size 2. If there is only one intersection point both array-slots contain this point.
 	 */
 	public Point[] getPointsOfIntersection(Circle c) {
 
@@ -110,37 +110,38 @@ public class Circle {
 	}
 
 	/**
-	 * Getter
-	 * @return
+	 * Returns the centre-point of the Circle as {@link Point}.
+	 * @return Centre-Point of the Circle as {@link Point}.
 	 */
 	public Point getCentre() {
 		return m;
 	}
 
 	/**
-	 * Setter
-	 * @return
+	 * Sets the centre-point if the Circle.
 	 */
 	public void setCentre(Point m) {
 		this.m = m;
 	}
 
 	/**
-	 * Getter
-	 * @return
+	 * Returns the radius of the Circle.
+	 * @return Radius of the Circle.
 	 */
 	public double getRadius() {
 		return r;
 	}
 
 	/**
-	 * Setter
-	 * @return
+	 * Sets the radius of the Circle.
 	 */
 	public void setRadius(double r) {
 		this.r = r;
 	}
 
+	/**
+	 * Custom toString that returns a formatted Circle.
+	 */
 	@Override
 	public String toString() {
 		return "Circle [centre=" + m + ", radius=" + r + "]";
