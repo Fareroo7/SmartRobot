@@ -9,7 +9,7 @@ import at.htl.smartbot.Utils;
  * 
  * @author Jakob Ecker
  * @author Dominik Simon
- * 
+ * @version 1.0
  */
 public class Point {
 	private double pos_x;
@@ -34,7 +34,6 @@ public class Point {
 
 	/**
 	 * Getter
-	 * 
 	 * @return
 	 */
 	public double getX() {

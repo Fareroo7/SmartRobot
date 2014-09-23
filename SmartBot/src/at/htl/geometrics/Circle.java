@@ -6,7 +6,7 @@ import at.htl.smartbot.Utils;
  * Represent a circle with a centre-point and a radius.
  * @author Jakob Ecker
  * @author Dominik Simon
- *
+ * @version 1.0
  */
 public class Circle {
 	private Point m;

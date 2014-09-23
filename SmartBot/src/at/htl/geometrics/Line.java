@@ -7,7 +7,7 @@ import at.htl.smartbot.Utils;
  *
  * @author Jakob Ecker
  * @author Domink Simon
- *
+ * @version 1.0
  */
 public class Line {
 
@@ -69,7 +69,7 @@ public class Line {
 
 	/**
 	 * Sets the second Point of the Line.
-	 * @param point1 New Point.
+	 * @param point2 New Point.
 	 */
 	public void setPoint2(Point point2) {
 		this.point2 = point2;
