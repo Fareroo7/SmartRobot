@@ -26,7 +26,7 @@ public class EngineControl {
 	/**
 	 * Maximum RPM of the SmartRobot's engines.
 	 */
-	public static final double MAX_RPM = 256;
+	public static final double MAX_RPM = 293;
 	
 	/**
 	 * Defines the maximum duty cycle of the hardware (arduino => 8bit)
@@ -44,7 +44,7 @@ public class EngineControl {
 	 * @param speed Speed in meters per second.
 	 * @return Calculated RPM.
 	 */
-	private static double speedToRPM(double speed){
+	public static double speedToRPM(double speed){
 		return speed*(60/(WHEEL_DIAMETER*Math.PI));
 	}
 	
@@ -53,8 +53,8 @@ public class EngineControl {
 	 * @param rpm
 	 * @return
 	 */
-	private static int rpmToDutyCycle(double rpm){
-		return (int) Math.round((MAX_RPM/MAX_DUTY_CYCLE)*rpm);
+	public static int rpmToDutyCycle(double rpm){
+		return (int) Math.round((MAX_DUTY_CYCLE/MAX_RPM)*rpm);
 	}
 	
 	public static int speedToDutyCycle(double speed){
