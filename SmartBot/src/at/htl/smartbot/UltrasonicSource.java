@@ -14,8 +14,6 @@ import at.htl.geometrics.Point;
 public class UltrasonicSource {
 
 	private Circle c;
-	private Point pos;
-	private double distance;
 	private double time_of_last_measure;
 
 	/**
