@@ -34,7 +34,7 @@ public class EngineControl {
 	public static final double GEAR_RATIO = 34;
 	
 	/**
-	 * Defines the maximum duty cycle of the hardware (arduino => 8bit)
+	 * Defines the maximum duty cycle of the hardware (arduino => 8bit).
 	 */
 	public static final int MAX_DUTY_CYCLE = 0xFF;
 	
