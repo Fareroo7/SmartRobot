@@ -54,7 +54,7 @@ public class EngineControl {
 	 * @return
 	 */
 	private static int rpmToDutyCycle(double rpm){
-		return (int) Math.round((MAX_DUTY_CYCLE/MAX_RPM)*rpm);
+		return (int) Math.round((MAX_RPM/MAX_DUTY_CYCLE)*rpm);
 	}
 	
 	public static int speedToDutyCycle(double speed){
