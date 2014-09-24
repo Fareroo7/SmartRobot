@@ -16,17 +16,22 @@ public class EngineControl {
 	/**
 	 * Maximum Speed of the SmartRobot in meter per seconds.
 	 */
-	public static final double MAX_SPEED = 100.0; 
+	public static final double MAX_SPEED = 3.25; 
 	
 	/**
 	 * Diameter of the wheels from SmartRobot in meter.
 	 */
-	public static final double WHEEL_DIAMETER = 0.15;
+	public static final double WHEEL_DIAMETER = 0.12;
 	
 	/**
 	 * Maximum RPM of the SmartRobot's engines.
 	 */
 	public static final double MAX_RPM = 293;
+	
+	/**
+	 * Gear ratio of the engines in 1:x.
+	 */
+	public static final double GEAR_RATIO = 34;
 	
 	/**
 	 * Defines the maximum duty cycle of the hardware (arduino => 8bit)
@@ -44,21 +49,26 @@ public class EngineControl {
 	 * @param speed Speed in meters per second.
 	 * @return Calculated RPM.
 	 */
-	public static double speedToRPM(double speed){
-		return speed*(60/(WHEEL_DIAMETER*Math.PI));
+	private static double speedToRPM(double speed){
+		return speed / (WHEEL_DIAMETER * Math.PI) * GEAR_RATIO;
 	}
 	
 	/**
-	 * Calculates the PWM duty cycle (8bit) for arduino
-	 * @param rpm
-	 * @return
+	 * Calculates the PWM duty cycle (8bit) for arduino.
+	 * @param rpm Rotation per minute.
+	 * @return Duty cycle (max 255).
 	 */
-	public static int rpmToDutyCycle(double rpm){
+	private static int rpmToDutyCycle(double rpm){
 		return (int) Math.round((MAX_DUTY_CYCLE/MAX_RPM)*rpm);
 	}
 	
+	/**
+	 * Calculates the PWM duty cycle (8bit) for the arduino.
+	 * @param speed Speed in meter per second.
+	 * @return Duty cycle (max 255).
+	 */
 	public static int speedToDutyCycle(double speed){
-		return rpmToDutyCycle(speedToRPM(speed));
+		return speed <= MAX_SPEED ? rpmToDutyCycle(speedToRPM(speed)) : (int) MAX_SPEED;
 	}
 	
 	
