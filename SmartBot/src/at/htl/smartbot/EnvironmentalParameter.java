@@ -6,7 +6,7 @@ package at.htl.smartbot;
  * 
  * @author Jakob Ecker
  * @author Domink Simon
- *
+ * @version 1.0
  */
 public class EnvironmentalParameter {
 
@@ -21,25 +21,24 @@ public class EnvironmentalParameter {
 	private static double air_temperature = 20;
 
 	/**
-	 * 
-	 * @return The acoustic velocity for the air temperature set in setAirTemperature(...) <br /> The default value for temperature is 20 Celius
-	 * 
+	 * Returns the acoustic velocity.
+	 * @return The acoustic velocity for the air temperature set in setAirTemperature(...) <br /> The default value for temperature is 20 Celius.
 	 */
 	public static double getAcousticVelocity() {
 		return ACOUSTIC_VELOCITY_0 * Math.sqrt(1 + EXPANSION_COEFFICIENT * air_temperature);
 	}
 
 	/**
-	 * Getter
-	 * @return air_temperature
+	 * Returns the air temperature.
+	 * @return air_temperature Air temperature in Celius.
 	 */
 	public static double getAirTemperature() {
 		return air_temperature;
 	}
 
 	/**
-	 * Setter
-	 * @param air_temperature
+	 * Sets the air temperature.
+	 * @param air_temperature Air temperature in Celius.
 	 */
 	public static void setAirTemperature(double air_temperature) {
 		EnvironmentalParameter.air_temperature = air_temperature;

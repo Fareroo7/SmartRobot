@@ -10,7 +10,6 @@ import at.htl.geometrics.Triangle;
  * Provides methods used for trilateration.
  * 
  * @author Jakob Ecker
- * @author Dominik Simon
  * @version 2.0
  */
 public class Trilateration {
