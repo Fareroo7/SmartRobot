@@ -1,5 +1,6 @@
 package at.htl.smartbot;
 
+import at.htl.geometrics.Circle;
 import at.htl.geometrics.Point;
 
 /**
@@ -12,6 +13,7 @@ import at.htl.geometrics.Point;
  */
 public class UltrasonicSource {
 
+	private Circle c;
 	private Point pos;
 	private double distance;
 	private double time_of_last_measure;
@@ -22,7 +24,7 @@ public class UltrasonicSource {
 	 * @param pos
 	 */
 	public UltrasonicSource(Point pos) {
-		this.pos = pos;
+		this.c.setCentre(pos);
 	}
 
 	/**
@@ -38,7 +40,7 @@ public class UltrasonicSource {
 	 * @return
 	 */
 	public Point getPos() {
-		return pos;
+		return c.getCentre();
 	}
 
 	/**
@@ -46,8 +48,8 @@ public class UltrasonicSource {
 	 * 
 	 * @return
 	 */
-	public double getPos_X() {
-		return pos.getX();
+	public double getPosX() {
+		return c.getCentre().getX();
 	}
 
 	/**
@@ -55,8 +57,8 @@ public class UltrasonicSource {
 	 * 
 	 * @return
 	 */
-	public double getPos_Y() {
-		return pos.getY();
+	public double getPosY() {
+		return c.getCentre().getY();
 	}
 
 	/**
@@ -65,7 +67,7 @@ public class UltrasonicSource {
 	 * @return
 	 */
 	public double getDistance() {
-		return distance;
+		return c.getRadius();
 	}
 
 	/**
@@ -74,16 +76,15 @@ public class UltrasonicSource {
 	 * @return
 	 */
 	public void setDistance(double distance) {
-		this.distance = distance;
+		this.c.setRadius(distance);
 	}
 
 	/**
 	 * Calculates the distance in m to the Ultrasonic Source using the acoustic velocity calculated by {@link EnvironmentalParameter}
-	 * 
 	 * @param duration : the time in ms the acoustic signal need to reach the robot.
 	 */
-	public void calcDistance(double duration) {
-		this.distance = EnvironmentalParameter.getAcousticVelocity() * (duration/1000);
+	public void updateDistance(double duration) {
+		this.c.setRadius(EnvironmentalParameter.getAcousticVelocity() * (duration/1000));
 	}
 
 	/**
@@ -91,7 +92,7 @@ public class UltrasonicSource {
 	 * 
 	 * @return
 	 */
-	public double getTime_of_last_measure() {
+	public double getLastUpdate() {
 		return time_of_last_measure;
 	}
 
@@ -100,8 +101,8 @@ public class UltrasonicSource {
 	 * 
 	 * @return
 	 */
-	public void setTime_of_last_measure(double time_of_last_measure) {
-		this.time_of_last_measure = time_of_last_measure;
+	public void setLastUpdate(double measureTime) {
+		this.time_of_last_measure = measureTime;
 	}
 
 }

@@ -1,4 +1,4 @@
-package at.htl.ECP;
+package at.htl.EngineControl;
 
 /**
  * Defines the parameters of the Engine Control Protocol as constants.
