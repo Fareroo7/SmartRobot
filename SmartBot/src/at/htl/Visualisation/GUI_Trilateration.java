@@ -476,7 +476,7 @@ public class GUI_Trilateration extends JFrame {
 		} else if (!launchedFromAction) {
 			notCorrect = true;
 		} else {
-			lblState.setText("Status: Fehler, bitte Kreis 1-X korrekt ausfüllen");
+			lblState.setText("Status: Fehler, bitte Kreis 1-X korrekt ausfuellen");
 			notCorrect = true;
 		}
 
@@ -486,7 +486,7 @@ public class GUI_Trilateration extends JFrame {
 		} else if (!launchedFromAction) {
 			notCorrect = true;
 		} else {
-			lblState.setText("Status: Fehler, bitte Kreis 1-Y korrekt ausfüllen");
+			lblState.setText("Status: Fehler, bitte Kreis 1-Y korrekt ausfuellen");
 			notCorrect = true;
 		}
 		if (!notCorrect) {
@@ -499,7 +499,7 @@ public class GUI_Trilateration extends JFrame {
 		} else if (!launchedFromAction) {
 			notCorrect = true;
 		} else {
-			lblState.setText("Status: Fehler, bitte Kreis 1-r korrekt ausfüllen");
+			lblState.setText("Status: Fehler, bitte Kreis 1-r korrekt ausfuellen");
 			notCorrect = true;
 		}
 
@@ -509,7 +509,7 @@ public class GUI_Trilateration extends JFrame {
 		} else if (!launchedFromAction) {
 			notCorrect = true;
 		} else {
-			lblState.setText("Status: Fehler, bitte Kreis 2-X korrekt ausfüllen");
+			lblState.setText("Status: Fehler, bitte Kreis 2-X korrekt ausfuellen");
 			notCorrect = true;
 		}
 		if (Utils.isDouble(m2_Y.getText())) {
@@ -518,7 +518,7 @@ public class GUI_Trilateration extends JFrame {
 		} else if (!launchedFromAction) {
 			notCorrect = true;
 		} else {
-			lblState.setText("Status: Fehler, bitte Kreis 2-Y korrekt ausfüllen");
+			lblState.setText("Status: Fehler, bitte Kreis 2-Y korrekt ausfuellen");
 			notCorrect = true;
 		}
 		if (!notCorrect) {
@@ -531,7 +531,7 @@ public class GUI_Trilateration extends JFrame {
 		} else if (!launchedFromAction) {
 			notCorrect = true;
 		} else {
-			lblState.setText("Status: Fehler, bitte Kreis 2-r korrekt ausfüllen");
+			lblState.setText("Status: Fehler, bitte Kreis 2-r korrekt ausfuellen");
 			notCorrect = true;
 		}
 		if (Utils.isDouble(m3_X.getText())) {
@@ -540,7 +540,7 @@ public class GUI_Trilateration extends JFrame {
 		} else if (!launchedFromAction) {
 			notCorrect = true;
 		} else {
-			lblState.setText("Status: Fehler, bitte Kreis 3-X korrekt ausfüllen");
+			lblState.setText("Status: Fehler, bitte Kreis 3-X korrekt ausfuellen");
 			notCorrect = true;
 		}
 		if (Utils.isDouble(m3_Y.getText())) {
@@ -549,7 +549,7 @@ public class GUI_Trilateration extends JFrame {
 		} else if (!launchedFromAction) {
 			notCorrect = true;
 		} else {
-			lblState.setText("Status: Fehler, bitte Kreis 3-Y korrekt ausfüllen");
+			lblState.setText("Status: Fehler, bitte Kreis 3-Y korrekt ausfuellen");
 			notCorrect = true;
 		}
 		if (!notCorrect) {
@@ -562,7 +562,7 @@ public class GUI_Trilateration extends JFrame {
 		} else if (!launchedFromAction) {
 			notCorrect = true;
 		} else {
-			lblState.setText("Status: Fehler, bitte Kreis 3-r korrekt ausfüllen");
+			lblState.setText("Status: Fehler, bitte Kreis 3-r korrekt ausfuellen");
 			notCorrect = true;
 		}
 		// System.out.println(notCorrect);
@@ -591,7 +591,7 @@ public class GUI_Trilateration extends JFrame {
 
 			// System.out.println(after-before+" ns Laufzeit Trilateration");
 			// System.out.println(position.toString());
-			lblState.setText("Status: Position: " + position.toString() + " / " + "Ausführungszeit(ms): " + time_ms);
+			lblState.setText("Status: Position: " + position.toString() + " / " + "Ausfuehrungszeit(ms): " + time_ms);
 			// lblState.setText("Position: " + position.toString());
 
 			// Ans Java-Koordinatensystem Anpassen
@@ -648,7 +648,7 @@ public class GUI_Trilateration extends JFrame {
 
 	protected void mntmNewOriginActionPerformed(ActionEvent e) {
 		newOrigin = true;
-		lblState.setText("Status: Bitte auf der Zeichenfläche auf den neuen Ursprung klicken");
+		lblState.setText("Status: Bitte auf der Zeichenflaeche auf den neuen Ursprung klicken");
 		btnTrilaterateActionPerformed(null);
 	}
 

@@ -2,8 +2,8 @@ package at.htl.ECP;
 
 /**
  * Defines the parameters of the Engine Control Protocol as constants.
- * @author Jakob Ecker
- *
+ * @author Dominik Simon
+ * @version 1.0
  */
 public class ECPParameter {
 	
@@ -38,11 +38,11 @@ public class ECPParameter {
 	/**
 	 * Code for Acknowladge.
 	 */
-	public static final int C_ACK = 0x00;
+	public static final int C_ACK = 0x01;
 	/**
 	 * Error-Code for Transmission faild.
 	 */
-	public static final int E_TRANSMISSION = 0x01;
+	public static final int E_TRANSMISSION = 0x02;
 	
 	/**
 	 * Error-Code for Overcurrent.

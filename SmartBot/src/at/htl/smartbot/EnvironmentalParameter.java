@@ -11,18 +11,18 @@ package at.htl.smartbot;
 public class EnvironmentalParameter {
 
 	/**
-	 * Acoustic velocity in air for temperature is 0°C
+	 * Acoustic velocity in air for temperature is 0 Celius
 	 */
 	private static final double ACOUSTIC_VELOCITY_0 = 331.5;
 
 	public static final double EXPANSION_COEFFICIENT = 1 / 273.15;
 
-	// air temperature in °C
+	// air temperature in Celius
 	private static double air_temperature = 20;
 
 	/**
 	 * 
-	 * @return The acoustic velocity for the air temperature set in setAirTemperature(...) <br /> The default value for temperature is 20°C
+	 * @return The acoustic velocity for the air temperature set in setAirTemperature(...) <br /> The default value for temperature is 20 Celius
 	 * 
 	 */
 	public static double getAcousticVelocity() {

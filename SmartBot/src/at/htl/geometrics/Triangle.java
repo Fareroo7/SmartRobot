@@ -3,13 +3,13 @@ package at.htl.geometrics;
 import java.util.ArrayList;
 
 /**
- * Represent a triangle with the 3 corner points or 3 lines. If the Points are
- * edited the lines are automatically updated and vice versa. Also the bisecting
+ * Represent a triangle with the three corner {@link Point} or three {@link Line}. If the Points are
+ * edited the Lines are automatically updated and vice versa. Also the bisecting
  * points of the triangle lines are stored.
  * 
  * @author Jakob Ecker
  * @author Dominik Simon
- * 
+ * @version 1.0
  */
 public class Triangle {
 
@@ -26,11 +26,10 @@ public class Triangle {
 	private Point bisecting_c;
 
 	/**
-	 * Constructs a new Triangle-Object from 3 points
-	 * 
-	 * @param p1
-	 * @param p2
-	 * @param p3
+	 * Constructs a new Triangle-Object from three points.
+	 * @param p1 Point one.
+	 * @param p2 Point two.
+	 * @param p3 Point three.
 	 */
 	public Triangle(Point p1, Point p2, Point p3) {
 		this.point_A = p1;
@@ -43,11 +42,10 @@ public class Triangle {
 	}
 
 	/**
-	 * Constructs a new Triangle-Object form 3 lines
-	 * 
-	 * @param a
-	 * @param b
-	 * @param c
+	 * Constructs a new Triangle - object form three lines.
+	 * @param a Line a.
+	 * @param b Line b.
+	 * @param c Line c.
 	 */
 	public Triangle(Line a, Line b, Line c) {
 
@@ -61,7 +59,7 @@ public class Triangle {
 	}
 
 	/**
-	 * Constructs a new empty Triangel-Object
+	 * Constructs a new empty Triangle - object.
 	 */
 	public Triangle() {
 	}
@@ -74,10 +72,6 @@ public class Triangle {
 		Point temp_A = new Point();
 		Point temp_B = new Point();
 		Point temp_C = new Point();
-
-		// System.out.println(point_B);
-		// System.out.println(point_C);
-		// System.out.println(point_A);
 
 		if (point_A.equals(line_a.getPoint1())) {
 			if (line_a.getPoint2().equals(point_B)) {
@@ -152,18 +146,12 @@ public class Triangle {
 	}
 
 	/**
-	 * Calculates the new Points in case that a line changed.
-	 * @param a line a
-	 * @param b line b 
-	 * @param c line c
+	 * Calculates the new Points in case that a Line changed.
+	 * @param a Line a
+	 * @param b Line b 
+	 * @param c Line c
 	 */
 	private void refreshPoints(Line a, Line b, Line c) {
-
-		// System.out.println("---- Lines ----");
-		// System.out.println(a);
-		// System.out.println(b);
-		// System.out.println(c);
-		// System.out.println("------------------");
 
 		ArrayList<Point> temp_points = new ArrayList<Point>();
 
@@ -176,16 +164,7 @@ public class Triangle {
 		temp_points.add(c.getPoint1());
 		temp_points.add(c.getPoint2());
 
-		// System.out.println("---- refresh Points list -----------");
-		// for (Point i : temp_points) {
-		// System.out.println(i);
-		// }
-		// System.out.println();
 		temp_points = Point.eliminateRedundance(temp_points);
-		// System.out.println("---- refresh Points list after -----------");
-		// for (Point i : temp_points) {
-		// System.out.println(i);
-		// }
 
 		if (temp_points.size() == 3) {
 			point_A = temp_points.get(0);
@@ -196,8 +175,8 @@ public class Triangle {
 		}
 	}
 
-	/*
-	 * Calculates the new Lines in case a point changed
+	/**
+	 * Calculates the new Lines in case a Point changed.
 	 */
 	private void refreshLines(Point p1, Point p2, Point p3) {
 		this.line_a = new Line(point_A, point_B);
@@ -206,18 +185,18 @@ public class Triangle {
 	}
 
 	/**
-	 * Getter
-	 * @return
+	 * Returns the Point A of the Triangle.
+	 * @return Point A as {@link Point}.
 	 */
 	public Point getPointA() {
 		return point_A;
 	}
 
 	/**
-	 * Setter
-	 * @param point_A
+	 * Sets the Point A of the Triangle.
+	 * @param point_A New {@link Point}.
 	 */
-	public void setPoint_A(Point point_A) {
+	public void setPointA(Point point_A) {
 		this.point_A = point_A;
 		refreshLines(this.point_A, this.point_B, this.point_C);
 		sortPoints();
@@ -225,16 +204,16 @@ public class Triangle {
 	}
 
 	/**
-	 * Getter
-	 * @return
+	 * Returns the Point B of the Triangle.
+	 * @return Point B as {@link Point}
 	 */
 	public Point getPointB() {
 		return point_B;
 	}
 
 	/**
-	 * Setter
-	 * @param point_A
+	 * Sets the Point B of the Triangle.
+	 * @param point_B New {@link Point}.
 	 */
 	public void setPointB(Point point_B) {
 		this.point_B = point_B;
@@ -244,16 +223,16 @@ public class Triangle {
 	}
 
 	/**
-	 * Getter
-	 * @return
+	 * Returns the Point C of the Triangle.
+	 * @return Point C as {@link Point}
 	 */
 	public Point getPointC() {
 		return point_C;
 	}
 
 	/**
-	 * Setter
-	 * @param point_A
+	 * Sets the Point C of the Triangle.
+	 * @param point_C New {@link Point}.
 	 */
 	public void setPointC(Point point_C) {
 		this.point_C = point_C;
@@ -263,18 +242,18 @@ public class Triangle {
 	}
 
 	/**
-	 * Getter
-	 * @return
+	 * Returns the Line A of the Triangle.
+	 * @return Line A as {@link Line}.
 	 */
 	public Line getLineA() {
 		return line_a;
 	}
 
 	/**
-	 * Setter
-	 * @param point_A
+	 * Sets the Line A of the Triangle.
+	 * @param line_a New {@link Line}.
 	 */
-	public void setLine_a(Line line_a) {
+	public void setLineA(Line line_a) {
 		this.line_a = line_a;
 		refreshPoints(this.line_a, this.line_b, this.line_c);
 		sortPoints();
@@ -282,18 +261,18 @@ public class Triangle {
 	}
 
 	/**
-	 * Getter
-	 * @return
+	 * Returns the Line B of the Triangle.
+	 * @return Line B as {@link Line}.
 	 */
 	public Line getLineB() {
 		return line_b;
 	}
 
 	/**
-	 * Setter
-	 * @param point_A
+	 * Sets the Line B of the Triangle.
+	 * @param line_b New {@link Line}.
 	 */
-	public void setLine_b(Line line_b) {
+	public void setLineB(Line line_b) {
 		this.line_b = line_b;
 		refreshPoints(this.line_a, this.line_b, this.line_c);
 		sortPoints();
@@ -301,16 +280,16 @@ public class Triangle {
 	}
 
 	/**
-	 * Getter
-	 * @return
+	 * Returns the Line C of the Triangle.
+	 * @return Line C as {@link Line}.
 	 */
 	public Line getLineC() {
 		return line_c;
 	}
 
 	/**
-	 * Setter
-	 * @param point_A
+	 * Sets the Line C of the Triangle.
+	 * @param line_c New {@link Line}.
 	 */
 	public void setLineC(Line line_c) {
 		this.line_c = line_c;
@@ -319,6 +298,34 @@ public class Triangle {
 		refreshBisectingPoints();
 	}
 
+	/**
+	 * Returns the Bisecting - Point A of the Triangle.
+	 * @return Bisecting - Line A as {@link Line}.
+	 */
+	public Point getBisectingA() {
+		return bisecting_a;
+	}
+
+	/**
+	 * Returns the Bisecting - Point B of the Triangle.
+	 * @return Bisecting - Line B as {@link Line}.
+	 */
+	public Point getBisectingB() {
+		return bisecting_b;
+	}
+
+	/**
+	 * Returns the Bisecting - Point C of the Triangle.
+	 * @return Bisecting - Line C as {@link Line}.
+	 */
+	public Point getBisectingC() {
+		return bisecting_c;
+	}
+	
+	/**
+	 * Custom toString that returns a formatted Triangle.
+	 */
+	
 	@Override
 	public String toString() {
 		return "Triangle [\nA=" + point_A + ", \nB=" + point_B + ", \nC=" + point_C + ", \na=" + line_a + ", \nb=" + line_b + ", \nc=" + line_c + ", \na/2="
@@ -326,49 +333,11 @@ public class Triangle {
 	}
 
 	/**
-	 * Getter
-	 * @return
-	 */
-	public Point getBisectingA() {
-		return bisecting_a;
-	}
-
-	/**
-	 * Getter
-	 * @return
-	 */
-	public Point getBisectingB() {
-		return bisecting_b;
-	}
-
-	/**
-	 * Getter
-	 * @return
-	 */
-	public Point getBisectingC() {
-		return bisecting_c;
-	}
-
-	/**
-	 * Returns the smallest possible Triangle within a list of lines
-	 * 
-	 * @param points
-	 *            list of lines where the smallest triangle is needed
-	 * @return Smallest possible Triangle
+	 * Returns the smallest possible Triangle within a list of lines.
+	 * @param points List of lines where the smallest triangle is needed.
+	 * @return Smallest possible Triangle.
 	 */
 	public static Triangle getSmallestTriangel(ArrayList<Point> points) {
-		//
-		// // "Entkoppeln" - da sonst nur die Speicheradresse und nicht der
-		// Inhalt
-		// // kopiert wird;
-		// ArrayList<Point> result = new ArrayList<Point>();
-		// for (Point i : points) {
-		// result.add(i);
-		// }
-		//
-		// Line min1 = new Line();
-		// Line min2 = new Line();
-		// Line min3 = new Line();
 
 		ArrayList<Line> lines = new ArrayList<Line>();
 
@@ -376,7 +345,6 @@ public class Triangle {
 		Line min2 = new Line();
 
 		for (int i = 0; i < points.size(); i++) {
-			// System.out.println(points.get(i));
 			for (int z = i + 1; z < points.size(); z++) {
 				lines.add(new Line(points.get(i), points.get(z)));
 			}
@@ -416,17 +384,14 @@ public class Triangle {
 			System.out.println("These Lines are not a Triangle");
 		}
 
-		// System.out.println("---- getSmallestTriangle ---------");
-		// System.out.println(min1);
-		// System.out.println(min2);
-
 		return new Triangle(min1, min2, min3);
 	}
 
 	/**
+	 * Calculates the Centroid of the Triangel.
 	 * @deprecated
-	 * @param triangle
-	 * @return
+	 * @param triangle The Triangle where the Centroid is needed.
+	 * @return Centroid of the Triangle as {@link Point}.
 	 */
 	public static Point getCentroidOfTriangleExternal(Triangle triangle) {
 
@@ -445,8 +410,8 @@ public class Triangle {
 	}
 	
 	/**
-	 * Calculates the Centroid of the Triangel
-	 * @return Centroid as Point-Object
+	 * Calculates the Centroid of the Triangel.
+	 * @return Centroid as {@link Point}.
 	 */
 	public Point getCentroidOfTriangle() {
 

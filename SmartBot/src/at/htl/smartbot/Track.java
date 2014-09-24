@@ -44,7 +44,7 @@ public class Track {
 	}
 	
 	/**
-	 * 
+	 * Getter
 	 * @param index
 	 * @return the position of the track at index
 	 */
@@ -53,7 +53,7 @@ public class Track {
 	}
 	
 	/**
-	 * add a new navigation point to the track, added as the last position
+	 * Add a new navigation point to the track, added as the last position.
 	 * @param navigationPoint
 	 */
 	public void addNavPoint(Point navigationPoint){
@@ -61,8 +61,8 @@ public class Track {
 	}
 	
 	/**
-	 * Getter
-	 * @return
+	 * Getter for all track points.
+	 * @return all track points.
 	 */
 	public ArrayList<Point> getAllPositions(){
 		return track;
