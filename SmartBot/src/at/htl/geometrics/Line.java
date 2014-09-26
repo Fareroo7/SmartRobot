@@ -7,14 +7,9 @@ import at.htl.smartbot.Utils;
  *
  * @author Jakob Ecker
  * @author Domink Simon
- *
+ * @version 1.0
  */
 public class Line {
-
-	@Override
-	public String toString() {
-		return "Line [" + point1.toString() + ", " + point2.toString() + ", Distance=" + Utils.round(distance) + "]";
-	}
 
 	private Point point1;
 	private Point point2;
@@ -22,9 +17,9 @@ public class Line {
 	private double distance;
 
 	/**
-	 * Constructs a new Line-Object from 2 points and calculates the distance between them.
-	 * @param point1 Point 1 as Point-Object
-	 * @param point2 Point 2 as Point-Object
+	 * Constructs a new Line-Object from two points and calculates the distance between them.
+	 * @param point1 Point one as {@link Point}.
+	 * @param point2 Point two as {@link Point}.
 	 */
 	public Line(Point point1, Point point2) {
 		this.point1 = point1;
@@ -33,22 +28,22 @@ public class Line {
 	}
 
 	/**
-	 * Constructs a new empty Line-Object
+	 * Constructs a new empty Line-Object.
 	 */
 	public Line() {
 
 	}
 
 	/**
-	 * Recalculates the distance between the two points after setters
+	 * Recalculates the distance between the two points after setters.
 	 */
 	private void refreshDistance() {
 		this.distance = Math.sqrt(Math.pow(point2.getX() - point1.getX(), 2) + Math.pow(point2.getY() - point1.getY(), 2));
 	}
 
 	/**
-	 * Getter
-	 * @return
+	 * Returns the first Point of the Line.
+	 * @return First Point of the Line.
 	 */
 	public Point getPoint1() {
 		return point1;
@@ -56,8 +51,8 @@ public class Line {
 	}
 
 	/**
-	 * Setter
-	 * @param point1
+	 * Sets the first Point of the Line.
+	 * @param point1 First Point of the Line.
 	 */
 	public void setPoint1(Point point1) {
 		this.point1 = point1;
@@ -65,16 +60,16 @@ public class Line {
 	}
 
 	/**
-	 * Getter
-	 * @return
+	 * Returns the second Point of the Line.
+	 * @return Second Point of the Line.
 	 */
 	public Point getPoint2() {
 		return point2;
 	}
 
 	/**
-	 * Setter
-	 * @param point1
+	 * Sets the second Point of the Line.
+	 * @param point2 New Point.
 	 */
 	public void setPoint2(Point point2) {
 		this.point2 = point2;
@@ -82,18 +77,26 @@ public class Line {
 	}
 
 	/**
-	 * Getter
-	 * @return
+	 * Returns the length of the Line.
+	 * @return Length of the Line.
 	 */
 	public double getLength() {
 		return distance;
 	}
+	
+	/**
+	 * Custom toString that returns a formatted Line.
+	 */
+	@Override
+	public String toString() {
+		return "Line [" + point1.toString() + ", " + point2.toString() + ", Distance=" + Utils.round(distance) + "]";
+	}
 
 	/**
-	 * Calculates the point of intersection of two lines
-	 * @param line1 
-	 * @param line2 
-	 * @return Point of intersection
+	 * Calculates the {@link Point} of intersection of two lines.
+	 * @param line1 Line one.
+	 * @param line2 Line two.
+	 * @return {@link Point} of intersection.
 	 */
 	public static Point getPointOfIntersectionLine(Line line1, Line line2) {
 
@@ -138,8 +141,8 @@ public class Line {
 	}
 	
 	/**
-	 * Gets the vector in polar form that represents this line
-	 * @return PolarVector-Object that is equal to the line
+	 * Returns the vector in polar form that represents the line.
+	 * @return {@link PolarVector} that is equal to the line.
 	 */
 	public PolarVector getPolarVektor(){	
 		return new CartesianVector(this.point1.getDeltaX(point2), this.point1.getDeltaY(point2)).toPolarVector();
@@ -147,8 +150,8 @@ public class Line {
 
 
 	/**
-	 * Gets the vector in cartesian form that represents this line
-	 * @return CartesianVector-Object that is equal to the line
+	 * Returns the vector in cartesian form that represents the line.
+	 * @return {@link CartesianVector} that is equal to the line.
 	 */
 	public CartesianVector getCartesianVector(){
 		return new CartesianVector(this.point1.getDeltaX(point2), this.point1.getDeltaY(point2));

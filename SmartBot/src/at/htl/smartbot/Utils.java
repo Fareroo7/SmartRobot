@@ -12,7 +12,7 @@ import at.htl.geometrics.Point;
  * 
  * @author Jakob Ecker
  * @author Dominik Simon
- * 
+ * @version 1.0
  */
 
 public class Utils {
