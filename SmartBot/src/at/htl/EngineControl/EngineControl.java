@@ -14,9 +14,32 @@ public class EngineControl {
 	public static final double ROBOT_WIDTH = 0.20;
 	
 	/**
-	 * Maximum Speed of the SmartRobot in meter per seconds.
+	 * One of the five speed steps in meters per second.<br>
+	 * Maximum speed.
 	 */
-	public static final double MAX_SPEED = 3.25; 
+	public static final double SPEED_MAX = 3.25; 
+	
+	/**
+	 * One of the five speed steps in meters per second.<br>
+	 */
+	public static final double SPEED_FAST = SPEED_MAX * 4 / 5;
+	
+	/**
+	 * One of the five speed steps in meters per second.
+	 * Normal speed.
+	 */
+	public static final double SPEED_NORMAL = SPEED_MAX * 3 / 5;
+	
+	/**
+	 * One of the five speed steps in meters per second.
+	 */
+	public static final double SPEED_SLOW = SPEED_MAX * 2 / 5;
+	
+	/**
+	 * One of the five speed steps in meters per second.
+	 * Minimum speed.
+	 */
+	public static final double SPEED_MIN = SPEED_MAX / 5;
 	
 	/**
 	 * Diameter of the wheels from SmartRobot in meter.
@@ -42,7 +65,7 @@ public class EngineControl {
 	private static double innerCurveRadius = curveRadius - (ROBOT_WIDTH / 2);
 	private static double outerCurveRadius = curveRadius + (ROBOT_WIDTH / 2);
 	
-	private static double speed = 1.0;
+	private static double speed = SPEED_NORMAL;
 	
 	/**
 	 * Calculates the RPM needed for committed speed.
@@ -68,8 +91,7 @@ public class EngineControl {
 	 * @return Duty cycle (max 255).
 	 */
 	public static int speedToDutyCycle(double speed){
-		return speed <= MAX_SPEED ? rpmToDutyCycle(speedToRPM(speed)) : (int) MAX_SPEED;
+		return speed <= SPEED_MAX ? rpmToDutyCycle(speedToRPM(speed)) : (int) SPEED_MAX;
 	}
-	
 	
 }
