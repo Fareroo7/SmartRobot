@@ -4,7 +4,7 @@ package at.htl.EngineControl;
 /**
  * Defines methodes returning the correct {@link String}s for communication with Engine control arduino
  * @author Dominik Simon
- * @version 2.1
+ * @version 2.2
  */
 public class ECP {
 	
@@ -91,7 +91,7 @@ public class ECP {
 	 * @param left Duty Circle for motors on the left side.
 	 * @param right Duty Circle for motors on the right side.
 	 * @return A ECPMessage as {@link String}.
-	 * @deprecated with version 2.0
+	 * @deprecated with version 2.1
 	 */
 	public static String getECMessage(boolean forward, int left, int right){
 		return START + (forward ? DIRECTION_FORWARD : DIRECTION_BACKWARD) + (char)left + (char)right + END + "";
@@ -105,7 +105,7 @@ public class ECP {
 	 * @param rightDutyCycle Duty Cycle for right engines.
 	 * @return ECP-Message as {@link String}.
 	 */
-	public static String getECMessage(byte directionCode, int leftDutyCycle, int rightDutyCycle){
+	public static String getECPtoString(byte directionCode, int leftDutyCycle, int rightDutyCycle){
 		return START + (char) directionCode + (char) leftDutyCycle + (char) rightDutyCycle + END + "";
 	}
 	
