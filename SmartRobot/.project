@@ -14,4 +14,10 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<variableList>
+		<variable>
+			<name>res</name>
+			<value>file:/C:/Users/Jakob/git/SmartRobot/SmartRobot/res</value>
+		</variable>
+	</variableList>
 </projectDescription>

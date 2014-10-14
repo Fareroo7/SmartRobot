@@ -35,6 +35,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JRadioButton;
+import java.awt.Toolkit;
 
 public class GUI_Trilateration extends JFrame {
 
@@ -120,6 +121,7 @@ public class GUI_Trilateration extends JFrame {
 	}
 
 	private void initComponents() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GUI_Trilateration.class.getResource("/at/htl/smartbot/icon/icon v2.0.png")));
 		setTitle("SmartBot Trilateration");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 674, 501);
