@@ -634,13 +634,14 @@ public class GUI_Trilateration extends JFrame {
 			g.drawLine(cx - 2, cy - 2, cx + 2, cy + 2);
 			g.drawLine(cx - 2, cy + 2, cx + 2, cy - 2);
 
-			g.setColor(Color.MAGENTA);
+			g.setColor(Color.GREEN);
 			cx = (int) Math.round(position.getX() * step) + x_offset;
 			// int cy = (int) (panel_draw.getHeight() -
 			// Math.round(position.getY()*step) - y_offset);
 			cy = (int) (y_offset - Math.round((position.getY()) * step));
-			g.drawLine(cx - 2, cy - 2, cx + 2, cy + 2);
-			g.drawLine(cx - 2, cy + 2, cx + 2, cy - 2);
+			g.fillOval(cx - 3, cy - 3, 6, 6);
+			// g.drawLine(cx - 2, cy - 2, cx + 2, cy + 2);
+			// g.drawLine(cx - 2, cy + 2, cx + 2, cy - 2);
 		}
 	}
 
