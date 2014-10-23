@@ -1,4 +1,4 @@
 SmartBot
 ========
 
-HTL Maturaproject - SmartBot - Ecker, Simon
+HTL Maturaproject - SmartRobot - Ecker, Simon
