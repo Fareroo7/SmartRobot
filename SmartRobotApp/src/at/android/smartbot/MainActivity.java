@@ -8,9 +8,12 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.widget.Button;
+import android.widget.SeekBar;
 import android.widget.Toast;
 import at.htl.EngineControl.ECP;
 
@@ -28,8 +31,10 @@ public class MainActivity extends ActionBarActivity {
 			switch (msg.what) {
 			case 1:
 				byte[] rec = (byte[]) msg.obj;
-				String out = "" + rec[0] + (int) rec[1] + rec[2];
-				showMessage(out);
+				if(rec[1] != 1){
+					String out = "" + rec[1];
+					showMessage(out);
+				}
 				break;
 			}
 		}
@@ -76,6 +81,8 @@ public class MainActivity extends ActionBarActivity {
 	private Button btnForward;
 	private Button btnBackward;
 	private Button btnStop;
+	
+	private SeekBar seekBar;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -92,8 +99,42 @@ public class MainActivity extends ActionBarActivity {
 		btnBackward = (Button) findViewById(R.id.btnBackward);
 		btnStop = (Button) findViewById(R.id.btnStop);
 		
-		btnLeft.setOnClickListener(mControlButtonListener);
-		btnRight.setOnClickListener(mControlButtonListener);
+		seekBar = (SeekBar) findViewById(R.id.seekBarSpeed);
+		
+		btnLeft.setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				if(event.getAction() == MotionEvent.ACTION_DOWN){
+					//Button pressed
+					mEngineControl.send(ECP.getECP(ECP.DIRECTION_TURN_ANTICLOCKWISE, 128, 128));
+				} else if(event.getAction() == MotionEvent.ACTION_UP) { 
+					//Button released
+					mEngineControl.stop();
+				}
+				
+				return false;
+			}
+		});
+		
+		btnRight.setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				if(event.getAction() == MotionEvent.ACTION_DOWN){
+					//Button pressed
+					mEngineControl.send(ECP.getECP(ECP.DIRECTION_TURN_CLOCKWISE, 128, 128));
+				} else if(event.getAction() == MotionEvent.ACTION_UP) { 
+					//Button released
+					mEngineControl.stop();
+				}
+				
+				return false;
+			}
+		});
+		
+//		btnLeft.setOnClickListener(mControlButtonListener);
+//		btnRight.setOnClickListener(mControlButtonListener);
 		btnForward.setOnClickListener(mControlButtonListener);
 		btnBackward.setOnClickListener(mControlButtonListener);
 		btnStop.setOnClickListener(mControlButtonListener);
@@ -103,7 +144,7 @@ public class MainActivity extends ActionBarActivity {
 
 			@Override
 			public void onClick(View v) {
-				mEngineControl.send(ECP.getECP(ECP.DIRECTION_TURN_ANTICLOCKWISE, 100, 40));
+				mEngineControl.send(ECP.getECP(ECP.DIRECTION_TURN_ANTICLOCKWISE, seekBar.getProgress(), seekBar.getProgress()));
 			}
 		});
 
