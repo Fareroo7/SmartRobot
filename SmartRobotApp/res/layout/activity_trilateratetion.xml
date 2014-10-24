@@ -1,0 +1,145 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="at.android.smartbot.TrilateratetionActivity" >
+
+    <TableLayout
+        android:id="@+id/tableLayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp" >
+
+        <TableRow>
+
+            <LinearLayout android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/txtOne"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/txtOne" />
+
+                <EditText
+                    android:id="@+id/teXOne"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/hint_x"
+                    android:inputType="numberDecimal" />
+
+                <EditText
+                    android:id="@+id/teYOne"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/hint_y"
+                    android:inputType="numberDecimal" />
+
+                <EditText
+                    android:id="@+id/teROne"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/hint_r"
+                    android:inputType="numberDecimal" />
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow>
+
+            <LinearLayout android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/txtTwo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/txtTwo" />
+
+                <EditText
+                    android:id="@+id/teXTwo"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/hint_x"
+                    android:inputType="numberDecimal" />
+
+                <EditText
+                    android:id="@+id/teYTwo"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/hint_y"
+                    android:inputType="numberDecimal" />
+
+                <EditText
+                    android:id="@+id/teRTwo"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/hint_r"
+                    android:inputType="numberDecimal" />
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow>
+
+            <LinearLayout android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/txtThree"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/txtThree" />
+
+                <EditText
+                    android:id="@+id/teXThree"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/hint_x"
+                    android:inputType="numberDecimal" />
+
+                <EditText
+                    android:id="@+id/teYThree"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/hint_y"
+                    android:inputType="numberDecimal" />
+
+                <EditText
+                    android:id="@+id/teRThree"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/hint_r"
+                    android:inputType="numberDecimal" />
+            </LinearLayout>
+        </TableRow>
+    </TableLayout>
+
+    <TextView
+        android:id="@+id/txtPosition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tableLayout1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:text="@string/txtPosition_empty" />
+
+    <Button
+        android:id="@+id/btnTrilaterate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtPosition"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:text="@string/btn_trilaterate" />
+
+</RelativeLayout>

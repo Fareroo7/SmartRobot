@@ -1,0 +1,81 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="at.android.smartbot.MainActivity" >
+
+    <Button
+        android:id="@+id/btnSend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        android:text="@string/btnSend" />
+
+    <Button
+        android:id="@+id/btnAccTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnSend"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        android:text="@string/btnAccTest" />
+
+    <Button
+        android:id="@+id/btnForward"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnAccTest"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:text="@string/btnForward" />
+
+    <Button
+        android:id="@+id/btnRight"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnForward"
+        android:layout_marginTop="14dp"
+        android:layout_toRightOf="@+id/btnForward"
+        android:text="@string/btnRight" />
+
+    <Button
+        android:id="@+id/btnLeft"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/btnRight"
+        android:layout_alignBottom="@+id/btnRight"
+        android:layout_toLeftOf="@+id/btnForward"
+        android:text="@string/btnLeft" />
+
+    <Button
+        android:id="@+id/btnStop"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/btnRight"
+        android:layout_alignBottom="@+id/btnRight"
+        android:layout_centerHorizontal="true"
+        android:text="@string/btnStop" />
+
+    <Button
+        android:id="@+id/btnBackward"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnRight"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="17dp"
+        android:text="@string/btnBackward" />
+
+    <SeekBar
+        android:id="@+id/seekBarSpeed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:max="255" />
+
+</RelativeLayout>

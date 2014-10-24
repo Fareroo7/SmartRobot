@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">SmartBot</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="btnSend">Send</string>
+    <string name="btnAccTest">get Acc value</string>
+    <string name="action_trilaterate">Trilateration</string>
+    <string name="title_activity_trilateratetion">Trilateratetion</string>
+    <string name="txtPosition_empty">No Position...</string>
+    <string name="action_back">Back</string>
+    <string name="hint_x">x</string>
+    <string name="txtX">X</string>
+    <string name="txtOne">P1:</string>
+    <string name="hint_y">y</string>
+    <string name="hint_r">r</string>
+    <string name="txtTwo">P2:</string>
+    <string name="btn_trilaterate">Go!</string>
+    <string name="txtThree">P3:</string>
+    <string name="btnForward">&#8593;</string>
+    <string name="btnRight">&#8594;</string>
+    <string name="btnLeft">&#8592;</string>
+    <string name="btnStop">-</string>
+    <string name="btnBackward">&#8595;</string>
+
+</resources>
