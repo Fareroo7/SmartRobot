@@ -20,7 +20,7 @@ public class test_send {
 
 			@Override
 			public void onReceive(UDPReceiveEvent e) {
-				System.out.println(Arrays.toString(e.getUdpPacket().getData()));
+				System.out.println(ByteUtils.bytesToLong(e.getUdpPacket().getData()));
 			}
 
 		}
