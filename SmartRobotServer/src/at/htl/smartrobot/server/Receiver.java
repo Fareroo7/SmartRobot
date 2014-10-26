@@ -13,6 +13,7 @@ public class Receiver extends Thread {
 
 	private int port = 50000;
 	private int packageSize = 1024;
+	DatagramSocket socket;
 
 	public Receiver() {
 	}
@@ -25,13 +26,16 @@ public class Receiver extends Thread {
 	@Override
 	public void run() {
 		try {
-			DatagramSocket socket = new DatagramSocket(port);
+			socket = new DatagramSocket(port);
 
 			while (!this.isInterrupted()) {
 				DatagramPacket packet = new DatagramPacket(new byte[packageSize], packageSize);
 				socket.receive(packet);
 				notifyUDPReceived(new UDPReceiveEvent(this, packet));
+
 			}
+
+			socket.close();
 
 		} catch (SocketException e) {
 			// TODO Auto-generated catch block
@@ -55,6 +59,12 @@ public class Receiver extends Thread {
 		for (UDPReceiveListener l : listeners.getListeners(UDPReceiveListener.class)) {
 			l.onReceive(e);
 		}
+	}
+
+	@Override
+	public void interrupt() {
+		socket.close();
+		super.interrupt();
 	}
 
 }

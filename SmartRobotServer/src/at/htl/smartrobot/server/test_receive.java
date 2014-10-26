@@ -1,19 +1,44 @@
 package at.htl.smartrobot.server;
 
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 public class test_receive {
 
 	public static void main(String[] args) {
-		Receiver r=new Receiver(50001,1024);
-		class ReceivedListener implements UDPReceiveListener{
+		Receiver r = new Receiver(50006, 1);
+		
+		class ReceivedListener implements UDPReceiveListener {
 
 			@Override
 			public void onReceive(UDPReceiveEvent e) {
-				System.out.println(Arrays.toString(e.getUdpPacket().getData()));			
+				switch((char) e.getUdpPacket().getData()[0]){
+				case 's':
+					
+					try {
+						DatagramPacket p=new DatagramPacket(ByteBuffer.allocate(8).putLong(System.nanoTime()).array(), 8,e.getUdpPacket().getAddress(),50100);
+						DatagramSocket s=new DatagramSocket();
+						s.send(p);
+						
+					} catch (SocketException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
 			}
-			
+
 		}
+
+		r.addUDPReceiveListener(new ReceivedListener());
+		r.run();
 	}
 
 }
