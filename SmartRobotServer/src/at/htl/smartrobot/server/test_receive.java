@@ -21,9 +21,11 @@ public class test_receive {
 				case 's':
 					
 					try {
+						
 						DatagramPacket p=new DatagramPacket(ByteUtils.longToBytes(System.nanoTime()),8,e.getUdpPacket().getAddress(),50100);
 						DatagramSocket s=new DatagramSocket();
 						s.send(p);
+						s.close();
 						
 					} catch (SocketException e1) {
 						// TODO Auto-generated catch block
