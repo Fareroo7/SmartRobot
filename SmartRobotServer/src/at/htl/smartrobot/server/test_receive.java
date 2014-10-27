@@ -22,7 +22,7 @@ public class test_receive {
 					
 					try {
 						
-						DatagramPacket p=new DatagramPacket(ByteUtils.longToBytes(System.nanoTime()),8,e.getUdpPacket().getAddress(),50100);
+						DatagramPacket p=new DatagramPacket("A".getBytes(),50100);
 						DatagramSocket s=new DatagramSocket();
 						s.send(p);
 						s.close();
