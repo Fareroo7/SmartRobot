@@ -11,7 +11,7 @@ import java.util.Arrays;
 public class test_receive {
 
 	public static void main(String[] args) {
-		Receiver r = new Receiver(50006, 1);
+		Receiver r = new Receiver(50006, 4);
 		
 		class ReceivedListener implements UDPReceiveListener {
 

@@ -38,7 +38,7 @@ public class test_send {
 	public static int counter = 1;
 	
 	public static void main(String[] args) {
-		Receiver r = new Receiver(50100, 8);
+		Receiver r = new Receiver(50100, 4);
 		try {
 			bw = new BufferedWriter(new FileWriter(new File("./offsets.csv")));
 			bw.write("Counter;Offset Time");
@@ -53,7 +53,7 @@ public class test_send {
 			@Override
 			public void onReceive(UDPReceiveEvent e) {
 				receiveTime = System.nanoTime();
-				if(e.getUdpPacket().getData() == "A".getBytes()){
+				if(e.getUdpPacket().getData()[0] == 'A'){
 				
 					timeOffset = receiveTime - sendTime;
 					
@@ -89,7 +89,7 @@ public class test_send {
 				if(counter <= 1000){
 					try {
 						
-						mInetAddress = InetAddress.getByName("10.22.2.208");
+						mInetAddress = InetAddress.getByName("127.0.0.1");
 						port = 50006;
 						
 						packet = new DatagramPacket(data, data.length, mInetAddress, port);
@@ -145,33 +145,12 @@ public class test_send {
 			
 		}
 		
-		try {
-			InetAddress mInetAddress = InetAddress.getByName("10.22.2.208");
-			int port = 50006;
-//			byte[] data = ByteBuffer.allocate(8).putLong(System.nanoTime()).array();
-			packet = new DatagramPacket(data, data.length, mInetAddress, port);
-			socket = new DatagramSocket();
-			
-			sendTime = System.nanoTime();
-			
-			socket.send(packet);
-			
-			Timer timer = new Timer();
-			
-			timer.schedule(new SendTask(), 100, 100);
-			
-			socket.close();
-			r.run();
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SocketException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Timer timer = new Timer();
+		
+		timer.schedule(new SendTask(), 100, 100);
+		
+		socket.close();
+		r.run();
 		
 	}
 	
