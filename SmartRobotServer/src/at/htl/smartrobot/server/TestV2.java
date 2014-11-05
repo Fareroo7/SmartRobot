@@ -4,7 +4,15 @@ public class TestV2 {
 
 	
 	public static void main(String[] args) {
-		System.out.println(fib(700));
+		
+		long t;
+		
+		t = System.nanoTime();
+		System.out.println(fib(729));
+		t = System.nanoTime() - t;
+		
+		System.out.println(t);
+		
 	}
 	
 	public static long fib(long n){
