@@ -2,6 +2,11 @@ package at.htl.smartrobot.server;
 
 public class TestV2 {
 
+	
+	public static void main(String[] args) {
+		
+	}
+	
 	public static int fib(int n){
 		int pre = -1;
 		int res = 1;
