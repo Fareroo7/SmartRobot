@@ -2,7 +2,6 @@ package at.htl.geometrics;
 
 import at.htl.smartbot.Utils;
 
-
 /**
  * 
  * This class represent a vector in the cartesian format (x and y value).
@@ -12,38 +11,54 @@ import at.htl.smartbot.Utils;
  * @version 1.0
  */
 public class CartesianVector {
-	
+
 	private double x;
 	private double y;
-	
+
 	/**
 	 * Constructs a new CartesianVector - object with x and y value.
-	 * @param x The x value of the cartesian vector.
-	 * @param y The y value of the cartesian vector.
+	 * 
+	 * @param x
+	 *            The x value of the cartesian vector.
+	 * @param y
+	 *            The y value of the cartesian vector.
 	 */
-	public CartesianVector(double x, double y){
+	public CartesianVector(double x, double y) {
 		this.x = x;
 		this.y = y;
 	}
-	
+
 	/**
 	 * Constructs a new empty CartesianVector - object.
 	 */
-	public CartesianVector(){};
-	
+	public CartesianVector() {
+	};
+
 	/**
-	 * Converts the cartesian form into a vector of polar form with magnitude z and angle &phi;.
+	 * Converts the cartesian form into a vector of polar form with magnitude z
+	 * and angle &phi;.
+	 * 
 	 * @return The vector in polar form as {@link PolarVector}.
 	 */
-	public PolarVector toPolarVector(){
+	public PolarVector toPolarVector() {
 		double z = Math.sqrt(Utils.sqr(this.x) + Utils.sqr(this.y));
-		double phi = Math.atan2(this.y,this.x);
-		
+		double phi = Math.atan2(this.y, this.x);
+
 		return new PolarVector(z, phi);
 	}
 
 	/**
+	 * Add the  {@link CartesianVector} to a Point
+	 * @param p The point to add the vector
+	 * @return 
+	 */
+	public Point addToPoint(Point p) {
+		return new Point(p.getX() + this.x, p.getY() + this.y);
+	}
+
+	/**
 	 * Returns the x value of the cartesian vector.
+	 * 
 	 * @return X value of the cartesian vector.
 	 */
 	public double getX() {
@@ -52,7 +67,9 @@ public class CartesianVector {
 
 	/**
 	 * Sets the x value of the cartesian vector.
-	 * @param x X value of the cartesian vector.
+	 * 
+	 * @param x
+	 *            X value of the cartesian vector.
 	 */
 	public void setX(double x) {
 		this.x = x;
@@ -60,6 +77,7 @@ public class CartesianVector {
 
 	/**
 	 * Returns the y value of the cartesian vector.
+	 * 
 	 * @return Y value of the cartesian vector.
 	 */
 	public double getY() {
@@ -68,7 +86,9 @@ public class CartesianVector {
 
 	/**
 	 * Sets the y value of the cartesian vector.
-	 * @param y Y value of the cartesian vector.
+	 * 
+	 * @param y
+	 *            Y value of the cartesian vector.
 	 */
 	public void setY(double y) {
 		this.y = y;
@@ -81,7 +101,5 @@ public class CartesianVector {
 	public String toString() {
 		return "CartesianVector [x=" + x + ", y=" + y + "]";
 	}
-	
-	
-	
+
 }

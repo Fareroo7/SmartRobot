@@ -35,6 +35,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JRadioButton;
+import java.awt.Toolkit;
 
 public class GUI_Trilateration extends JFrame {
 
@@ -120,6 +121,7 @@ public class GUI_Trilateration extends JFrame {
 	}
 
 	private void initComponents() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GUI_Trilateration.class.getResource("/at/htl/smartbot/icon/icon v2.0.png")));
 		setTitle("SmartBot Trilateration");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 674, 501);
@@ -632,13 +634,14 @@ public class GUI_Trilateration extends JFrame {
 			g.drawLine(cx - 2, cy - 2, cx + 2, cy + 2);
 			g.drawLine(cx - 2, cy + 2, cx + 2, cy - 2);
 
-			g.setColor(Color.MAGENTA);
+			g.setColor(Color.GREEN);
 			cx = (int) Math.round(position.getX() * step) + x_offset;
 			// int cy = (int) (panel_draw.getHeight() -
 			// Math.round(position.getY()*step) - y_offset);
 			cy = (int) (y_offset - Math.round((position.getY()) * step));
-			g.drawLine(cx - 2, cy - 2, cx + 2, cy + 2);
-			g.drawLine(cx - 2, cy + 2, cx + 2, cy - 2);
+			g.fillOval(cx - 3, cy - 3, 6, 6);
+			// g.drawLine(cx - 2, cy - 2, cx + 2, cy + 2);
+			// g.drawLine(cx - 2, cy + 2, cx + 2, cy - 2);
 		}
 	}
 
