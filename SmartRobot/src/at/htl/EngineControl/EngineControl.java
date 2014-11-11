@@ -1,5 +1,7 @@
 package at.htl.EngineControl;
 
+import java.io.IOException;
+
 /**
  * This class contains methods to control the movement of SmartRobot.
  * 
@@ -92,6 +94,40 @@ public class EngineControl {
 	 */
 	public static int speedToDutyCycle(double speed){
 		return speed <= SPEED_MAX ? rpmToDutyCycle(speedToRPM(speed)) : (int) SPEED_MAX;
+	}
+	
+	/**
+	 * Calculates the needed time for the given distance
+	 * @param distance Distance in mm.
+	 * @return The needed time in milliseconds.
+	 */
+	private static int getTimeToDrive(int distance){
+//		v = s / t => t = s / v
+		return (int) Math.round(distance / speed);
+	}
+	
+	public void driveForward(final int distance){
+		Runnable r = new Runnable() {
+			
+			@Override
+			public void run() {
+				System.out.println(speedToDutyCycle(speed));
+				int mills = getTimeToDrive(distance);
+				try {
+					Thread.sleep(mills);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				System.out.println("stop! " + "sek.: " + ((double)mills / 1000));
+			}
+		};
+		new Thread(r).start();
+	}
+	
+	public static void main(String args[]){
+		EngineControl controller = new EngineControl();
+		controller.driveForward(1000);
 	}
 	
 }
