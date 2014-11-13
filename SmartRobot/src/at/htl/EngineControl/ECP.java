@@ -99,25 +99,38 @@ public class ECP {
 	
 	/**
 	 * <b>Only for user output. Use {@link getECP()} for communication with arduino.</b><br>
-	 * Returns the ECP-Message as {@link String} for version 2.1.
+	 * Returns the ECP-Message as {@link String} for version 3.0.
+	 * @param id The ID of the Task.
 	 * @param directionCode The direction code from {@link ECPParameter}.
 	 * @param leftDutyCycle Duty Cycle for left engines.
 	 * @param rightDutyCycle Duty Cycle for right engines.
+	 * @param duration Duration of the Task in milliseconds.
 	 * @return ECP-Message as {@link String}.
 	 */
-	public static String getECPtoString(byte directionCode, int leftDutyCycle, int rightDutyCycle){
-		return START + (char) directionCode + (char) leftDutyCycle + (char) rightDutyCycle + END + "";
+	public static String getECPtoString(int id, byte directionCode, int leftDutyCycle, int rightDutyCycle, int duration){
+		return START + (char)id + (char) directionCode + (char) leftDutyCycle + (char) rightDutyCycle + (char)duration + END + "";
 	}
 	
 	/**
 	 * Returns the Engine Control Protocol for communication with the arduino.
+	 * @param id The ID of the Task.
 	 * @param directionCode The direction code from {@link ECP}.
 	 * @param leftDutyCycle Duty Cycle for left engines.
 	 * @param rightDutyCycle Duty Cycle for right engines.
+	 * @param duration Duration of the Task in milliseconds.
 	 * @return Engine Control Protocol as {@link Byte}-Array.
 	 */
-	public static byte[] getECP(byte directionCode, int leftDutyCycle, int rightDutyCycle){
-		return new byte[] { START, directionCode, (byte) leftDutyCycle, (byte) rightDutyCycle, END };		
+	public static byte[] getECP(int id, byte directionCode, int leftDutyCycle, int rightDutyCycle, int duration){
+		return new byte[] { START, (byte) id, directionCode, (byte) leftDutyCycle, (byte) rightDutyCycle, (byte)duration, END };		
+	}
+	
+	/**
+	 * Returns the Engine Control Protocol for communication with the arduino.
+	 * @param task The {@link EngineTask} that will be send.
+	 * @return The {@link EngineTask} with header and footer for the communication.
+	 */
+	public static byte[] getECP(EngineTask task){
+		return new byte[] {START, task.getId(), task.getDirectionCode(), task.getDutyCircleLeft(), task.getDutyCircleRight(), task.getDuration(), END};
 	}
 	
 }
