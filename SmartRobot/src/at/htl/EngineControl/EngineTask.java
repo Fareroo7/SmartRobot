@@ -31,7 +31,7 @@ public class EngineTask {
 	 *            execute. Time in milliseconds.
 	 */
 
-	public EngineTask(byte id, byte actionCode, byte directionCode, byte dutyCircleLeft, byte dutyCircleRight, byte duration) {
+	public EngineTask(byte id, byte actionCode, byte directionCode, byte dutyCircleLeft, byte dutyCircleRight, int duration) {
 		this.id = id;
 		this.actionCode = actionCode;
 		this.directionCode = directionCode;

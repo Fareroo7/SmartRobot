@@ -1,5 +1,7 @@
 package at.htl.EngineControl;
 
+import java.util.Arrays;
+
 
 /**
  * Defines methodes returning the correct {@link String}s for communication with Engine control arduino
@@ -181,6 +183,11 @@ public class ECP {
 	 */
 	public static byte[] getECP(EngineTask task){
 		return new byte[] {START, task.getId(),task.getActionCode(), task.getDirectionCode(), task.getDutyCircleLeft(), task.getDutyCircleRight(), (byte) (task.getDuration()>>8),(byte) task.getDuration(), END};
+	}
+	
+	public static void main(String args[]){
+		EngineTask t = new EngineTask((byte)1, ECP.A_NEW, ECP.DIRECTION_FORWARD, (byte)100, (byte)100, 500);
+		System.out.println(Arrays.toString(ECP.getECP(t)));
 	}
 	
 }
