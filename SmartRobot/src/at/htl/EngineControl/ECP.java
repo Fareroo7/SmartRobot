@@ -71,7 +71,7 @@ public class ECP {
 	/**
 	 * Code for Acknowladge.
 	 */
-	public static final byte C_ACK = 0x01;
+	public static final byte E_ACK = 0x01;
 
 	/**
 	 * Error-Code for Transmission faild.
