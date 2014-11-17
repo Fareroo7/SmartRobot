@@ -8,6 +8,8 @@ package at.htl.EngineControl;
  */
 public class ECP {
 	
+//----------Protokollparameter----------
+	
 	/**
 	 * Start Parameter of each Transmission
 	 */
@@ -17,7 +19,31 @@ public class ECP {
 	 * End of the Transmission.
 	 */
 	public static final byte END = 0x54;
+	
+//----------Action Codes----------	
+	
+	/**
+	 * Action Code to delete the current task list and abort all actions
+	 */
+	public static final byte A_DELETE_ALL = 0x01;
+	
+	/**
+	 * Action Code to create a new task
+	 */
+	public static final byte A_NEW = 0x02;
+	
+	/**
+	 * Action Code to delete the task with ID
+	 */
+	public static final byte A_DELETE_ID = 0x03;
+	
+	/**
+	 * Action Code to update the task with ID
+	 */
+	public static final byte A_UPDATE_ID = 0x04;
 
+//----------Direction Codes----------
+	
 	/**
 	 * Set the direction of the engines to forward
 	 */
@@ -40,6 +66,8 @@ public class ECP {
 	 */
 	public static final byte DIRECTION_TURN_ANTICLOCKWISE = 0x21;
 
+//----------Error Codes----------
+	
 	/**
 	 * Code for Acknowladge.
 	 */
@@ -86,6 +114,26 @@ public class ECP {
 	public static final byte E_BUMPER_BACK_RIGHT = 0x23;
 	
 	/**
+	 * Error-Code when the bot runs out of tasks
+	 */
+	public static final byte E_OUT_OF_TASKS = 0x31;
+	
+	/**
+	 * Error-Code when the task with the ID(in message) is finished
+	 */
+	public static final byte E_TASK_ID_COMPLETE = 0x32;
+	
+	/**
+	 * Error-Code when the task could not be completed
+	 */
+	public static final byte E_EXECUTION_ERROR = 0x33;
+	
+	/**
+	 * Error-Code when the ID-Counter has an overflow. The ID will be reset to 0.
+	 */
+	public static final byte E_ID_OVERFLOW = 0x34;
+	
+	/**
 	 * Returns a ECPMessage as {@link String}.
 	 * @param forward Directions flag (true = forward and false = backward).
 	 * @param left Duty Circle for motors on the left side.
@@ -106,6 +154,7 @@ public class ECP {
 	 * @param rightDutyCycle Duty Cycle for right engines.
 	 * @param duration Duration of the Task in milliseconds.
 	 * @return ECP-Message as {@link String}.
+	 * @deprecated with version 3.0
 	 */
 	public static String getECPtoString(int id, byte directionCode, int leftDutyCycle, int rightDutyCycle, int duration){
 		return START + (char)id + (char) directionCode + (char) leftDutyCycle + (char) rightDutyCycle + (char)duration + END + "";
@@ -119,6 +168,7 @@ public class ECP {
 	 * @param rightDutyCycle Duty Cycle for right engines.
 	 * @param duration Duration of the Task in milliseconds.
 	 * @return Engine Control Protocol as {@link Byte}-Array.
+	 * @deprecated with version 3.0
 	 */
 	public static byte[] getECP(int id, byte directionCode, int leftDutyCycle, int rightDutyCycle, int duration){
 		return new byte[] { START, (byte) id, directionCode, (byte) leftDutyCycle, (byte) rightDutyCycle, (byte)duration, END };		
@@ -130,7 +180,7 @@ public class ECP {
 	 * @return The {@link EngineTask} with header and footer for the communication.
 	 */
 	public static byte[] getECP(EngineTask task){
-		return new byte[] {START, task.getId(), task.getDirectionCode(), task.getDutyCircleLeft(), task.getDutyCircleRight(), task.getDuration(), END};
+		return new byte[] {START, task.getId(),task.getActionCode(), task.getDirectionCode(), task.getDutyCircleLeft(), task.getDutyCircleRight(), (byte) (task.getDuration()>>8),(byte) task.getDuration(), END};
 	}
 	
 }

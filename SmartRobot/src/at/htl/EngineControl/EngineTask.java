@@ -3,10 +3,11 @@ package at.htl.EngineControl;
 public class EngineTask {
 
 	private byte id;
+	private byte actionCode;
 	private byte directionCode;
 	private byte dutyCircleLeft;
 	private byte dutyCircleRight;
-	private byte duration;
+	private int duration;
 
 	/**
 	 * Constructs a empty EngineTask-Object.
@@ -29,12 +30,20 @@ public class EngineTask {
 	 *            Duration of the Task. After this time the next Task will be
 	 *            execute. Time in milliseconds.
 	 */
-	public EngineTask(byte id, byte directionCode, byte dutyCircleLeft, byte dutyCircleRight, byte duration) {
+	public EngineTask(byte id, byte actionCode, byte directionCode, byte dutyCircleLeft, byte dutyCircleRight, int duration) {
 		this.id = id;
 		this.directionCode = directionCode;
 		this.dutyCircleLeft = dutyCircleLeft;
 		this.dutyCircleRight = dutyCircleRight;
-		this.duration = duration;
+		this.duration = duration & 0xffff;
+	}
+
+	public byte getActionCode() {
+		return actionCode;
+	}
+
+	public void setActionCode(byte actionCode) {
+		this.actionCode = actionCode;
 	}
 
 	public byte getDirectionCode() {
@@ -61,12 +70,12 @@ public class EngineTask {
 		this.dutyCircleRight = dutyCircleRight;
 	}
 
-	public byte getDuration() {
-		return duration;
+	public int getDuration() {
+		return duration & 0xffff;
 	}
 
-	public void setDuration(byte duration) {
-		this.duration = duration;
+	public void setDuration(int duration) {
+		this.duration = duration & 0xffff;
 	}
 
 	public byte getId() {
@@ -77,21 +86,21 @@ public class EngineTask {
 	public String toString() {
 		String direction = "";
 		switch (directionCode) {
-			case ECP.DIRECTION_FORWARD:
-				direction = "FORWARD";
-				break;
-			case ECP.DIRECTION_BACKWARD:
-				direction = "BACKWARD";
-				break;
-			case ECP.DIRECTION_TURN_CLOCKWISE:
-				direction = "CLOCKWISE";
-				break;
-			case ECP.DIRECTION_TURN_ANTICLOCKWISE:
-				direction = "ANTICLOCKWISE";
-				break;
+		case ECP.DIRECTION_FORWARD:
+			direction = "FORWARD";
+			break;
+		case ECP.DIRECTION_BACKWARD:
+			direction = "BACKWARD";
+			break;
+		case ECP.DIRECTION_TURN_CLOCKWISE:
+			direction = "CLOCKWISE";
+			break;
+		case ECP.DIRECTION_TURN_ANTICLOCKWISE:
+			direction = "ANTICLOCKWISE";
+			break;
 		}
-		return "EngineTask [ id=" + id + ", Direction-Code=" + direction +", Dutycircle Left=" + dutyCircleLeft
-				+ ", Dutycircle Right=" + dutyCircleRight + ", Duration=" + duration + " ms ]";
+		return "EngineTask [ id=" + id + ", Direction-Code=" + direction + ", Dutycircle Left=" + dutyCircleLeft + ", Dutycircle Right=" + dutyCircleRight
+				+ ", Duration=" + duration + " ms ]";
 	}
 
 }
