@@ -99,7 +99,7 @@ public class EngineTask {
 			direction = "ANTICLOCKWISE";
 			break;
 		}
-		return "EngineTask [ id=" + id + ", Direction-Code=" + direction + ", Dutycircle Left=" + dutyCircleLeft + ", Dutycircle Right=" + dutyCircleRight
+		return "EngineTask [ id=" + id + "Action-Code="+actionCode+", Direction-Code=" + direction + ", Dutycircle Left=" + dutyCircleLeft + ", Dutycircle Right=" + dutyCircleRight
 				+ ", Duration=" + duration + " ms ]";
 	}
 
