@@ -30,20 +30,14 @@ public class EngineTask {
 	 *            Duration of the Task. After this time the next Task will be
 	 *            execute. Time in milliseconds.
 	 */
-	public EngineTask(byte id, byte actionCode, byte directionCode, byte dutyCircleLeft, byte dutyCircleRight, int duration) {
+
+	public EngineTask(byte id, byte actionCode, byte directionCode, byte dutyCircleLeft, byte dutyCircleRight, byte duration) {
 		this.id = id;
+		this.actionCode = actionCode;
 		this.directionCode = directionCode;
 		this.dutyCircleLeft = dutyCircleLeft;
 		this.dutyCircleRight = dutyCircleRight;
 		this.duration = duration & 0xffff;
-	}
-
-	public byte getActionCode() {
-		return actionCode;
-	}
-
-	public void setActionCode(byte actionCode) {
-		this.actionCode = actionCode;
 	}
 
 	public byte getDirectionCode() {
@@ -81,6 +75,14 @@ public class EngineTask {
 	public byte getId() {
 		return id;
 	}
+	
+	public byte getActionCode() {
+		return actionCode;
+	}
+
+	public void setActionCode(byte actionCode) {
+		this.actionCode = actionCode;
+	}
 
 	@Override
 	public String toString() {
@@ -99,8 +101,10 @@ public class EngineTask {
 			direction = "ANTICLOCKWISE";
 			break;
 		}
-		return "EngineTask [ id=" + id + "Action-Code="+actionCode+", Direction-Code=" + direction + ", Dutycircle Left=" + dutyCircleLeft + ", Dutycircle Right=" + dutyCircleRight
-				+ ", Duration=" + duration + " ms ]";
+
+		return "EngineTask [ id=" + id + ", Action Code=" + actionCode +  ", Direction Code=" + direction +", Dutycircle Left=" + dutyCircleLeft
+				+ ", Dutycircle Right=" + dutyCircleRight + ", Duration=" + duration + " ms ]";
+
 	}
 
 }
