@@ -70,6 +70,7 @@ public class Trilateration {
 		Point[] intersA = c1.getPointsOfIntersection(c2);
 		Point[] intersB = c2.getPointsOfIntersection(c3);
 		Point[] intersC = c3.getPointsOfIntersection(c1);
+		
 
 		Point pA = null;
 		Point pB = null;
