@@ -2,12 +2,16 @@ package at.htl.EngineControl;
 
 public class EngineTask {
 
+	public static final int LSB = 0;
+	public static final int MSB = 1;
+
 	private byte id;
 	private byte actionCode;
 	private byte directionCode;
 	private byte dutyCircleLeft;
 	private byte dutyCircleRight;
 	private int duration;
+	private byte[] durations = new byte[2];
 
 	/**
 	 * Constructs a empty EngineTask-Object.
@@ -37,7 +41,8 @@ public class EngineTask {
 		this.directionCode = directionCode;
 		this.dutyCircleLeft = dutyCircleLeft;
 		this.dutyCircleRight = dutyCircleRight;
-		this.duration = duration & 0xffff;
+		this.durations[MSB] = (byte) (duration >> 8);
+		this.durations[LSB] = (byte) duration;
 	}
 
 	public byte getDirectionCode() {
@@ -71,11 +76,19 @@ public class EngineTask {
 	public void setDuration(int duration) {
 		this.duration = duration & 0xffff;
 	}
+	
+	public byte getDurationMSB(){
+		return this.durations[MSB];
+	}
+	
+	public byte getDurationLSB(){
+		return this.durations[LSB];
+	}
 
 	public byte getId() {
 		return id;
 	}
-	
+
 	public byte getActionCode() {
 		return actionCode;
 	}
@@ -102,7 +115,7 @@ public class EngineTask {
 			break;
 		}
 
-		return "EngineTask [ id=" + id + ", Action Code=" + actionCode +  ", Direction Code=" + direction +", Dutycircle Left=" + dutyCircleLeft
+		return "EngineTask [ id=" + id + ", Action Code=" + actionCode + ", Direction Code=" + direction + ", Dutycircle Left=" + dutyCircleLeft
 				+ ", Dutycircle Right=" + dutyCircleRight + ", Duration=" + duration + " ms ]";
 
 	}

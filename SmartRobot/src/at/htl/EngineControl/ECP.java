@@ -182,7 +182,7 @@ public class ECP {
 	 * @return The {@link EngineTask} with header and footer for the communication.
 	 */
 	public static byte[] getECP(EngineTask task){
-		return new byte[] {START, task.getId(),task.getActionCode(), task.getDirectionCode(), task.getDutyCircleLeft(), task.getDutyCircleRight(), (byte) (task.getDuration()>>8),(byte) task.getDuration(), END};
+		return new byte[] {START, task.getId(),task.getActionCode(), task.getDirectionCode(), task.getDutyCircleLeft(), task.getDutyCircleRight(), task.getDurationMSB(),task.getDurationLSB(), END};
 	}
 	
 	public static void main(String args[]){
