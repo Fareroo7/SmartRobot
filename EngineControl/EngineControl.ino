@@ -41,6 +41,17 @@ const int MOTOR_RIGHT_TWO = 11;
 
 byte data[5];
 
+struct EngineTask {
+  byte id;
+  byte actionCode;
+  byte directionCode;
+  byte dutyCycleLeft;
+  byte dutyCycleRight;
+  unsigned int duration;
+};
+
+EngineTask tasks[254];
+
 void setup() {                
   Serial.begin(9600);
   Serial.println("\r\nStart");
@@ -60,8 +71,21 @@ void loop() {
 }
 
 int ECPHandler(byte input[]){
-  if(input[0] == START && input[4] == END){
-      if(input[1] == FORWARD){
+  if(input[0] == START && input[8] == END){
+      tasks[input[1]].id = input[1];
+      tasks[input[1]].actionCode = input[2];
+      tasks[input[1]].directionCode = input[3];
+      tasks[input[1]].dutyCycleLeft = input[4];
+      tasks[input[1]].dutyCycleRight = input[5];
+      tasks[input[1]].duration = (input[6] << 8) | input[7];
+      return ACKNOWLADGE;
+  }else{
+    return PROTOCOL_ERROR;
+  }
+}
+
+int ECPInterpreter(byte input[]){
+ if(input[1] == FORWARD){
         // Vorwärtsfahren
         Serial.println("Vorwärts");
         Serial.print("Links: ");
@@ -95,10 +119,7 @@ int ECPHandler(byte input[]){
         return ACKNOWLADGE; 
       }else{
         return PROTOCOL_ERROR;
-      }
-  }else{
-    return PROTOCOL_ERROR;
-  }
+      } 
 }
 
 void sendAck(byte err){
