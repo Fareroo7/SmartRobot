@@ -69,9 +69,9 @@ public class EngineControl {
 
 	public static void main(String[] args) {
 		speed = 1.0;
-		System.out.println(drive(true,1).toString());
-		
-		System.out.println(turn(true,3.0,Math.PI/2));
+		System.out.println(drive(true, 1).toString());
+
+		System.out.println(turn(true, 3.0, Math.PI / 2));
 	}
 
 	/**
@@ -146,8 +146,8 @@ public class EngineControl {
 
 		System.out.println("Dist: " + innerDistance + " ; " + outerDistance);
 
-		double innerSpeed = innerDistance / time;
-		double outerSpeed = outerDistance / time;
+		double innerSpeed = innerDistance * 1000 / time;
+		double outerSpeed = outerDistance * 1000 / time;
 
 		System.out.println("Speeds: " + innerSpeed + " ; " + outerSpeed);
 
