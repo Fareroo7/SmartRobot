@@ -67,11 +67,13 @@ public class EngineControl {
 
 	private static double speed = SPEED_NORMAL;
 
-	public static void main(String[] args){
-		System.out.println(driveForward(1).toString());
+	public static void main(String[] args) {
+		speed = 1.0;
+		System.out.println(drive(true,1).toString());
+		
+		System.out.println(turn(true,3.0,Math.PI/2));
 	}
-	
-	
+
 	/**
 	 * Calculates the RPM needed for committed speed.
 	 * 
@@ -90,8 +92,8 @@ public class EngineControl {
 	 *            Rotation per minute.
 	 * @return Duty cycle (max 255).
 	 */
-	private static byte rpmToDutyCycle(double rpm) {
-		return (byte) Math.round((MAX_DUTY_CYCLE / MAX_RPM) * rpm);
+	private static int rpmToDutyCycle(double rpm) {
+		return (int) Math.round((MAX_DUTY_CYCLE / MAX_RPM) * rpm);
 	}
 
 	/**
@@ -101,7 +103,7 @@ public class EngineControl {
 	 *            Speed in meter per second.
 	 * @return Duty cycle (max 255).
 	 */
-	public static byte speedToDutyCycle(double speed) {
+	public static int speedToDutyCycle(double speed) {
 		return speed <= SPEED_MAX ? rpmToDutyCycle(speedToRPM(speed)) : rpmToDutyCycle(speedToRPM(SPEED_MAX));
 	}
 
@@ -114,11 +116,54 @@ public class EngineControl {
 	 */
 	private static int getTimeToDrive(double distance) {
 		// v = s / t => t = s / v
-		return (int) Math.round(distance / (speed * 1000));
+		return (int) Math.round((distance * 1000) / (speed));
 	}
 
-	public static EngineTask driveForward(double distance) {
-		return new EngineTask((byte) 0xff,ECP.A_NEW,ECP.DIRECTION_FORWARD,speedToDutyCycle(speed),speedToDutyCycle(speed),getTimeToDrive(distance));
+	public static EngineTask drive(boolean forward, double distance) {
+		return new EngineTask((byte) 0xff, ECP.A_NEW, forward ? ECP.DIRECTION_FORWARD : ECP.DIRECTION_BACKWARD, (byte) speedToDutyCycle(speed),
+				(byte) speedToDutyCycle(speed), getTimeToDrive(distance));
 	}
 
+	/**
+	 * 
+	 * @param clockwise
+	 *            if true direction is clockwise.
+	 * @param radius
+	 *            in m.
+	 * @param angle
+	 *            in rad.
+	 * @return
+	 */
+	public static EngineTask turn(boolean clockwise, double radius, double angle) {
+
+		double distance = radius * angle;
+		int time = getTimeToDrive(distance);
+
+		System.out.println("mid dist: " + distance + " time: " + time);
+
+		double innerDistance = (radius - (ROBOT_WIDTH / 2)) * angle;
+		double outerDistance = (radius + (ROBOT_WIDTH / 2)) * angle;
+
+		System.out.println("Dist: " + innerDistance + " ; " + outerDistance);
+
+		double innerSpeed = innerDistance / time;
+		double outerSpeed = outerDistance / time;
+
+		System.out.println("Speeds: " + innerSpeed + " ; " + outerSpeed);
+
+		int leftDutyCycle;
+		int rightDutyCycle;
+
+		if (clockwise) {
+			leftDutyCycle = speedToDutyCycle(outerSpeed);
+			rightDutyCycle = speedToDutyCycle(innerSpeed);
+		} else {
+			leftDutyCycle = speedToDutyCycle(innerSpeed);
+			rightDutyCycle = speedToDutyCycle(outerSpeed);
+		}
+
+		System.out.println("lDut: " + leftDutyCycle + " rdut: " + rightDutyCycle);
+
+		return new EngineTask((byte) 0xff, ECP.A_NEW, ECP.DIRECTION_FORWARD, (byte) leftDutyCycle, (byte) rightDutyCycle, time);
+	}
 }
