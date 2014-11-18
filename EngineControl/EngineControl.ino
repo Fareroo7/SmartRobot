@@ -39,7 +39,7 @@ const int MOTOR_LEFT_TWO = 6;
 const int MOTOR_RIGHT_ONE = 10;
 const int MOTOR_RIGHT_TWO = 11;
 
-byte data[5];
+byte packet[9];
 
 struct EngineTask {
   byte id;
@@ -61,9 +61,9 @@ void setup() {
 void loop() {
   
   if(acc.isConnected()){
-      int len  = acc.read(data, sizeof(data), 1);
+      int len  = acc.read(packet, sizeof(packet), 1);
       if (len > 0) {
-         int error = ECPHandler(data);
+         int error = ECPHandler(packet);
 
          sendAck(error);
       }
