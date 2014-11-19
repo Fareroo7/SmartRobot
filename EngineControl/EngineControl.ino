@@ -12,6 +12,14 @@ AndroidAccessory acc("Smartbot",
 
 const char START = 'S';
 const char END = 'T';
+
+// ----- Action Codes -----
+
+const byte DELETE_ALL = 0x01;
+const byte INSERT = 0x02;
+const byte DELETE = 0x03;
+const byte UPDATE = 0x04;
+
 // ----- Richtungscodes -----
 
 const byte FORWARD = 0x11;
@@ -31,6 +39,11 @@ const byte BUMPER_BACK_LEFT = 0x21;
 const byte BUMPER_BACK_CENTER = 0x22;
 const byte BUMPER_BACK_RIGHT = 0x23;
 
+const byte NO_TASK = 0x31;
+const byte TASK_COMPLETE = 0x32;
+const byte TASK_ABORT = 0x33;
+const byte TASK_ID_OVERFLOW = 0x34;
+
 // Pin Defines
 
 const int MOTOR_LEFT_ONE = 5;
@@ -41,6 +54,8 @@ const int MOTOR_RIGHT_TWO = 11;
 
 byte packet[9];
 
+byte id = 0;
+
 struct EngineTask {
   byte id;
   byte actionCode;
@@ -50,7 +65,7 @@ struct EngineTask {
   unsigned int duration;
 };
 
-EngineTask tasks[254];
+EngineTask tasks[250];
 
 void setup() {                
   Serial.begin(9600);
@@ -72,50 +87,68 @@ void loop() {
 
 int ECPHandler(byte input[]){
   if(input[0] == START && input[8] == END){
-      tasks[input[1]].id = input[1];
-      tasks[input[1]].actionCode = input[2];
-      tasks[input[1]].directionCode = input[3];
-      tasks[input[1]].dutyCycleLeft = input[4];
-      tasks[input[1]].dutyCycleRight = input[5];
-      tasks[input[1]].duration = (input[6] << 8) | input[7];
-      return ACKNOWLADGE;
+      tasks[id].id = id;
+      tasks[id].actionCode = input[2];
+      tasks[id].directionCode = input[3];
+      tasks[id].dutyCycleLeft = input[4];
+      tasks[id].dutyCycleRight = input[5];
+      tasks[id].duration = (input[6] << 8) | input[7];
+      int error = ECPInterpreter(tasks[id]);
+      id ++;
+      return error;
   }else{
     return PROTOCOL_ERROR;
   }
 }
 
-int ECPInterpreter(byte input[]){
- if(input[1] == FORWARD){
+int ECPInterpreter(struct EngineTask task){
+ if(task.directionCode == FORWARD){
         // Vorwärtsfahren
         Serial.println("Vorwärts");
+        Serial.print("Aktion: ");
+        Serial.println(task.actionCode);
         Serial.print("Links: ");
-        Serial.println(input[2]);
+        Serial.println(task.dutyCycleLeft);
         Serial.print("Recht: ");
-        Serial.println(input[3]);
+        Serial.println(task.dutyCycleLeft);
+        Serial.print("Zeit: ");
+        Serial.println(task.duration);
         return ACKNOWLADGE;
-      }else if(input[1] == BACKWARD){
+      }else if(task.directionCode == BACKWARD){
         // Rückwärtsfahren
         Serial.println("Rückwärts");
+        Serial.print("Aktion: ");
+        Serial.println(task.actionCode);
         Serial.print("Links: ");
-        Serial.println(input[2]);
+        Serial.println(task.dutyCycleLeft);
         Serial.print("Recht: ");
-        Serial.println(input[3]);
+        Serial.println(task.dutyCycleLeft);
+        Serial.print("Zeit: ");
+        Serial.println(task.duration);
         return ACKNOWLADGE;
-      }else if(input[1] == CLOCKWISE){
+      }else if(task.directionCode == CLOCKWISE){
         // Drehen im Uhrzeigersinn
         Serial.println("Drehen CW");
+        Serial.print("Aktion: ");
+        Serial.println(task.actionCode);
         Serial.print("Links: ");
-        Serial.println(input[2]);
+        Serial.println(task.dutyCycleLeft);
         Serial.print("Recht: ");
-        Serial.println(input[3]);
+        Serial.println(task.dutyCycleLeft);
+        Serial.print("Zeit: ");
+        Serial.println(task.duration);
         return ACKNOWLADGE; 
-      }else if(input[1] == ANTICLOCKWISE){
+      }else if(task.directionCode == ANTICLOCKWISE){
         // Drehen gegen Uhrzeigersinn
         Serial.println("Drehen ACW");
+        Serial.print("Aktion: ");
+        Serial.println(task.actionCode);
         Serial.print("Links: ");
-        Serial.println(input[2]);
+        Serial.println(task.dutyCycleLeft);
         Serial.print("Recht: ");
-        Serial.println(input[3]);
+        Serial.println(task.dutyCycleLeft);
+        Serial.print("Zeit: ");
+        Serial.println(task.duration);
         return ACKNOWLADGE; 
       }else{
         return PROTOCOL_ERROR;
