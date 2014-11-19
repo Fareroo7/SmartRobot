@@ -10,7 +10,6 @@ public class EngineTask {
 	private byte directionCode;
 	private byte dutyCircleLeft;
 	private byte dutyCircleRight;
-	private int duration;
 	private byte[] durations = new byte[2];
 
 	/**
@@ -70,11 +69,7 @@ public class EngineTask {
 	}
 
 	public int getDuration() {
-		return duration & 0xffff;
-	}
-
-	public void setDuration(int duration) {
-		this.duration = duration & 0xffff;
+		return ((this.durations[MSB]<<8)|(this.durations[LSB]&0xff));
 	}
 	
 	public byte getDurationMSB(){
@@ -116,7 +111,7 @@ public class EngineTask {
 		}
 
 		return "EngineTask [ id=" + id + ", Action Code=" + actionCode + ", Direction Code=" + direction + ", Dutycircle Left=" + dutyCircleLeft
-				+ ", Dutycircle Right=" + dutyCircleRight + ", Duration=" + duration + " ms ]";
+				+ ", Dutycircle Right=" + dutyCircleRight + ", Duration=" + this.getDuration() + " ms ]";
 
 	}
 
