@@ -48,13 +48,13 @@ public class MainActivity extends ActionBarActivity {
 			switch(v.getId()){
 			
 				case R.id.btnForward:
-					mEngineControl.send(ECP.getECP(ECP.DIRECTION_FORWARD, seekBar.getProgress(), seekBar.getProgress()));
+//					mEngineControl.send(ECP.getECP(ECP.DIRECTION_FORWARD, seekBar.getProgress(), seekBar.getProgress()));
 //					mEngineControl.driveForward(1.5);
 //					showMessage("Forward");
 					break;
 					
 				case R.id.btnBackward:
-					mEngineControl.send(ECP.getECP(ECP.DIRECTION_BACKWARD, seekBar.getProgress(), seekBar.getProgress()));
+//					mEngineControl.send(ECP.getECP(ECP.DIRECTION_BACKWARD, seekBar.getProgress(), seekBar.getProgress()));
 //					mEngineControl.driveBackward(1.5);
 //					showMessage("Backward");
 					break;
@@ -68,7 +68,7 @@ public class MainActivity extends ActionBarActivity {
 					break;
 				
 				case R.id.btnStop:
-					mEngineControl.stop();
+//					mEngineControl.stop();
 //					showMessage("Stop");
 					break;
 			}
@@ -109,10 +109,10 @@ public class MainActivity extends ActionBarActivity {
 			public boolean onTouch(View v, MotionEvent event) {
 				if(event.getAction() == MotionEvent.ACTION_DOWN){
 					//Button pressed
-					mEngineControl.send(ECP.getECP(ECP.DIRECTION_TURN_ANTICLOCKWISE, seekBar.getProgress(), seekBar.getProgress()));
+//					mEngineControl.send(ECP.getECP(ECP.DIRECTION_TURN_ANTICLOCKWISE, seekBar.getProgress(), seekBar.getProgress()));
 				} else if(event.getAction() == MotionEvent.ACTION_UP) { 
 					//Button released
-					mEngineControl.stop();
+//					mEngineControl.stop();
 				}
 				
 				return false;
@@ -125,10 +125,10 @@ public class MainActivity extends ActionBarActivity {
 			public boolean onTouch(View v, MotionEvent event) {
 				if(event.getAction() == MotionEvent.ACTION_DOWN){
 					//Button pressed
-					mEngineControl.send(ECP.getECP(ECP.DIRECTION_TURN_CLOCKWISE, seekBar.getProgress(), seekBar.getProgress()));
+//					mEngineControl.send(ECP.getECP(ECP.DIRECTION_TURN_CLOCKWISE, seekBar.getProgress(), seekBar.getProgress()));
 				} else if(event.getAction() == MotionEvent.ACTION_UP) { 
 					//Button released
-					mEngineControl.stop();
+//					mEngineControl.stop();
 				}
 				
 				return false;
@@ -146,7 +146,7 @@ public class MainActivity extends ActionBarActivity {
 
 			@Override
 			public void onClick(View v) {
-				mEngineControl.send(ECP.getECP(ECP.DIRECTION_TURN_ANTICLOCKWISE, seekBar.getProgress(), seekBar.getProgress()));
+//				mEngineControl.send(ECP.getECP(ECP.DIRECTION_TURN_ANTICLOCKWISE, seekBar.getProgress(), seekBar.getProgress()));
 			}
 		});
 

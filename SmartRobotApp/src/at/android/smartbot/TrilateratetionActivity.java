@@ -63,11 +63,13 @@ public class TrilateratetionActivity extends ActionBarActivity {
 				
 				long before, after;
 				
+				Point pos = new Point();
+				
 				before = System.nanoTime();
-				Point pos = Trilateration.trilaterate(cOne, cTwo, cThree);
+				pos = Trilateration.trilaterate(cOne, cTwo, cThree);
 				after = System.nanoTime();
 				
-				txtPosition.setText(pos.toString() + "\n" + (after - before) / 1000 + "ms");
+				txtPosition.setText(pos.toString() + "\n" + (after - before) / 1000 + "us");
 				
 			}
 		});

@@ -195,19 +195,19 @@ public class EngineController implements Runnable {
 
 	}
 	
-	public void driveForward(double speed){
-		int dutyCycle = EngineControl.speedToDutyCycle(speed);
-		send(ECP.getECP(ECP.DIRECTION_FORWARD, dutyCycle, dutyCycle));
-	}
-	
-	public void driveBackward(double speed){
-		int dutyCycle = EngineControl.speedToDutyCycle(speed);
-		send(ECP.getECP(ECP.DIRECTION_BACKWARD, dutyCycle, dutyCycle));
-	}
-	
-	public void stop(){
-		send(ECP.getECP(ECP.DIRECTION_FORWARD, 0, 0));
-	}
+//	public void driveForward(double speed){
+//		int dutyCycle = EngineControl.speedToDutyCycle(speed);
+//		send(ECP.getECP(ECP.DIRECTION_FORWARD, dutyCycle, dutyCycle));
+//	}
+//	
+//	public void driveBackward(double speed){
+//		int dutyCycle = EngineControl.speedToDutyCycle(speed);
+//		send(ECP.getECP(ECP.DIRECTION_BACKWARD, dutyCycle, dutyCycle));
+//	}
+//	
+//	public void stop(){
+//		send(ECP.getECP(ECP.DIRECTION_FORWARD, 0, 0));
+//	}
 
 	/**
 	 * Shows a {@link Toast} (only for testing)
