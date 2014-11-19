@@ -2,8 +2,8 @@ package at.htl.EngineControl;
 
 public class EngineTask {
 
-	public static final int LSB = 0;
-	public static final int MSB = 1;
+	public static final int LOWBYTE = 0;
+	public static final int HIGHBYTE = 1;
 
 	private byte id;
 	private byte actionCode;
@@ -41,8 +41,8 @@ public class EngineTask {
 		this.directionCode = directionCode;
 		this.dutyCircleLeft = dutyCircleLeft;
 		this.dutyCircleRight = dutyCircleRight;
-		this.durations[MSB] = (byte) (duration >> 8);
-		this.durations[LSB] = (byte) duration;
+		this.durations[HIGHBYTE] = (byte) (duration >> 8);
+		this.durations[LOWBYTE] = (byte) duration;
 	}
 
 	public byte getDirectionCode() {
@@ -78,11 +78,11 @@ public class EngineTask {
 	}
 	
 	public byte getDurationMSB(){
-		return this.durations[MSB];
+		return this.durations[HIGHBYTE];
 	}
 	
 	public byte getDurationLSB(){
-		return this.durations[LSB];
+		return this.durations[LOWBYTE];
 	}
 
 	public byte getId() {
