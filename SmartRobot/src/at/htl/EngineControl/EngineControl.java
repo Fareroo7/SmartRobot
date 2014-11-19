@@ -1,6 +1,5 @@
 package at.htl.EngineControl;
 
-import java.io.IOException;
 
 /**
  * This class contains methods to control the movement of SmartRobot.
