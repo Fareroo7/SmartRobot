@@ -15,6 +15,8 @@ public class EngineControl {
 	 */
 	public static final double ROBOT_WIDTH = 0.20;
 
+	public static final double ROBOT_AVG_TURN_RADIUS = (ROBOT_WIDTH * 2) / 3;
+
 	/**
 	 * One of the five speed steps in meters per second.<br>
 	 * Maximum speed.
@@ -69,9 +71,9 @@ public class EngineControl {
 
 	public static void main(String[] args) {
 		speed = 1.0;
-		System.out.println(drive(true, 1).toString());
+		System.out.println(driveStraight(true, 1).toString());
 
-		System.out.println(turn(true, 3.0, Math.PI));
+		System.out.println(driveCurve(true, 3.0, Math.PI));
 	}
 
 	/**
@@ -119,7 +121,7 @@ public class EngineControl {
 		return (int) Math.round((distance * 1000) / (speed));
 	}
 
-	public static EngineTask drive(boolean forward, double distance) {
+	public static EngineTask driveStraight(boolean forward, double distance) {
 		return new EngineTask(ECP.ID_BROADCAST, ECP.A_NEW, forward ? ECP.DIRECTION_FORWARD : ECP.DIRECTION_BACKWARD, (byte) speedToDutyCycle(speed),
 				(byte) speedToDutyCycle(speed), getTimeToDrive(distance));
 	}
@@ -134,7 +136,7 @@ public class EngineControl {
 	 *            in rad.
 	 * @return
 	 */
-	public static EngineTask turn(boolean clockwise, double radius, double angle) {
+	public static EngineTask driveCurve(boolean clockwise, double radius, double angle) {
 
 		double distance = radius * angle;
 		int time = getTimeToDrive(distance);
@@ -169,6 +171,15 @@ public class EngineControl {
 
 	public static EngineTask abortAll() {
 		return new EngineTask(ECP.ID_IMMEDIATE, ECP.A_DELETE_ALL, (byte) 0, (byte) 0, (byte) 0, 0);
+	}
+
+	public static EngineTask turn(boolean clockwise, double angle) {
+
+		double distance = angle * ROBOT_AVG_TURN_RADIUS;
+		int time = getTimeToDrive(distance);
+		byte dutyCycle = (byte) speedToDutyCycle(speed);
+		return new EngineTask(ECP.ID_BROADCAST, ECP.A_NEW, clockwise ? ECP.DIRECTION_TURN_CLOCKWISE : ECP.DIRECTION_TURN_ANTICLOCKWISE, dutyCycle, dutyCycle,
+				time);
 	}
 
 }

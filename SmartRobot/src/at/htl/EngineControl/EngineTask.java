@@ -23,6 +23,8 @@ public class EngineTask {
 	 * 
 	 * @param id
 	 *            The ID of the Task.
+	 * @param actionCode
+	 * 			  The code that defines the action performed by the task.
 	 * @param directionCode
 	 *            DirectionCode from ECP.
 	 * @param dutyCircleLeft
