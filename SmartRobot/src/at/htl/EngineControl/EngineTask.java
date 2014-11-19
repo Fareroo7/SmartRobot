@@ -44,54 +44,105 @@ public class EngineTask {
 		this.durations[LOWBYTE] = (byte) duration;
 	}
 
+	/**
+	 * Getter
+	 * @return 
+	 */
 	public byte getDirectionCode() {
 		return directionCode;
 	}
 
+	/**
+	 * Setter
+	 * @param actionCode
+	 */
 	public void setDirectionCode(byte directionCode) {
 		this.directionCode = directionCode;
 	}
-
+	
+	/**
+	 * Getter
+	 * @return 
+	 */
 	public byte getDutyCircleLeft() {
 		return dutyCircleLeft;
 	}
 
+	/**
+	 * Setter
+	 * @param actionCode
+	 */
 	public void setDutyCircleLeft(byte dutyCircleLeft) {
 		this.dutyCircleLeft = dutyCircleLeft;
 	}
 
+	/**
+	 * Getter
+	 * @return 
+	 */
 	public byte getDutyCircleRight() {
 		return dutyCircleRight;
 	}
 
+	/**
+	 * Setter
+	 * @param actionCode
+	 */
 	public void setDutyCircleRight(byte dutyCircleRight) {
 		this.dutyCircleRight = dutyCircleRight;
 	}
 
+	/**
+	 * Getter
+	 * @return 
+	 */
 	public int getDuration() {
 		return ((this.durations[HIGHBYTE]<<8)|(this.durations[LOWBYTE]&0xff));
 	}
-	
+
+	/**
+	 * Getter
+	 * @return 
+	 */
 	public byte getDurationMSB(){
 		return this.durations[HIGHBYTE];
 	}
-	
+
+	/**
+	 * Getter
+	 * @return 
+	 */
 	public byte getDurationLSB(){
 		return this.durations[LOWBYTE];
 	}
 
+	/**
+	 * Getter
+	 * @return 
+	 */
 	public byte getId() {
 		return id;
 	}
 
+	/**
+	 * Getter
+	 * @return 
+	 */
 	public byte getActionCode() {
 		return actionCode;
 	}
 
+	/**
+	 * Setter
+	 * @param actionCode
+	 */
 	public void setActionCode(byte actionCode) {
 		this.actionCode = actionCode;
 	}
-
+	/**
+	 * Custom toString.
+	 * @return Returns a String 
+	 */
 	@Override
 	public String toString() {
 		String direction = "";
