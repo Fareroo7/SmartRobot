@@ -110,7 +110,7 @@ int ECPInterpreter(struct EngineTask task){
         Serial.print("Links: ");
         Serial.println(task.dutyCycleLeft);
         Serial.print("Recht: ");
-        Serial.println(task.dutyCycleLeft);
+        Serial.println(task.dutyCycleRight);
         Serial.print("Zeit: ");
         Serial.println(task.duration);
         return ACKNOWLADGE;
@@ -122,7 +122,7 @@ int ECPInterpreter(struct EngineTask task){
         Serial.print("Links: ");
         Serial.println(task.dutyCycleLeft);
         Serial.print("Recht: ");
-        Serial.println(task.dutyCycleLeft);
+        Serial.println(task.dutyCycleRight);
         Serial.print("Zeit: ");
         Serial.println(task.duration);
         return ACKNOWLADGE;
@@ -134,7 +134,7 @@ int ECPInterpreter(struct EngineTask task){
         Serial.print("Links: ");
         Serial.println(task.dutyCycleLeft);
         Serial.print("Recht: ");
-        Serial.println(task.dutyCycleLeft);
+        Serial.println(task.dutyCycleRight);
         Serial.print("Zeit: ");
         Serial.println(task.duration);
         return ACKNOWLADGE; 
@@ -146,7 +146,7 @@ int ECPInterpreter(struct EngineTask task){
         Serial.print("Links: ");
         Serial.println(task.dutyCycleLeft);
         Serial.print("Recht: ");
-        Serial.println(task.dutyCycleLeft);
+        Serial.println(task.dutyCycleRight);
         Serial.print("Zeit: ");
         Serial.println(task.duration);
         return ACKNOWLADGE; 
@@ -156,9 +156,8 @@ int ECPInterpreter(struct EngineTask task){
 }
 
 void sendAck(byte err){
-  byte output[] = { START, err, END };
+  byte output[] = { START, id, err, END };
   acc.write(output, sizeof(output));
-  Serial.print((char)output[0]);
   Serial.print(output[1]);
   Serial.println((char)output[2]);
 }
