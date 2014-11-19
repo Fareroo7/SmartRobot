@@ -16,6 +16,8 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.Toast;
 import at.htl.EngineControl.ECP;
+import at.htl.EngineControl.EngineControl;
+import at.htl.EngineControl.EngineTask;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -48,26 +50,31 @@ public class MainActivity extends ActionBarActivity {
 			switch(v.getId()){
 			
 				case R.id.btnForward:
+					mEngineControl.send(EngineControl.drive(true, 1.0));
 //					mEngineControl.send(ECP.getECP(ECP.DIRECTION_FORWARD, seekBar.getProgress(), seekBar.getProgress()));
 //					mEngineControl.driveForward(1.5);
 //					showMessage("Forward");
 					break;
 					
 				case R.id.btnBackward:
+					mEngineControl.send(EngineControl.drive(false, 2.0));
 //					mEngineControl.send(ECP.getECP(ECP.DIRECTION_BACKWARD, seekBar.getProgress(), seekBar.getProgress()));
 //					mEngineControl.driveBackward(1.5);
 //					showMessage("Backward");
 					break;
 				
 				case R.id.btnLeft:
-					showMessage("Left");
+					mEngineControl.send(EngineControl.turn(true, 2.0, Math.PI / 2));
+//					showMessage("Left");
 					break;
 				
 				case R.id.btnRight:
-					showMessage("Right");
+					mEngineControl.send(EngineControl.turn(false, 3.0, Math.PI / 2));
+//					showMessage("Right");
 					break;
 				
 				case R.id.btnStop:
+					mEngineControl.send(EngineControl.abortAll());
 //					mEngineControl.stop();
 //					showMessage("Stop");
 					break;

@@ -4,7 +4,6 @@ import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.concurrent.Semaphore;
 
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -16,6 +15,7 @@ import android.os.ParcelFileDescriptor;
 import android.widget.Toast;
 import at.htl.EngineControl.ECP;
 import at.htl.EngineControl.EngineControl;
+import at.htl.EngineControl.EngineTask;
 
 import com.android.future.usb.UsbAccessory;
 import com.android.future.usb.UsbManager;
@@ -126,6 +126,17 @@ public class EngineController implements Runnable {
 			}
 		}
 
+	}
+	
+	public void send(EngineTask task) {
+		if(mOutputStream != null){
+			try {
+				mOutputStream.write(ECP.getECP(task));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public void resume() {
