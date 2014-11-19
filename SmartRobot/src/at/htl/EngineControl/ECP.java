@@ -135,6 +135,18 @@ public class ECP {
 	 */
 	public static final byte E_ID_OVERFLOW = 0x34;
 	
+	//Static Addresses
+	
+	/**
+	 * ID for messages that don't need an ID
+	 */
+	public static final byte ID_BROADCAST = (byte) 0xff;
+	
+	/**
+	 * ID for messages that have to be executed immediately. 
+	 */
+	public static final byte ID_IMMEDIATE = (byte) 0xfe;
+	
 	/**
 	 * Returns a ECPMessage as {@link String}.
 	 * @param forward Directions flag (true = forward and false = backward).

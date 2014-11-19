@@ -71,7 +71,7 @@ public class EngineControl {
 		speed = 1.0;
 		System.out.println(drive(true, 1).toString());
 
-		System.out.println(turn(true, 3.0, Math.PI / 2));
+		System.out.println(turn(true, 3.0, Math.PI));
 	}
 
 	/**
@@ -120,7 +120,7 @@ public class EngineControl {
 	}
 
 	public static EngineTask drive(boolean forward, double distance) {
-		return new EngineTask((byte) 0xff, ECP.A_NEW, forward ? ECP.DIRECTION_FORWARD : ECP.DIRECTION_BACKWARD, (byte) speedToDutyCycle(speed),
+		return new EngineTask(ECP.ID_BROADCAST, ECP.A_NEW, forward ? ECP.DIRECTION_FORWARD : ECP.DIRECTION_BACKWARD, (byte) speedToDutyCycle(speed),
 				(byte) speedToDutyCycle(speed), getTimeToDrive(distance));
 	}
 
@@ -164,6 +164,11 @@ public class EngineControl {
 
 		System.out.println("lDut: " + leftDutyCycle + " rdut: " + rightDutyCycle);
 
-		return new EngineTask((byte) 0xff, ECP.A_NEW, ECP.DIRECTION_FORWARD, (byte) leftDutyCycle, (byte) rightDutyCycle, time);
+		return new EngineTask(ECP.ID_BROADCAST, ECP.A_NEW, ECP.DIRECTION_FORWARD, (byte) leftDutyCycle, (byte) rightDutyCycle, time);
 	}
+
+	public static EngineTask abortAll() {
+		return new EngineTask(ECP.ID_IMMEDIATE, ECP.A_DELETE_ALL, (byte) 0, (byte) 0, (byte) 0, 0);
+	}
+
 }
