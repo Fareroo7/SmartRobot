@@ -63,8 +63,6 @@ public class EngineControl {
 	public static final int MAX_DUTY_CYCLE = 0xFF;
 
 	private static double curveRadius = 0.5;
-	private static double innerCurveRadius = curveRadius - (ROBOT_WIDTH / 2);
-	private static double outerCurveRadius = curveRadius + (ROBOT_WIDTH / 2);
 
 	private static double speed = SPEED_NORMAL;
 
