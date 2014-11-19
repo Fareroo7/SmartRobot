@@ -70,7 +70,7 @@ public class EngineControl {
 		speed = 1.0;
 		System.out.println(driveStraight(true, 1).toString());
 
-		System.out.println(driveCurve(true, 3.0, Math.PI));
+		System.out.println(driveCurve(true,true, 3.0, Math.PI));
 	}
 
 	/**
@@ -133,7 +133,7 @@ public class EngineControl {
 	 *            in rad.
 	 * @return
 	 */
-	public static EngineTask driveCurve(boolean clockwise, double radius, double angle) {
+	public static EngineTask driveCurve(boolean forward, boolean clockwise, double radius, double angle) {
 
 		double distance = radius * angle;
 		int time = getTimeToDrive(distance);
@@ -143,12 +143,18 @@ public class EngineControl {
 		double innerDistance = (radius - (ROBOT_WIDTH / 2)) * angle;
 		double outerDistance = (radius + (ROBOT_WIDTH / 2)) * angle;
 
-		System.out.println("Dist: " + innerDistance + " ; " + outerDistance);
+//		System.out.println("Dist: " + innerDistance + " ; " + outerDistance);
 
 		double innerSpeed = innerDistance * 1000 / time;
 		double outerSpeed = outerDistance * 1000 / time;
+		
+		if(outerSpeed > SPEED_MAX){
+			double diff = outerSpeed-SPEED_MAX;
+			outerSpeed-=diff;
+			innerSpeed-=diff;
+		}
 
-		System.out.println("Speeds: " + innerSpeed + " ; " + outerSpeed);
+//		System.out.println("Speeds: " + innerSpeed + " ; " + outerSpeed);
 
 		int leftDutyCycle;
 		int rightDutyCycle;
@@ -161,9 +167,9 @@ public class EngineControl {
 			rightDutyCycle = speedToDutyCycle(outerSpeed);
 		}
 
-		System.out.println("lDut: " + leftDutyCycle + " rdut: " + rightDutyCycle);
+//		System.out.println("lDut: " + leftDutyCycle + " rdut: " + rightDutyCycle);
 
-		return new EngineTask(ECP.ID_BROADCAST, ECP.A_NEW, ECP.DIRECTION_FORWARD, (byte) leftDutyCycle, (byte) rightDutyCycle, time);
+		return new EngineTask(ECP.ID_BROADCAST, ECP.A_NEW, forward ? ECP.DIRECTION_FORWARD : ECP.DIRECTION_BACKWARD, (byte) leftDutyCycle, (byte) rightDutyCycle, time);
 	}
 
 	public static EngineTask abortAll() {
