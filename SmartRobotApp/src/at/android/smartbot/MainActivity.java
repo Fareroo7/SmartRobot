@@ -34,7 +34,7 @@ public class MainActivity extends ActionBarActivity {
 			case 1:
 				byte[] rec = (byte[]) msg.obj;
 				if(rec[1] != 1){
-					String out = "" + rec[1];
+					String out = rec[1] + " / " + rec[2];
 					showMessage(out);
 				}
 				break;
@@ -69,7 +69,7 @@ public class MainActivity extends ActionBarActivity {
 					break;
 				
 				case R.id.btnRight:
-					mEngineControl.send(EngineControl.turn(false, 3.0, Math.PI / 2));
+					mEngineControl.send(EngineControl.turn(false, 2.0, Math.PI / 2));
 //					showMessage("Right");
 					break;
 				
@@ -108,42 +108,42 @@ public class MainActivity extends ActionBarActivity {
 		btnBackward = (Button) findViewById(R.id.btnBackward);
 		btnStop = (Button) findViewById(R.id.btnStop);
 		
-		seekBar = (SeekBar) findViewById(R.id.seekBarSpeed);
+//		seekBar = (SeekBar) findViewById(R.id.seekBarSpeed);
+//		
+//		btnLeft.setOnTouchListener(new OnTouchListener() {
+//			
+//			@Override
+//			public boolean onTouch(View v, MotionEvent event) {
+//				if(event.getAction() == MotionEvent.ACTION_DOWN){
+//					//Button pressed
+////					mEngineControl.send(ECP.getECP(ECP.DIRECTION_TURN_ANTICLOCKWISE, seekBar.getProgress(), seekBar.getProgress()));
+//				} else if(event.getAction() == MotionEvent.ACTION_UP) { 
+//					//Button released
+////					mEngineControl.stop();
+//				}
+//				
+//				return false;
+//			}
+//		});
+//		
+//		btnRight.setOnTouchListener(new OnTouchListener() {
+//			
+//			@Override
+//			public boolean onTouch(View v, MotionEvent event) {
+//				if(event.getAction() == MotionEvent.ACTION_DOWN){
+//					//Button pressed
+////					mEngineControl.send(ECP.getECP(ECP.DIRECTION_TURN_CLOCKWISE, seekBar.getProgress(), seekBar.getProgress()));
+//				} else if(event.getAction() == MotionEvent.ACTION_UP) { 
+//					//Button released
+////					mEngineControl.stop();
+//				}
+//				
+//				return false;
+//			}
+//		});
 		
-		btnLeft.setOnTouchListener(new OnTouchListener() {
-			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if(event.getAction() == MotionEvent.ACTION_DOWN){
-					//Button pressed
-//					mEngineControl.send(ECP.getECP(ECP.DIRECTION_TURN_ANTICLOCKWISE, seekBar.getProgress(), seekBar.getProgress()));
-				} else if(event.getAction() == MotionEvent.ACTION_UP) { 
-					//Button released
-//					mEngineControl.stop();
-				}
-				
-				return false;
-			}
-		});
-		
-		btnRight.setOnTouchListener(new OnTouchListener() {
-			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if(event.getAction() == MotionEvent.ACTION_DOWN){
-					//Button pressed
-//					mEngineControl.send(ECP.getECP(ECP.DIRECTION_TURN_CLOCKWISE, seekBar.getProgress(), seekBar.getProgress()));
-				} else if(event.getAction() == MotionEvent.ACTION_UP) { 
-					//Button released
-//					mEngineControl.stop();
-				}
-				
-				return false;
-			}
-		});
-		
-//		btnLeft.setOnClickListener(mControlButtonListener);
-//		btnRight.setOnClickListener(mControlButtonListener);
+		btnLeft.setOnClickListener(mControlButtonListener);
+		btnRight.setOnClickListener(mControlButtonListener);
 		btnForward.setOnClickListener(mControlButtonListener);
 		btnBackward.setOnClickListener(mControlButtonListener);
 		btnStop.setOnClickListener(mControlButtonListener);
