@@ -69,7 +69,7 @@ public class EngineTask {
 	}
 
 	public int getDuration() {
-		return ((this.durations[MSB]<<8)|(this.durations[LSB]&0xff));
+		return ((this.durations[HIGHBYTE]<<8)|(this.durations[LOWBYTE]&0xff));
 	}
 	
 	public byte getDurationMSB(){
