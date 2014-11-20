@@ -46,26 +46,26 @@ public class MainActivity extends ActionBarActivity {
 			switch(v.getId()){
 			
 				case R.id.btnForward:
-					mEngineControl.send("");
+					mEngineControl.send(EngineControl.driveStraight(true, 2.0));
 //					mEngineControl.send(ECP.getECP(ECP.DIRECTION_FORWARD, seekBar.getProgress(), seekBar.getProgress()));
 //					mEngineControl.driveForward(1.5);
 //					showMessage("Forward");
 					break;
 					
 				case R.id.btnBackward:
-					mEngineControl.send("");
+					mEngineControl.send(EngineControl.driveStraight(false, 3.0));
 //					mEngineControl.send(ECP.getECP(ECP.DIRECTION_BACKWARD, seekBar.getProgress(), seekBar.getProgress()));
 //					mEngineControl.driveBackward(1.5);
 //					showMessage("Backward");
 					break;
 				
 				case R.id.btnLeft:
-					mEngineControl.send("EngineControl.turn(true, 2.0, Math.PI / 2)");
+					mEngineControl.send(EngineControl.driveCurve(true, 2.0, Math.PI / 2));
 //					showMessage("Left");
 					break;
 				
 				case R.id.btnRight:
-					mEngineControl.send("EngineControl.turn(false, 2.0, Math.PI / 2)");
+					mEngineControl.send(EngineControl.driveCurve(false, 2.0, Math.PI / 2));
 //					showMessage("Right");
 					break;
 				
@@ -149,7 +149,7 @@ public class MainActivity extends ActionBarActivity {
 
 			@Override
 			public void onClick(View v) {
-//				mEngineControl.send(ECP.getECP(ECP.DIRECTION_TURN_ANTICLOCKWISE, seekBar.getProgress(), seekBar.getProgress()));
+				mEngineControl.send(EngineControl.turn(true, Math.PI / 2));
 			}
 		});
 
