@@ -10,32 +10,15 @@ AndroidAccessory acc("Smartbot",
 		     "http://www.android.com",
 		     "4200000123456789");
 
-// Pin Defines
-
-const int MOTOR_LEFT_ONE = 5;
-const int MOTOR_LEFT_TWO = 6;
-
-const int MOTOR_RIGHT_ONE = 10;
-const int MOTOR_RIGHT_TWO = 11;
-
-const int MOTOR_LEFT_DIS = 3;
-const int MOTOR_RIGHT_DIS = 2;
-
 byte packet[9];
 
 byte id = 0;
 
-EngineTask tasks[250];
+EngineTask tasks(packet);
 
 void setup() {                
   //Serial.begin(9600);
   //Serial.println("\r\nStart");
-  pinMode(MOTOR_LEFT_ONE, OUTPUT);
-  pinMode(MOTOR_LEFT_TWO, OUTPUT);
-  pinMode(MOTOR_RIGHT_ONE, OUTPUT);
-  pinMode(MOTOR_RIGHT_TWO, OUTPUT);
-  pinMode(MOTOR_LEFT_DIS, OUTPUT);
-  pinMode(MOTOR_RIGHT_DIS, OUTPUT);
   acc.powerOn();
 }
 
@@ -44,13 +27,13 @@ void loop() {
   if(acc.isConnected()){
       int len  = acc.read(packet, sizeof(packet), 1);
       if (len > 0) {
-         int error = ECPHandler(packet);
+         //int error = ECPHandler(packet);
 
-         sendAck(error);
+         //sendAck(error);
       }
   }
 }
-
+/*
 int ECPHandler(byte input[]){
   if(input[0] == START && input[8] == END){
       tasks[id].id = id;
@@ -151,3 +134,4 @@ void sendAck(byte err){
   Serial.print(output[1]);
   Serial.println((char)output[2]);
 }
+*/
