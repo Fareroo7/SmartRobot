@@ -10,28 +10,30 @@ AndroidAccessory acc("Smartbot",
 		     "http://www.android.com",
 		     "4200000123456789");
 
-byte packet[9];
+byte packet[9] = { 0x53, 0x01, 0x02, 0x11, 0xff, 0xff, 0x01, 0x12, 0x54 };
 
 byte id = 0;
 
 EngineTask tasks(packet);
 
 void setup() {                
-  //Serial.begin(9600);
-  //Serial.println("\r\nStart");
-  acc.powerOn();
+  Serial.begin(9600);
+  Serial.println("\r\nStart");
+  //acc.powerOn();
+  Serial.println(tasks.getID());
+  EngineTask::check(packet);
 }
 
 void loop() {
   
-  if(acc.isConnected()){
-      int len  = acc.read(packet, sizeof(packet), 1);
-      if (len > 0) {
+  //if(acc.isConnected()){
+      //int len  = acc.read(packet, sizeof(packet), 1);
+      //if (len > 0) {
          //int error = ECPHandler(packet);
 
          //sendAck(error);
-      }
-  }
+      //}
+  //}
 }
 /*
 int ECPHandler(byte input[]){
