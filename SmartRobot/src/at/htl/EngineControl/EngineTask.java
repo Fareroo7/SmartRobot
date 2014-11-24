@@ -1,5 +1,12 @@
 package at.htl.EngineControl;
 
+/**
+ * This class saves all parameters to transmite an engine - control message to the arduino board. 
+ * Objects of EngineTask can be converted into a message via {@link ECP} with the getECP() method. 
+ * 
+ * @author Dominik Simon
+ *
+ */
 public class EngineTask {
 
 	public static final int LOWBYTE = 0;
