@@ -81,7 +81,7 @@ public class Circle {
 			} else {
 
 				double a = (Utils.sqr(this.r) - Utils.sqr(c.r) + Utils.sqr(temp_m2_x) + Utils.sqr(temp_m2_y)) / (2.0 * temp_m2_x);
-				double b = -(2.0 * temp_m2_y) / (2.0 * temp_m2_x);
+				double b = -temp_m2_y / temp_m2_x;
 				double p = (2.0 * a * b) / (Utils.sqr(b) + 1.0);
 				double q = (Utils.sqr(a) - Utils.sqr(this.r)) / (Utils.sqr(b) + 1.0);
 
