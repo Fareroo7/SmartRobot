@@ -11,11 +11,22 @@
 class EngineTask
 {
  public:
-  EngineTask(byte data[8]);
-  boolean check(byte data[8]);
+  EngineTask(byte data[9]);
+  EngineTask();
+  static bool check(byte data[9]);
   byte getID();
   void setID(byte id);
-  
+  byte getActionCode();
+  void setActionCode(byte actionCode);
+  byte getDirectionCode();
+  void setDirectionCode(byte directionCode);
+  byte getDutyCycleLeft();
+  void setDutyCycleLeft(byte dutyCycleLeft);
+  byte getDutyCycleRight();
+  void setDutyCycleRight(byte dutyCycleRight);
+  byte getDuration();
+  void setDuration(byte duration);
+
  private:
   byte _id;
   byte _actionCode;

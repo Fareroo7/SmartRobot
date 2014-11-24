@@ -1,3 +1,4 @@
+#include <EngineTask.h>
 #include <Engine.h>
 #include <Max3421e.h>
 #include <Usb.h>
@@ -10,22 +11,38 @@ AndroidAccessory acc("Smartbot",
 		     "http://www.android.com",
 		     "4200000123456789");
 
-byte packet[9] = { 0x53, 0x01, 0x02, 0x11, 0xff, 0xff, 0x01, 0x12, 0x54 };
+byte packet[9] = { 0x53, 0x10, 0x02, 0x11, 0xff, 0xff, 0x01, 0x12, 0x54 };
 
 byte id = 0;
 
 Engine one(5, 6, 2);
+EngineTask task[250];
 
 void setup() {                
   Serial.begin(9600);
   Serial.println("\r\nStart");
   //acc.powerOn();
+  Serial.print("IN1: ");
+  Serial.println(one.getPinInOne());
+  Serial.print("IN2: ");
+  Serial.println(one.getPinInTwo());
+  Serial.print("DIN: ");
   Serial.println(one.getPinDis());
+  one.setDutyCycle(true, 150);
+  bool t = EngineTask::check(packet);
   
+  task[0] = EngineTask(packet);
+  Serial.println(task[0].getID());
 }
 
 void loop() {
   
+  one.enable();
+  delay(2000);
+  one.disable();
+  one.setDutyCycle(false, 20);
+  delay(2000);
+    
   //if(acc.isConnected()){
       //int len  = acc.read(packet, sizeof(packet), 1);
       //if (len > 0) {
