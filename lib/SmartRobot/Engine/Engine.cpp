@@ -11,11 +11,11 @@
 */
 Engine::Engine(int pinOne, int pinTwo, int pinDis)
 {
-  _pinInOne = pinOne;
-  _pinInTwo = pinTwo;
+  _pinOne = pinOne;
+  _pinTwo = pinTwo;
   _pinDis = pinDis;
-  pinMode(_pinInOne, OUTPUT);
-  pinMode(_pinInTwo, OUTPUT);
+  pinMode(_pinOne, OUTPUT);
+  pinMode(_pinTwo, OUTPUT);
   pinMode(_pinDis, OUTPUT);
   digitalWrite(_pinDis, HIGH);
 }
@@ -23,12 +23,12 @@ Engine::Engine(int pinOne, int pinTwo, int pinDis)
 
 int Engine::getPinInOne()
 {
-  return _pinInOne;
+  return _pinOne;
 }
 
 int Engine::getPinInTwo()
 {
-  return _pinInTwo;
+  return _pinTwo;
 }
 
 int Engine::getPinDis()
@@ -50,12 +50,12 @@ void Engine::setDutyCycle(bool forward, int dutyCycle)
 {
   if(forward)
   {
-    analogWrite(_pinInTwo, 0);
-    analogWrite(_pinInOne, dutyCycle);
+    analogWrite(_pinTwo, 0);
+    analogWrite(_pinOne, dutyCycle);
   } 
   else
   {
-    analogWrite(_pinInOne, 0);
-    analogWrite(_pinInTwo, dutyCycle);
+    analogWrite(_pinOne, 0);
+    analogWrite(_pinTwo, dutyCycle);
   }
 }

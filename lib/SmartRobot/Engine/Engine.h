@@ -12,16 +12,16 @@ class Engine
 {
  public:
   Engine(int pinOne, int pinTwo, int pinDis);
-  int getPinInOne();
-  int getPinInTwo();
+  int getPinOne();
+  int getPinTwo();
   int getPinDis();
   void enable();
   void disable();
   void setDutyCycle(bool forward, int dutyCycle);
   
  private:
-  int _pinInOne;
-  int _pinInTwo;
+  int _pinOne;
+  int _pinTwo;
   int _pinDis;
 };
 
