@@ -43,7 +43,7 @@
 #define TASK_ID_OVERFLOW 0x34
 
 /*
-   Constructs a new EnginTask from the received data.
+   Constructs a new EngineTask from the received data.
 */
 EngineTask::EngineTask(byte data[9])
 {
@@ -55,20 +55,13 @@ EngineTask::EngineTask(byte data[9])
   _duration = data[6] << 8 | data[7];
 }
 
+/*
+  Constructs a new empty EngineTask.
+*/
 EngineTask::EngineTask() {}
 
 /*
-  Return true if the received data is a EngineControlPacket, 
-  otherwise false.
-*/
-bool EngineTask::check(byte data[9])
-{
-  //return (data[0] == START && data[8] == END); 
-  return true;
-}
-
-/*
-  Return the ID of the task
+  Return the ID of the task.
 */
 byte EngineTask::getID()
 {
@@ -76,7 +69,7 @@ byte EngineTask::getID()
 }
 
 /*
-  Sets the ID of the Task
+  Sets the ID of the Task.
 */
 void EngineTask::setID(byte id)
 {
@@ -84,7 +77,7 @@ void EngineTask::setID(byte id)
 }
 
 /*
-  Return the ActionCode of the Task
+  Return the ActionCode of the Task.
 */
 byte EngineTask::getActionCode()
 {
@@ -92,10 +85,107 @@ byte EngineTask::getActionCode()
 }
 
 /*
-  Set the ActionCode of the Task
+  Set the ActionCode of the Task.
 */
 void EngineTask::setActionCode(byte actionCode)
 {
   _actionCode = actionCode;
 }
 
+/*
+  Return the DirectionCode of the Task.
+*/
+byte EngineTask::getDirectionCode()
+{
+  return _directionCode;
+}
+
+/*
+  Set the DirectionCode of the Task.
+*/
+void EngineTask::setDirectionCode(byte directionCode)
+{
+  _directionCode = directionCode;
+}
+
+/*
+  Return the DutyCycle for the left Engine of the Task.
+*/
+byte EngineTask::getDutyCycleLeft() 
+{
+  return _dutyCycleLeft;
+}
+
+/*
+  Set the DutyCycle for the left Engine of the Task.
+*/
+void EngineTask::setDutyCycleLeft(byte dutyCycleLeft)
+{
+  _dutyCycleLeft = dutyCycleLeft;
+}
+
+/*
+  Return the DutyCycle for the right Engine of the Task.
+*/
+byte EngineTask::getDutyCycleRight() 
+{
+  return _dutyCycleRight;
+}
+
+/*
+  Set the DutyCycle for the right Engine of the Task.
+*/
+void EngineTask::setDutyCycleRight(byte dutyCycleRight)
+{
+  _dutyCycleRight = dutyCycleRight;
+}
+
+/*
+  Return the Duration of the Task.
+*/
+unsigned int EngineTask::getDuration()
+{
+  return _duration;
+}
+
+/*
+  Set the Duration of the Task.
+*/
+void EngineTask::setDuration(unsigned int duration)
+{
+  _duration = duration;
+}
+
+/*
+  Return the high byte of the Duration of the Task.
+*/
+byte EngineTask::getDurationHighByte()
+{
+  return (_duration >> 8) & 0xff;
+}
+
+/*
+  Return the low byte of the Duration of the Task.
+*/
+
+byte EngineTask::getDurationLowByte()
+{
+  return _duration & 0xff;
+}
+
+/*
+  Set the Duration of the Task.
+*/
+void EngineTask::setDuration(byte highByte, byte lowByte)
+{
+  _duration = (highByte << 8) | lowByte;
+}
+
+/*
+  Return true if the received data is a EngineControlPacket, 
+  otherwise false.
+*/
+bool EngineTask::check(byte data[9])
+{
+  return (data[0] == START && data[8] == END); 
+}

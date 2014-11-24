@@ -24,8 +24,11 @@ class EngineTask
   void setDutyCycleLeft(byte dutyCycleLeft);
   byte getDutyCycleRight();
   void setDutyCycleRight(byte dutyCycleRight);
-  byte getDuration();
-  void setDuration(byte duration);
+  unsigned int getDuration();
+  void setDuration(unsigned int duration);
+  byte getDurationHighByte();
+  byte getDurationLowByte();
+  void setDuration(byte highByte, byte lowByte);
 
  private:
   byte _id;
