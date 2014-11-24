@@ -1,4 +1,4 @@
-#include <EngineTask.h>
+#include <Engine.h>
 #include <Max3421e.h>
 #include <Usb.h>
 #include <AndroidAccessory.h>
@@ -14,14 +14,14 @@ byte packet[9] = { 0x53, 0x01, 0x02, 0x11, 0xff, 0xff, 0x01, 0x12, 0x54 };
 
 byte id = 0;
 
-EngineTask tasks(packet);
+Engine one(5, 6, 2);
 
 void setup() {                
   Serial.begin(9600);
   Serial.println("\r\nStart");
   //acc.powerOn();
-  Serial.println(tasks.getID());
-  EngineTask::check(packet);
+  Serial.println(one.getPinDis());
+  
 }
 
 void loop() {
