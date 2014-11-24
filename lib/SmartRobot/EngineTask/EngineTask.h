@@ -29,6 +29,29 @@ class EngineTask
   byte getDurationHighByte();
   byte getDurationLowByte();
   void setDuration(byte highByte, byte lowByte);
+  const static byte START;
+  const static byte END;
+  const static byte DELETE_ALL;
+  const static byte INSERT;
+  const static byte DELETE;
+  const static byte UPDATE;
+  const static byte FORWARD;
+  const static byte BACKWARD;
+  const static byte CLOCKWISE;
+  const static byte ANTICLOCKWISE;
+  const static byte ACKNOWLADGE;
+  const static byte PROTOCOL_ERROR;
+  const static byte OVERCURRENT;
+  const static byte BUMPER_FRONT_LEFT;
+  const static byte BUMPER_FRONT_CENTER;
+  const static byte BUMPER_FRONT_RIGHT;
+  const static byte BUMPER_BACK_LEFT;
+  const static byte BUMPER_BACK_CENTER;
+  const static byte BUMPER_BACK_RIGHT;
+  const static byte NO_TASK;
+  const static byte TASK_COMPLETE;
+  const static byte TASK_ABORT;
+  const static byte TASK_ID_OVERFLOW;
 
  private:
   byte _id;

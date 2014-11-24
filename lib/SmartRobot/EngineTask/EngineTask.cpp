@@ -8,39 +8,39 @@
 
 // ----- Engine Control Protocol ----
 
-#define START 0x53
-#define END 0x54
+const byte EngineTask::START = 0x53;
+const byte EngineTask::END = 0x54;
 
 // ----- Action Codes -----
 
-#define DELETE_ALL 0x01
-#define INSERT 0x02
-#define DELETE 0x03
-#define UPDATE 0x04
+const byte EngineTask::DELETE_ALL = 0x01;
+const byte EngineTask::INSERT = 0x02;
+const byte EngineTask::DELETE = 0x03;
+const byte EngineTask::UPDATE = 0x04;
 
 // ----- Richtungscodes -----
 
-#define FORWARD 0x11
-#define BACKWARD 0x22
-#define CLOCKWISE 0x12
-#define ANTICLOCKWISE 0x21
+const byte EngineTask::FORWARD = 0x11;
+const byte EngineTask::BACKWARD = 0x22;
+const byte EngineTask::CLOCKWISE = 0x12;
+const byte EngineTask::ANTICLOCKWISE = 0x21;
 
 // ----- Kontrollcodes -----
-#define ACKNOWLADGE 0x01
-#define PROTOCOL_ERROR 0x02
-#define OVERCURRENT 0x10
+const byte EngineTask::ACKNOWLADGE = 0x01;
+const byte EngineTask::PROTOCOL_ERROR = 0x02;
+const byte EngineTask::OVERCURRENT = 0x10;
 
-#define BUMPER_FRONT_LEFT 0x24
-#define BUMPER_FRONT_CENTER 0x28
-#define BUMPER_FRONT_RIGHT 0x2C
-#define BUMPER_BACK_LEFT 0x21
-#define BUMPER_BACK_CENTER 0x22
-#define BUMPER_BACK_RIGHT 0x23
+const byte EngineTask::BUMPER_FRONT_LEFT = 0x24;
+const byte EngineTask::BUMPER_FRONT_CENTER = 0x28;
+const byte EngineTask::BUMPER_FRONT_RIGHT = 0x2C;
+const byte EngineTask::BUMPER_BACK_LEFT = 0x21;
+const byte EngineTask::BUMPER_BACK_CENTER = 0x22;
+const byte EngineTask::BUMPER_BACK_RIGHT = 0x23;
 
-#define NO_TASK 0x31
-#define TASK_COMPLETE 0x32
-#define TASK_ABORT 0x33
-#define TASK_ID_OVERFLOW 0x34
+const byte EngineTask::NO_TASK = 0x31;
+const byte EngineTask::TASK_COMPLETE = 0x32;
+const byte EngineTask::TASK_ABORT = 0x33;
+const byte EngineTask::TASK_ID_OVERFLOW = 0x34;
 
 /*
    Constructs a new EngineTask from the received data.

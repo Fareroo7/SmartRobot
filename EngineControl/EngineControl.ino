@@ -1,3 +1,4 @@
+#include <EngineController.h>
 #include <EngineTask.h>
 #include <Engine.h>
 #include <Max3421e.h>
@@ -13,144 +14,54 @@ AndroidAccessory acc("Smartbot",
 
 byte packet[9] = { 0x53, 0x10, 0x02, 0x11, 0xff, 0xff, 0x01, 0x12, 0x54 };
 
-byte id = 0;
+Engine one(2, 3, 30);
+Engine two(4, 5, 31);
+Engine three(6, 7, 32);
+Engine four(8, 9, 33);
+Engine five(10, 11, 34);
+Engine six(12, 13, 35);
 
-Engine one(5, 6, 2);
-EngineTask task[250];
+EngineController controller(one, two, three, four, five, six);
 
-void setup() {                
-  Serial.begin(9600);
-  Serial.println("\r\nStart");
-  //acc.powerOn();
-  Serial.print("IN1: ");
-  Serial.println(one.getPinInOne());
-  Serial.print("IN2: ");
-  Serial.println(one.getPinInTwo());
-  Serial.print("DIN: ");
-  Serial.println(one.getPinDis());
-  one.setDutyCycle(true, 150);
-  bool t = EngineTask::check(packet);
-  
-  task[0] = EngineTask(packet);
-  Serial.println(task[0].getID());
+byte taskID = 0;
+EngineTask tasks[250];
+
+void setup() {
+  //Serial.begin(9600);
+  //Serial.println(EngineTask::DELETE_ALL);
 }
 
 void loop() {
   
-  one.enable();
-  delay(2000);
-  one.disable();
-  one.setDutyCycle(false, 20);
-  delay(2000);
-    
-  //if(acc.isConnected()){
-      //int len  = acc.read(packet, sizeof(packet), 1);
-      //if (len > 0) {
-         //int error = ECPHandler(packet);
-
-         //sendAck(error);
-      //}
-  //}
+  if(acc.isConnected()){
+      int len  = acc.read(packet, sizeof(packet), 1);
+      if (len > 0) {
+         byte error = addTasktoArray(packet);
+         sendAck(taskID ,error);
+      }
+  }
+  
+  controller.start(true, 155, 100);
+  
 }
+
 /*
-int ECPHandler(byte input[]){
-  if(input[0] == START && input[8] == END){
-      tasks[id].id = id;
-      tasks[id].actionCode = input[2];
-      tasks[id].directionCode = input[3];
-      tasks[id].dutyCycleLeft = input[4];
-      tasks[id].dutyCycleRight = input[5];
-      tasks[id].duration = (input[6] << 8) | input[7];
-      int error = ECPInterpreter(tasks[id]);
-      id ++;
-      return error;
+  add Task to Array and increment the actuall ID and replaced it with the ID of the Task.
+*/
+int addTasktoArray(byte packet[9]){
+  if(EngineTask::check(packet)){
+    if(taskID >= 250) taskID = 0;
+    tasks[taskID] = EngineTask(packet);
+    tasks[taskID].setID(taskID);
+    taskID ++;
+    return EngineTask::ACKNOWLADGE;
   }else{
-    return PROTOCOL_ERROR;
+    return EngineTask::PROTOCOL_ERROR;
   }
 }
 
-int ECPInterpreter(struct EngineTask task){
- if(task.directionCode == FORWARD){
-        // Vorwärtsfahren
-        digitalWrite(MOTOR_RIGHT_DIS, LOW);
-        digitalWrite(MOTOR_LEFT_DIS, LOW);
-        digitalWrite(MOTOR_LEFT_TWO, LOW);
-        digitalWrite(MOTOR_RIGHT_TWO, LOW);
-        analogWrite(MOTOR_LEFT_ONE, task.dutyCycleLeft);
-        analogWrite(MOTOR_RIGHT_ONE, task.dutyCycleRight);
-        //Serial.println("Vorwärts");
-        //Serial.print("Aktion: ");
-        //Serial.println(task.actionCode);
-        //Serial.print("Links: ");
-        //Serial.println(task.dutyCycleLeft);
-        //Serial.print("Recht: ");
-        //Serial.println(task.dutyCycleRight);
-        //Serial.print("Zeit: ");
-        //Serial.println(task.duration);
-        return ACKNOWLADGE;
-      }else if(task.directionCode == BACKWARD){
-        // Rückwärtsfahren
-        digitalWrite(MOTOR_RIGHT_DIS, LOW);
-        digitalWrite(MOTOR_LEFT_DIS, LOW);
-        digitalWrite(MOTOR_LEFT_ONE, LOW);
-        digitalWrite(MOTOR_RIGHT_ONE, LOW);
-        analogWrite(MOTOR_LEFT_TWO, task.dutyCycleLeft);
-        analogWrite(MOTOR_RIGHT_TWO, task.dutyCycleRight);
-        //Serial.println("Rückwärts");
-        //Serial.print("Aktion: ");
-        //Serial.println(task.actionCode);
-        //Serial.print("Links: ");
-        //Serial.println(task.dutyCycleLeft);
-        //Serial.print("Recht: ");
-        //Serial.println(task.dutyCycleRight);
-        //Serial.print("Zeit: ");
-        //Serial.println(task.duration);
-        return ACKNOWLADGE;
-      }else if(task.directionCode == CLOCKWISE){
-        // Drehen im Uhrzeigersinn
-        digitalWrite(MOTOR_RIGHT_DIS, LOW);
-        digitalWrite(MOTOR_LEFT_DIS, LOW);
-        digitalWrite(MOTOR_LEFT_TWO, LOW);
-        digitalWrite(MOTOR_RIGHT_ONE, LOW);
-        analogWrite(MOTOR_LEFT_ONE, task.dutyCycleLeft);
-        analogWrite(MOTOR_RIGHT_TWO, task.dutyCycleRight);
-        //Serial.println("Drehen CW");
-        //Serial.print("Aktion: ");
-        //Serial.println(task.actionCode);
-        //Serial.print("Links: ");
-        //Serial.println(task.dutyCycleLeft);
-        //Serial.print("Recht: ");
-        //Serial.println(task.dutyCycleRight);
-        //Serial.print("Zeit: ");
-        //Serial.println(task.duration);
-        return ACKNOWLADGE; 
-      }else if(task.directionCode == ANTICLOCKWISE){
-        // Drehen gegen Uhrzeigersinn
-        digitalWrite(MOTOR_RIGHT_DIS, LOW);
-        digitalWrite(MOTOR_LEFT_DIS, LOW);
-        digitalWrite(MOTOR_LEFT_ONE, LOW);
-        digitalWrite(MOTOR_RIGHT_TWO, LOW);
-        analogWrite(MOTOR_LEFT_TWO, task.dutyCycleLeft);
-        analogWrite(MOTOR_RIGHT_ONE, task.dutyCycleRight);
-        //Serial.println("Drehen ACW");
-        //Serial.print("Aktion: ");
-        //Serial.println(task.actionCode);
-        //Serial.print("Links: ");
-        //Serial.println(task.dutyCycleLeft);
-        //Serial.print("Recht: ");
-        //Serial.println(task.dutyCycleRight);
-        //Serial.print("Zeit: ");
-        //Serial.println(task.duration);
-        return ACKNOWLADGE; 
-      }else{
-        return PROTOCOL_ERROR;
-      } 
+void sendAck(byte id, byte err){
+  byte output[] = { EngineTask::START, id, err, EngineTask::END };
+  acc.write(output, sizeof(output));
 }
 
-void sendAck(byte err){
-  byte output[] = { START, id, err, END };
-  acc.write(output, sizeof(output));
-  Serial.print(output[1]);
-  Serial.println((char)output[2]);
-}
-*/

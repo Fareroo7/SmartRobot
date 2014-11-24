@@ -20,13 +20,14 @@ Engine::Engine(int pinOne, int pinTwo, int pinDis)
   digitalWrite(_pinDis, HIGH);
 }
 
+Engine::Engine(){}
 
-int Engine::getPinInOne()
+int Engine::getPinOne()
 {
   return _pinOne;
 }
 
-int Engine::getPinInTwo()
+int Engine::getPinTwo()
 {
   return _pinTwo;
 }
@@ -50,12 +51,12 @@ void Engine::setDutyCycle(bool forward, int dutyCycle)
 {
   if(forward)
   {
-    analogWrite(_pinTwo, 0);
+    digitalWrite(_pinTwo, LOW);
     analogWrite(_pinOne, dutyCycle);
   } 
   else
   {
-    analogWrite(_pinOne, 0);
+    digitalWrite(_pinOne, LOW);
     analogWrite(_pinTwo, dutyCycle);
   }
 }

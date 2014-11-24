@@ -13,8 +13,9 @@ class EngineController
 {
  public:
   EngineController(Engine leftFront, Engine leftMiddle, Engine leftBack, Engine rightFront, Engine rightMiddle, Engine rightBack);
-  
-  
+  void start(bool forward, byte dutyCycleLeft, byte dutyCycleRight);
+  void stop();
+
  private:
   Engine _leftFront;
   Engine _leftMiddle;

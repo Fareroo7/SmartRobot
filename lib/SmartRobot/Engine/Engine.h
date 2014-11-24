@@ -12,6 +12,7 @@ class Engine
 {
  public:
   Engine(int pinOne, int pinTwo, int pinDis);
+  Engine();
   int getPinOne();
   int getPinTwo();
   int getPinDis();
