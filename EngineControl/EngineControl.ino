@@ -1,3 +1,4 @@
+#include <SimpleTimer.h>
 #include <EngineController.h>
 #include <EngineTask.h>
 #include <Engine.h>
@@ -12,7 +13,7 @@ AndroidAccessory acc("Smartbot",
 		     "http://www.android.com",
 		     "4200000123456789");
 
-byte packet[9] = { 0x53, 0x10, 0x02, 0x11, 0xff, 0xff, 0x01, 0x12, 0x54 };
+byte packet[9] = {EngineTask::START, 0xff, EngineTask::INSERT, EngineTask::FORWARD, 150, 100, 1, 12, EngineTask::END };
 
 Engine one(2, 3, 30);
 Engine two(4, 5, 31);
@@ -23,12 +24,18 @@ Engine six(12, 13, 35);
 
 EngineController controller(one, two, three, four, five, six);
 
-byte taskID = 0;
-EngineTask tasks[250];
+SimpleTimer timer;
 
 void setup() {
-  //Serial.begin(9600);
-  //Serial.println(EngineTask::DELETE_ALL);
+  Serial.begin(9600);
+  EngineTask testTask(packet);
+  sendAckTest(controller.handle(testTask));
+  testTask.setID(0xff);
+  testTask.setActionCode(EngineTask::UPDATE);
+  sendAckTest(controller.handle(testTask));
+  testTask.setID(0xff);
+  testTask.setActionCode(EngineTask::INSERT);
+  sendAckTest(controller.handle(testTask));
 }
 
 void loop() {
@@ -36,28 +43,23 @@ void loop() {
   if(acc.isConnected()){
       int len  = acc.read(packet, sizeof(packet), 1);
       if (len > 0) {
-         byte error = addTasktoArray(packet);
-         sendAck(taskID ,error);
+         unsigned int error = controller.handle(EngineTask(packet));
+         sendAck(error);
       }
   }
   
-  controller.start(true, 155, 100);
-  
 }
 
-/*
-  add Task to Array and increment the actuall ID and replaced it with the ID of the Task.
-*/
-int addTasktoArray(byte packet[9]){
-  if(EngineTask::check(packet)){
-    if(taskID >= 250) taskID = 0;
-    tasks[taskID] = EngineTask(packet);
-    tasks[taskID].setID(taskID);
-    taskID ++;
-    return EngineTask::ACKNOWLADGE;
-  }else{
-    return EngineTask::PROTOCOL_ERROR;
-  }
+void sendAck(unsigned int data){
+  byte output[] = { EngineTask::START, (data >> 8) & 0xff, data & 0xff, EngineTask::END };
+  acc.write(output, sizeof(output));
+}
+
+void sendAckTest(unsigned int data){
+  byte output[] = { EngineTask::START, (data >> 8) & 0xff, data & 0xff, EngineTask::END };
+  Serial.print((data >> 8) & 0xff);
+  Serial.print(", ");
+  Serial.println(data & 0xff);
 }
 
 void sendAck(byte id, byte err){
