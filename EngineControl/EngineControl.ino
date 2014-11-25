@@ -30,12 +30,18 @@ void setup() {
   Serial.begin(9600);
   EngineTask testTask(packet);
   sendAckTest(controller.handle(testTask));
-  testTask.setID(0xff);
+  sendAckTest(controller.handle(testTask));
+  sendAckTest(controller.handle(testTask));
+  sendAckTest(controller.handle(testTask));
+  sendAckTest(controller.handle(testTask));
+  sendAckTest(controller.handle(testTask));
+  sendAckTest(controller.handle(testTask));
+  sendAckTest(controller.handle(testTask));
+  testTask.setID(2);
   testTask.setActionCode(EngineTask::UPDATE);
+  testTask.setDutyCycleLeft(50);
   sendAckTest(controller.handle(testTask));
-  testTask.setID(0xff);
-  testTask.setActionCode(EngineTask::INSERT);
-  sendAckTest(controller.handle(testTask));
+  Serial.println(controller.getCurrentTaskID());
 }
 
 void loop() {

@@ -64,18 +64,21 @@ unsigned int EngineController::handle(EngineTask task)
 {
 	if(task.getID() == 0xfe)
 	{
-		//task sofort ausführen
+		//Task sofort ausführen
 	}
 	else if(task.getID() == 0xff)
 	{
-		//allgemeine ID
+		//Allgemeine ID
 		if(task.getActionCode() == EngineTask::DELETE_ALL){
+			//Alle Task löschen wenn lastTask = 0 keine Tasks.
 			_lastID = 0;
 			_taskID = 0;
 			return (task.getID() << 8) | EngineTask::ACKNOWLADGE;
 		} 
 		else if(task.getActionCode() == EngineTask::INSERT)
 		{
+			//Task einfügen.
+			if(_lastID > 250) _lastID = 0;
 			_lastID ++;
 			_tasks[_lastID] = task;
 			return (_lastID << 8) | EngineTask::ACKNOWLADGE;
@@ -87,9 +90,11 @@ unsigned int EngineController::handle(EngineTask task)
 	}
 	else
 	{
-		// task mit bestimmter ID bearbeiten
+		// Task mit bestimmter ID bearbeiten
 		if(task.getActionCode() == EngineTask::DELETE)
 		{
+			//Lösche Task.
+			//Verschiebe alle folgende Tasks eins auf.
 			for(byte id = task.getID(); id < _lastID; id ++)
 			{
 				_tasks[id] = _tasks[id + 1];
@@ -99,6 +104,7 @@ unsigned int EngineController::handle(EngineTask task)
 		}
 		else if(task.getActionCode() == EngineTask::UPDATE)
 		{
+			//Bearbeite Task.
 			byte id = task.getID();
 			_tasks[id] = task;
 			return (task.getID() << 8) | EngineTask::ACKNOWLADGE;
@@ -116,4 +122,9 @@ unsigned long EngineController::doNext()
 	{
 		
 	}
+}
+
+byte EngineController::getCurrentTaskID()
+{
+	return _taskID;
 }
