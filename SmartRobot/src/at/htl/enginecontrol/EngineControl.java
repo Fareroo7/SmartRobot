@@ -2,7 +2,7 @@ package at.htl.enginecontrol;
 
 
 /**
- * This class contains methods to control the movement of SmartRobot.
+ * This class contains methods and constants to control the movement of SmartRobot.
  * 
  * @author Dominik Simon
  * @version 1.0

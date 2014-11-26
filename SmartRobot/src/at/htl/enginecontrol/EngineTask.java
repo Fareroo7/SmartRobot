@@ -181,5 +181,13 @@ public class EngineTask {
 				+ ", Dutycircle Right=" + dutyCircleRight + ", Duration=" + this.getDuration() + " ms ]";
 
 	}
+	
+	/**
+	 * Returns the message in byte[] conform with the ECP for communication with the arduino.
+	 * @return The ECP-conform message to execute the EngineTask on the Arduino-board.
+	 */
+	public byte[] getECP(){
+		return new byte[] {EngineControl.START, this.getId(),this.getActionCode(), this.getDirectionCode(), this.getDutyCircleLeft(), this.getDutyCircleRight(), this.getDurationMSB(),this.getDurationLSB(), EngineControl.END};
+	}
 
 }
