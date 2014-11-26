@@ -1,11 +1,12 @@
 package at.htl.enginecontrol;
 
 /**
- * This class saves all parameters to transmite an engine - control message to the arduino board. 
- * Objects of EngineTask can be converted into a message via {@link ECP} with the getECP() method. 
+ * This class saves all parameters to transmite an engine - control message to
+ * the arduino board. Objects of EngineTask can be converted into a message via
+ * {@link ECP} with the getECP() method.
  * 
  * @author Dominik Simon
- *
+ * 
  */
 public class EngineTask {
 
@@ -13,7 +14,7 @@ public class EngineTask {
 	 * Position of the lowbyte of a unsigned int16 saved as byte-array
 	 */
 	public static final int LOWBYTE = 0;
-	
+
 	/**
 	 * Position of the highbyte of a unsigned int16 saved as byte-array
 	 */
@@ -38,7 +39,7 @@ public class EngineTask {
 	 * @param id
 	 *            The ID of the Task.
 	 * @param actionCode
-	 * 			  The code that defines the action performed by the task.
+	 *            The code that defines the action performed by the task.
 	 * @param directionCode
 	 *            DirectionCode from EngineControl.
 	 * @param dutyCircleLeft
@@ -62,7 +63,8 @@ public class EngineTask {
 
 	/**
 	 * Getter
-	 * @return 
+	 * 
+	 * @return
 	 */
 	public byte getDirectionCode() {
 		return directionCode;
@@ -70,15 +72,17 @@ public class EngineTask {
 
 	/**
 	 * Setter
+	 * 
 	 * @param actionCode
 	 */
 	public void setDirectionCode(byte directionCode) {
 		this.directionCode = directionCode;
 	}
-	
+
 	/**
 	 * Getter
-	 * @return 
+	 * 
+	 * @return
 	 */
 	public byte getDutyCircleLeft() {
 		return dutyCircleLeft;
@@ -86,6 +90,7 @@ public class EngineTask {
 
 	/**
 	 * Setter
+	 * 
 	 * @param actionCode
 	 */
 	public void setDutyCircleLeft(byte dutyCircleLeft) {
@@ -94,7 +99,8 @@ public class EngineTask {
 
 	/**
 	 * Getter
-	 * @return 
+	 * 
+	 * @return
 	 */
 	public byte getDutyCircleRight() {
 		return dutyCircleRight;
@@ -102,6 +108,7 @@ public class EngineTask {
 
 	/**
 	 * Setter
+	 * 
 	 * @param actionCode
 	 */
 	public void setDutyCircleRight(byte dutyCircleRight) {
@@ -110,31 +117,35 @@ public class EngineTask {
 
 	/**
 	 * Getter
-	 * @return 
+	 * 
+	 * @return
 	 */
 	public int getDuration() {
-		return ((this.durations[HIGHBYTE]<<8)|(this.durations[LOWBYTE]&0xff));
+		return ((this.durations[HIGHBYTE] << 8) | (this.durations[LOWBYTE] & 0xff));
 	}
 
 	/**
 	 * Getter
-	 * @return 
+	 * 
+	 * @return
 	 */
-	public byte getDurationMSB(){
+	public byte getDurationMSB() {
 		return this.durations[HIGHBYTE];
 	}
 
 	/**
 	 * Getter
-	 * @return 
+	 * 
+	 * @return
 	 */
-	public byte getDurationLSB(){
+	public byte getDurationLSB() {
 		return this.durations[LOWBYTE];
 	}
 
 	/**
 	 * Getter
-	 * @return 
+	 * 
+	 * @return
 	 */
 	public byte getId() {
 		return id;
@@ -142,7 +153,8 @@ public class EngineTask {
 
 	/**
 	 * Getter
-	 * @return 
+	 * 
+	 * @return
 	 */
 	public byte getActionCode() {
 		return actionCode;
@@ -150,14 +162,17 @@ public class EngineTask {
 
 	/**
 	 * Setter
+	 * 
 	 * @param actionCode
 	 */
 	public void setActionCode(byte actionCode) {
 		this.actionCode = actionCode;
 	}
+
 	/**
 	 * Custom toString.
-	 * @return Returns a String 
+	 * 
+	 * @return Returns a String
 	 */
 	@Override
 	public String toString() {
@@ -181,13 +196,17 @@ public class EngineTask {
 				+ ", Dutycircle Right=" + dutyCircleRight + ", Duration=" + this.getDuration() + " ms ]";
 
 	}
-	
+
 	/**
-	 * Returns the message in byte[] conform with the ECP for communication with the arduino.
-	 * @return The ECP-conform message to execute the EngineTask on the Arduino-board.
+	 * Returns the message in byte[] conform with the ECP for communication with
+	 * the arduino.
+	 * 
+	 * @return The ECP-conform message to execute the EngineTask on the
+	 *         Arduino-board.
 	 */
-	public byte[] getECP(){
-		return new byte[] {EngineControl.START, this.getId(),this.getActionCode(), this.getDirectionCode(), this.getDutyCircleLeft(), this.getDutyCircleRight(), this.getDurationMSB(),this.getDurationLSB(), EngineControl.END};
+	public byte[] getECP() {
+		return new byte[] { EngineControl.START, this.getId(), this.getActionCode(), this.getDirectionCode(), this.getDutyCircleLeft(),
+				this.getDutyCircleRight(), this.getDurationMSB(), this.getDurationLSB(), EngineControl.END };
 	}
 
 }
