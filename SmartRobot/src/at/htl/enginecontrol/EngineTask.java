@@ -33,7 +33,7 @@ public class EngineTask {
 	 * @param actionCode
 	 * 			  The code that defines the action performed by the task.
 	 * @param directionCode
-	 *            DirectionCode from ECP.
+	 *            DirectionCode from EngineControl.
 	 * @param dutyCircleLeft
 	 *            Dutycircle for the left engine.
 	 * @param dutyCircleRight
@@ -156,16 +156,16 @@ public class EngineTask {
 	public String toString() {
 		String direction = "";
 		switch (directionCode) {
-		case ECP.DIRECTION_FORWARD:
+		case EngineControl.DIRECTION_FORWARD:
 			direction = "FORWARD";
 			break;
-		case ECP.DIRECTION_BACKWARD:
+		case EngineControl.DIRECTION_BACKWARD:
 			direction = "BACKWARD";
 			break;
-		case ECP.DIRECTION_TURN_CLOCKWISE:
+		case EngineControl.DIRECTION_TURN_CLOCKWISE:
 			direction = "CLOCKWISE";
 			break;
-		case ECP.DIRECTION_TURN_ANTICLOCKWISE:
+		case EngineControl.DIRECTION_TURN_ANTICLOCKWISE:
 			direction = "ANTICLOCKWISE";
 			break;
 		}
