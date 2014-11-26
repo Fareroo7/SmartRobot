@@ -9,7 +9,14 @@ package at.htl.enginecontrol;
  */
 public class EngineTask {
 
+	/**
+	 * Position of the lowbyte of a unsigned int16 saved as byte-array
+	 */
 	public static final int LOWBYTE = 0;
+	
+	/**
+	 * Position of the highbyte of a unsigned int16 saved as byte-array
+	 */
 	public static final int HIGHBYTE = 1;
 
 	private byte id;
