@@ -41,7 +41,13 @@ void setup() {
   testTask.setActionCode(EngineTask::UPDATE);
   testTask.setDutyCycleLeft(50);
   sendAckTest(controller.handle(testTask));
+  testTask.setActionCode(EngineTask::DELETE);
+  sendAckTest(controller.handle(testTask));
+  testTask.setID(0xff);
+  testTask.setActionCode(EngineTask::DELETE_ALL);
+  sendAckTest(controller.handle(testTask));
   Serial.println(controller.getCurrentTaskID());
+  controller.printTasks();
 }
 
 void loop() {

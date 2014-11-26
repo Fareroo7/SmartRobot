@@ -41,6 +41,7 @@ const byte EngineTask::NO_TASK = 0x31;
 const byte EngineTask::TASK_COMPLETE = 0x32;
 const byte EngineTask::TASK_ABORT = 0x33;
 const byte EngineTask::TASK_ID_OVERFLOW = 0x34;
+const byte EngineTask::TASK_NOT_FOUND = 0x35;
 
 /*
    Constructs a new EngineTask from the received data.

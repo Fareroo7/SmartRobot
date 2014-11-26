@@ -65,23 +65,27 @@ unsigned int EngineController::handle(EngineTask task)
 	if(task.getID() == 0xfe)
 	{
 		//Task sofort ausführen
+		if(task.getActionCode() == EngineTask::DELETE_ALL){
+			//Alle Task löschen wenn index = 0 keine Tasks.
+			_index = 0;
+			_taskID = 0;
+			return (task.getID() << 8) | EngineTask::ACKNOWLADGE;
+		}
+		else{
+			return (task.getID() << 8) | EngineTask::PROTOCOL_ERROR;
+		}
 	}
 	else if(task.getID() == 0xff)
 	{
 		//Allgemeine ID
-		if(task.getActionCode() == EngineTask::DELETE_ALL){
-			//Alle Task löschen wenn lastTask = 0 keine Tasks.
-			_lastID = 0;
-			_taskID = 0;
-			return (task.getID() << 8) | EngineTask::ACKNOWLADGE;
-		} 
-		else if(task.getActionCode() == EngineTask::INSERT)
+		if(task.getActionCode() == EngineTask::INSERT)
 		{
 			//Task einfügen.
-			if(_lastID > 250) _lastID = 0;
-			_lastID ++;
-			_tasks[_lastID] = task;
-			return (_lastID << 8) | EngineTask::ACKNOWLADGE;
+			if(_index > 250) _index = 0;
+			task.setID(_index);
+			_tasks[_index] = task;
+			_index ++;
+			return ((_index - 1) << 8) | EngineTask::ACKNOWLADGE;
 		}
 		else
 		{
@@ -95,19 +99,40 @@ unsigned int EngineController::handle(EngineTask task)
 		{
 			//Lösche Task.
 			//Verschiebe alle folgende Tasks eins auf.
-			for(byte id = task.getID(); id < _lastID; id ++)
+			byte i = 255;
+			for(byte index = 0; index <= _index; index++)
 			{
-				_tasks[id] = _tasks[id + 1];
-				_tasks[id].setID(id);
+				if(_tasks[index].getID() == task.getID())
+				{
+					i = index;
+					break;
+				}
 			}
-			return (task.getID() << 8) | EngineTask::ACKNOWLADGE;
+			for(byte index = i; index < _index; index ++)
+			{
+				_tasks[index] = _tasks[index + 1];
+			}
+			if(i != 255)
+			{
+				_index --;
+				return (task.getID() << 8) | EngineTask::ACKNOWLADGE;
+			} else 
+			{
+				return (task.getID() << 8) | EngineTask::TASK_NOT_FOUND;
+			}
 		}
 		else if(task.getActionCode() == EngineTask::UPDATE)
 		{
-			//Bearbeite Task.
-			byte id = task.getID();
-			_tasks[id] = task;
-			return (task.getID() << 8) | EngineTask::ACKNOWLADGE;
+			//Aktualisire Task.
+			for(byte index = 0; index < _index; index++)
+			{
+				if(_tasks[index].getID() == task.getID())
+				{
+					_tasks[index] = task;
+					return (task.getID() << 8) | EngineTask::ACKNOWLADGE;
+				}
+			}
+			return (task.getID() << 8) | EngineTask::TASK_NOT_FOUND;
 		}
 		else
 		{
@@ -118,13 +143,53 @@ unsigned int EngineController::handle(EngineTask task)
 
 unsigned long EngineController::doNext()
 {
-	if(_tasks[_taskID].getDirectionCode() == EngineTask::EngineTask::FORWARD)
+	for(byte index; index < _index; index++)
 	{
-		
+		if(_tasks[index].getID() == _taskID){
+			if(_tasks[index].getDirectionCode() == EngineTask::FORWARD)
+			{
+				
+			} 
+			else if(_tasks[index].getDirectionCode() == EngineTask::BACKWARD)
+			{
+
+			} 
+			else if(_tasks[index].getDirectionCode() == EngineTask::CLOCKWISE)
+			{
+
+			} 
+			else if(_tasks[index].getDirectionCode() == EngineTask::ANTICLOCKWISE)
+			{
+
+			}
+			else
+			{
+				
+			}
+		}
 	}
 }
 
 byte EngineController::getCurrentTaskID()
 {
 	return _taskID;
+}
+
+void EngineController::printTasks()
+{
+	Serial.println("--- Tasks Output ---");
+	for(byte index = 0; index < _index; index++)
+	{
+		Serial.print(_tasks[index].getID());
+		Serial.print(", ");
+		Serial.print(_tasks[index].getActionCode());
+		Serial.print(", ");
+		Serial.print(_tasks[index].getDirectionCode());
+		Serial.print(", ");
+		Serial.print(_tasks[index].getDutyCycleLeft());
+		Serial.print(", ");
+		Serial.print(_tasks[index].getDutyCycleRight());
+		Serial.print(", ");
+		Serial.println(_tasks[index].getDuration());
+	}
 }

@@ -22,6 +22,7 @@ class EngineController
   unsigned int handle(EngineTask task);
   unsigned long doNext();
   byte getCurrentTaskID();
+  void printTasks();
 
  private:
   Engine _leftFront;
@@ -30,7 +31,7 @@ class EngineController
   Engine _rightFront;
   Engine _rightMiddle;
   Engine _rightBack;
-  byte _lastID;
+  byte _index;
   byte _taskID;
   EngineTask _tasks[250];
 };

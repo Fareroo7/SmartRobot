@@ -52,6 +52,7 @@ class EngineTask
   const static byte TASK_COMPLETE;
   const static byte TASK_ABORT;
   const static byte TASK_ID_OVERFLOW;
+  const static byte TASK_NOT_FOUND;
 
  private:
   byte _id;
