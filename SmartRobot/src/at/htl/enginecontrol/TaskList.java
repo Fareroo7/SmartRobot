@@ -1,4 +1,4 @@
-package at.htl.EngineControl;
+package at.htl.enginecontrol;
 
 import java.util.ArrayList;
 import java.util.Collection;

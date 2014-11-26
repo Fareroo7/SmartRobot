@@ -1,4 +1,4 @@
-package at.htl.Visualisation;
+package at.htl.visualisation;
 
 import java.awt.EventQueue;
 import java.awt.Graphics;

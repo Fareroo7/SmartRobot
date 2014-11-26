@@ -1,4 +1,4 @@
-package at.htl.EngineControl;
+package at.htl.enginecontrol;
 
 /**
  * This class saves all parameters to transmite an engine - control message to the arduino board. 
