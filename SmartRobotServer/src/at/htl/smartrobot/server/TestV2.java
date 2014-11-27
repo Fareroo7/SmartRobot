@@ -11,8 +11,7 @@ public class TestV2 {
 	private static int runs = 5000;
 	private static double[] offsets = new double[runs];
 	private static long systemTimerAfter, systemTimerBefore, nanoTimerAfter, nanoTimerBefore, offsetSystemTime, offsetNanoTime;
-	
-	private int runs = 5000;
+
 	private long[] offset_Timer = new long[runs];
 	long systemTimer_before;
 	long systemTimer_after;
