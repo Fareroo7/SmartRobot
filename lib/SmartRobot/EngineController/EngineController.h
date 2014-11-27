@@ -32,7 +32,7 @@ class EngineController
   Engine _rightMiddle;
   Engine _rightBack;
   byte _index;
-  byte _taskID;
+  byte _taskIndex;
   EngineTask _tasks[250];
 };
 

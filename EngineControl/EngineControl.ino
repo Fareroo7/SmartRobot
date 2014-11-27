@@ -13,7 +13,7 @@ AndroidAccessory acc("Smartbot",
 		     "http://www.android.com",
 		     "4200000123456789");
 
-byte packet[9] = {EngineTask::START, 0xff, EngineTask::INSERT, EngineTask::FORWARD, 150, 100, 1, 12, EngineTask::END };
+byte packet[9] = {EngineTask::START, 0xff, EngineTask::INSERT, EngineTask::FORWARD, 150, 100, 50, 140, EngineTask::END };
 
 Engine one(2, 3, 30);
 Engine two(4, 5, 31);
@@ -43,9 +43,15 @@ void setup() {
   sendAckTest(controller.handle(testTask));
   testTask.setActionCode(EngineTask::DELETE);
   sendAckTest(controller.handle(testTask));
-  testTask.setID(0xff);
-  testTask.setActionCode(EngineTask::DELETE_ALL);
-  sendAckTest(controller.handle(testTask));
+  Serial.println(controller.getCurrentTaskID());
+  controller.printTasks();
+  outputReturn(controller.doNext());
+  Serial.println(controller.getCurrentTaskID());
+  outputReturn(controller.doNext());
+  Serial.println(controller.getCurrentTaskID());
+  outputReturn(controller.doNext());
+  Serial.println(controller.getCurrentTaskID());
+  outputReturn(controller.doNext());
   Serial.println(controller.getCurrentTaskID());
   controller.printTasks();
 }
@@ -77,5 +83,13 @@ void sendAckTest(unsigned int data){
 void sendAck(byte id, byte err){
   byte output[] = { EngineTask::START, id, err, EngineTask::END };
   acc.write(output, sizeof(output));
+}
+
+void outputReturn(unsigned long data){
+  Serial.print((data >> 16));
+  Serial.print(", ");
+  Serial.print((data >> 8) & 0xff);
+  Serial.print(", ");
+  Serial.println(data & 0xff);
 }
 

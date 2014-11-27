@@ -68,7 +68,7 @@ unsigned int EngineController::handle(EngineTask task)
 		if(task.getActionCode() == EngineTask::DELETE_ALL){
 			//Alle Task löschen wenn index = 0 keine Tasks.
 			_index = 0;
-			_taskID = 0;
+			_taskIndex = 0;
 			return (task.getID() << 8) | EngineTask::ACKNOWLADGE;
 		}
 		else{
@@ -80,12 +80,20 @@ unsigned int EngineController::handle(EngineTask task)
 		//Allgemeine ID
 		if(task.getActionCode() == EngineTask::INSERT)
 		{
-			//Task einfügen.
-			if(_index > 250) _index = 0;
+			//Task einfügen und index erhöhen.
 			task.setID(_index);
 			_tasks[_index] = task;
-			_index ++;
-			return ((_index - 1) << 8) | EngineTask::ACKNOWLADGE;
+
+			if(_index <= 250)
+			{
+				_index ++;
+				return ((_index - 1) << 8) | EngineTask::ACKNOWLADGE;
+			}
+			else
+			{
+				_index = 0;
+				return (_index << 8) | EngineTask::TASK_ID_OVERFLOW;
+			}	
 		}
 		else
 		{
@@ -98,28 +106,22 @@ unsigned int EngineController::handle(EngineTask task)
 		if(task.getActionCode() == EngineTask::DELETE)
 		{
 			//Lösche Task.
-			//Verschiebe alle folgende Tasks eins auf.
-			byte i = 255;
+			//Verschiebe alle folgende Tasks eins vor.
 			for(byte index = 0; index <= _index; index++)
 			{
 				if(_tasks[index].getID() == task.getID())
 				{
-					i = index;
-					break;
+					for(byte i = index; i < _index; i ++)
+					{
+						_tasks[i] = _tasks[i + 1];
+					}
+					_index --;
+					if(_taskIndex > index) _taskIndex --;
+					return (task.getID() << 8) | EngineTask::ACKNOWLADGE;
 				}
 			}
-			for(byte index = i; index < _index; index ++)
-			{
-				_tasks[index] = _tasks[index + 1];
-			}
-			if(i != 255)
-			{
-				_index --;
-				return (task.getID() << 8) | EngineTask::ACKNOWLADGE;
-			} else 
-			{
-				return (task.getID() << 8) | EngineTask::TASK_NOT_FOUND;
-			}
+			
+			return (task.getID() << 8) | EngineTask::TASK_NOT_FOUND;
 		}
 		else if(task.getActionCode() == EngineTask::UPDATE)
 		{
@@ -143,36 +145,48 @@ unsigned int EngineController::handle(EngineTask task)
 
 unsigned long EngineController::doNext()
 {
-	for(byte index; index < _index; index++)
+	if(_taskIndex <= _index)
 	{
-		if(_tasks[index].getID() == _taskID){
-			if(_tasks[index].getDirectionCode() == EngineTask::FORWARD)
-			{
-				
-			} 
-			else if(_tasks[index].getDirectionCode() == EngineTask::BACKWARD)
-			{
-
-			} 
-			else if(_tasks[index].getDirectionCode() == EngineTask::CLOCKWISE)
-			{
-
-			} 
-			else if(_tasks[index].getDirectionCode() == EngineTask::ANTICLOCKWISE)
-			{
-
-			}
-			else
-			{
-				
-			}
+		if(_tasks[_taskIndex].getDirectionCode() == EngineTask::FORWARD)
+		{
+			drive(true, _tasks[_taskIndex].getDutyCycleLeft(), _tasks[_taskIndex].getDutyCycleRight());
+			unsigned long out = ((unsigned long)_tasks[_taskIndex].getDuration() << 16) | (_tasks[_taskIndex].getID() << 8) | EngineTask::TASK_COMPLETE;
+			_taskIndex ++;
+			return  out;
+		} 
+		else if(_tasks[_taskIndex].getDirectionCode() == EngineTask::BACKWARD)
+		{
+			drive(false, _tasks[_taskIndex].getDutyCycleLeft(), _tasks[_taskIndex].getDutyCycleRight());
+			_taskIndex ++;
+			return ((unsigned long)_tasks[_taskIndex - 1].getDuration() << 16) | (_tasks[_taskIndex].getID() << 8) | EngineTask::TASK_COMPLETE;
+		} 
+		else if(_tasks[_taskIndex].getDirectionCode() == EngineTask::CLOCKWISE)
+		{
+			turn(true, _tasks[_taskIndex].getDutyCycleLeft(), _tasks[_taskIndex].getDutyCycleRight());
+			_taskIndex ++;
+			return ((unsigned long)_tasks[_taskIndex].getDuration() << 16) | (_tasks[_taskIndex].getID() << 8) | EngineTask::TASK_COMPLETE;
+		} 
+		else if(_tasks[_taskIndex].getDirectionCode() == EngineTask::ANTICLOCKWISE)
+		{
+			turn(false, _tasks[_taskIndex].getDutyCycleLeft(), _tasks[_taskIndex].getDutyCycleRight());
+			_taskIndex ++;
+			return ((unsigned long)_tasks[_taskIndex].getDuration() << 16) | (_tasks[_taskIndex].getID() << 8) | EngineTask::TASK_COMPLETE;
+		}
+		else
+		{
+			return ((unsigned long)0x0000 << 16) | (_tasks[_taskIndex].getID() << 8) | EngineTask::PROTOCOL_ERROR;
 		}
 	}
+	else
+	{
+		return ((unsigned long)0x0000 << 16) | (0xff << 8) | EngineTask::NO_TASK;
+	}
+		
 }
 
 byte EngineController::getCurrentTaskID()
 {
-	return _taskID;
+	return _taskIndex;
 }
 
 void EngineController::printTasks()
