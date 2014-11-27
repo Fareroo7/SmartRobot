@@ -29,10 +29,12 @@ public class Point {
 	/**
 	 * Constructs a new empty Point-Object.
 	 */
-	public Point() {}
+	public Point() {
+	}
 
 	/**
 	 * Returns the x coordinate of the Point.
+	 * 
 	 * @return X coordinate.
 	 */
 	public double getX() {
@@ -41,7 +43,9 @@ public class Point {
 
 	/**
 	 * Sets the x coordinate of the Point.
-	 * @param pos_x X coordinate.
+	 * 
+	 * @param pos_x
+	 *            X coordinate.
 	 */
 	public void setX(double pos_x) {
 		this.pos_x = pos_x;
@@ -49,6 +53,7 @@ public class Point {
 
 	/**
 	 * Returns the y coordinate of the Point.
+	 * 
 	 * @return Y coordinate.
 	 */
 	public double getY() {
@@ -57,13 +62,14 @@ public class Point {
 
 	/**
 	 * Sets the y coordinate of the Point.
-	 * @param pos_y Y coordinate.
+	 * 
+	 * @param pos_y
+	 *            Y coordinate.
 	 */
 	public void setY(double pos_y) {
 		this.pos_y = pos_y;
 	}
 
-	
 	/**
 	 * Custom toString that returns a formatted Point.
 	 */
@@ -74,7 +80,9 @@ public class Point {
 
 	/**
 	 * Returns true if x and y coordinates are equal.
-	 * @param p Second point to compare.
+	 * 
+	 * @param p
+	 *            Second point to compare.
 	 * @return true if equal else false.
 	 */
 	public boolean equals(Point p) {
@@ -83,7 +91,9 @@ public class Point {
 
 	/**
 	 * Calculates the distance to another Point.
-	 * @param p Second Point.
+	 * 
+	 * @param p
+	 *            Second Point.
 	 * @return Distance to Point p.
 	 */
 	public double getDistanceTo(Point p) {
@@ -92,7 +102,9 @@ public class Point {
 
 	/**
 	 * Removes points from a list that have same coordinates.
-	 * @param points List to remove the redundant points.
+	 * 
+	 * @param points
+	 *            List to remove the redundant points.
 	 * @return ArrayList of Points without redundant points.
 	 */
 	public static ArrayList<Point> eliminateRedundance(ArrayList<Point> points) {
@@ -123,7 +135,8 @@ public class Point {
 	 * list without redundancy is returned.
 	 * 
 	 * @deprecated
-	 * @param points List to remove the redundant points.
+	 * @param points
+	 *            List to remove the redundant points.
 	 * @return ArrayList of Points without redundant points.
 	 */
 	public static ArrayList<Point> checkOneIntersectionPoint(ArrayList<Point> points) {
@@ -162,7 +175,9 @@ public class Point {
 
 	/**
 	 * Calculates the distance in the x-axis to another Point.
-	 * @param p Another Point.
+	 * 
+	 * @param p
+	 *            Another Point.
 	 * @return Distance in x-axis to Point p.
 	 */
 	public double getDeltaX(Point p) {
@@ -171,11 +186,34 @@ public class Point {
 
 	/**
 	 * Calculates the distance in the y-axis to another Point.
-	 * @param p Another Point.
+	 * 
+	 * @param p
+	 *            Another Point.
 	 * @return Distance in y-axis to Point p.
 	 */
 	public double getDeltaY(Point p) {
 		return p.getY() - this.pos_y;
+	}
+
+	// Simon beraten
+	
+	/**
+	 * Adds a {@link CartesianVector} to the point by adding the x and y component
+	 * @param v Is the CartesianVector that is added
+	 * @return a 
+	 */
+	public Point addVector(CartesianVector v) {
+		return new Point(this.getX() + v.getX(), this.getY() + v.getY());
+	}
+
+	/**
+	 * 
+	 * @param v
+	 * @return
+	 */
+	public Point addVector(PolarVector v) {
+		CartesianVector cv = v.toCartesianVector();
+		return new Point(this.getX() + cv.getX(), this.getY() + cv.getY());
 	}
 
 }
