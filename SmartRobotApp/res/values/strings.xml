@@ -23,5 +23,7 @@
     <string name="btnLeft">&#8592;</string>
     <string name="btnStop">-</string>
     <string name="btnBackward">&#8595;</string>
+    <string name="title_activity_engine_control">EngineControl</string>
+    <string name="engine_control">EngineControl</string>
 
 </resources>

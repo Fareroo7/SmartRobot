@@ -37,6 +37,10 @@
             android:name=".TrilateratetionActivity"
             android:label="@string/title_activity_trilateratetion" >
         </activity>
+        <activity
+            android:name=".EngineControlActivity"
+            android:label="@string/title_activity_engine_control" >
+        </activity>
     </application>
 
 </manifest>

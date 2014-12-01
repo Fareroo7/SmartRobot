@@ -93,7 +93,6 @@ public class TrilateratetionActivity extends ActionBarActivity {
 			return true;
 		}else if (id == R.id.action_back) {
 			showMainActivity();
-			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}

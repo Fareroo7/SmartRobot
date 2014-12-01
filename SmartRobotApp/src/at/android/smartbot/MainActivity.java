@@ -182,13 +182,19 @@ public class MainActivity extends ActionBarActivity {
 			return true;
 		} else if (id == R.id.action_trilaterate){
 			showTrilaterationActivity();
-			return true;
+		} else if (id == R.id.action_engine_control){
+			showEngineControlActivity();
 		}
 		return super.onOptionsItemSelected(item);
 	}
 
 	private void showTrilaterationActivity() {
 		Intent intent = new Intent(this, TrilateratetionActivity.class);
+		startActivity(intent);
+	}
+	
+	private void showEngineControlActivity() {
+		Intent intent = new Intent(this, EngineControl.class);
 		startActivity(intent);
 	}
 
