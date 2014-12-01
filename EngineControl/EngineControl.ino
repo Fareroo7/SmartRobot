@@ -30,30 +30,30 @@ void setup() {
   Serial.begin(9600);
   EngineTask testTask(packet);
   sendAckTest(controller.handle(testTask));
+  testTask.setDuration(2,54);
+  testTask.setDutyCycleLeft(100);
+  testTask.setDutyCycleRight(50);
+  testTask.setDirectionCode(EngineTask::BACKWARD);
+  sendAckTest(controller.handle(testTask));
+  testTask.setDuration(36,54);
+  testTask.setDutyCycleLeft(80);
+  testTask.setDutyCycleRight(150);
+  testTask.setDirectionCode(EngineTask::FORWARD);
+  sendAckTest(controller.handle(testTask));
+  testTask.setDuration(20,54);
+  testTask.setDutyCycleLeft(20);
+  testTask.setDutyCycleRight(200);
+  testTask.setDirectionCode(EngineTask::BACKWARD);
   sendAckTest(controller.handle(testTask));
   sendAckTest(controller.handle(testTask));
   sendAckTest(controller.handle(testTask));
   sendAckTest(controller.handle(testTask));
   sendAckTest(controller.handle(testTask));
-  sendAckTest(controller.handle(testTask));
-  sendAckTest(controller.handle(testTask));
-  testTask.setID(2);
-  testTask.setActionCode(EngineTask::UPDATE);
-  testTask.setDutyCycleLeft(50);
-  sendAckTest(controller.handle(testTask));
-  testTask.setActionCode(EngineTask::DELETE);
-  sendAckTest(controller.handle(testTask));
-  Serial.println(controller.getCurrentTaskID());
-  controller.printTasks();
-  outputReturn(controller.doNext());
-  Serial.println(controller.getCurrentTaskID());
-  outputReturn(controller.doNext());
-  Serial.println(controller.getCurrentTaskID());
-  outputReturn(controller.doNext());
-  Serial.println(controller.getCurrentTaskID());
-  outputReturn(controller.doNext());
-  Serial.println(controller.getCurrentTaskID());
-  controller.printTasks();
+  controller.stop();
+  delay(1000);
+  controller.start();
+  controller.doNext();
+  callMeLater(); 
 }
 
 void loop() {
@@ -65,7 +65,18 @@ void loop() {
          sendAck(error);
       }
   }
-  
+  timer.run();
+}
+
+void callMeLater(){
+  unsigned long out = controller.doNext();
+  long time = out >> 16;
+  byte id = (out >> 8) & 0xff;
+  byte ack = out & 0xff;
+  Serial.println(time);
+  Serial.println(id);
+  Serial.println(ack);
+  timer.setTimeout(time, callMeLater);
 }
 
 void sendAck(unsigned int data){
