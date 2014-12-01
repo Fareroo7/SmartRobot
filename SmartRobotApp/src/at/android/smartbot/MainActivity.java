@@ -59,7 +59,7 @@ public class MainActivity extends ActionBarActivity {
 //					showMessage("Backward");
 					break;
 				
-				case R.id.btnLeft:t	
+				case R.id.btnLeft:
 					mEngineControl.send(EngineControl.driveCurve(true, true, 2.0, Math.PI / 2));
 //					showMessage("Left");
 					break;
