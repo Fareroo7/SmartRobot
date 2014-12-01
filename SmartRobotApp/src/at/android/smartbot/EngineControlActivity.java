@@ -5,13 +5,31 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 public class EngineControlActivity extends ActionBarActivity {
 
+	private Spinner actionCodeSpinner;
+	private Spinner directionCodeSpinner;
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_engine_control);
+		
+		actionCodeSpinner = (Spinner) findViewById(R.id.spinner_action_code);
+		ArrayAdapter<CharSequence> ActionCodeAdapter = ArrayAdapter.createFromResource(this, R.array.action_code, R.layout.support_simple_spinner_dropdown_item);
+		ActionCodeAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+		actionCodeSpinner.setAdapter(ActionCodeAdapter);
+		
+		directionCodeSpinner = (Spinner) findViewById(R.id.spinner_direction_code);
+		ArrayAdapter<CharSequence> DirectionCodeAdapter = ArrayAdapter.createFromResource(this, R.array.direction_code, R.layout.support_simple_spinner_dropdown_item);
+		DirectionCodeAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+		directionCodeSpinner.setAdapter(DirectionCodeAdapter);
+		
+		
 	}
 
 	@Override

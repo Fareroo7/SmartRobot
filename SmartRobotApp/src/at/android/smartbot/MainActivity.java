@@ -194,7 +194,7 @@ public class MainActivity extends ActionBarActivity {
 	}
 	
 	private void showEngineControlActivity() {
-		Intent intent = new Intent(this, EngineControl.class);
+		Intent intent = new Intent(this, EngineControlActivity.class);
 		startActivity(intent);
 	}
 

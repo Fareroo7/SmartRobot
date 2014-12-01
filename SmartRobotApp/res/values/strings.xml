@@ -25,5 +25,17 @@
     <string name="btnBackward">&#8595;</string>
     <string name="title_activity_engine_control">EngineControl</string>
     <string name="engine_control">EngineControl</string>
+    <string-array name="direction_code">
+        <item>Forward</item>
+        <item>Backward</item>
+        <item>Clockwise</item>
+        <item>Anti-Clockwise</item>
+    </string-array>
+    <string-array name="action_code">
+        <item>New Task</item>
+        <item>Delete Task</item>
+        <item>Update Task</item>
+        <item>Delete All</item>
+    </string-array>
 
 </resources>
