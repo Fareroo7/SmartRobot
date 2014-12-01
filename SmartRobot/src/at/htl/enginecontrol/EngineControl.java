@@ -5,7 +5,7 @@ package at.htl.enginecontrol;
  * SmartRobot.
  * 
  * @author Dominik Simon
- * @version 1.0
+ * @version 3.1
  */
 public class EngineControl {
 
@@ -42,21 +42,17 @@ public class EngineControl {
 	 * Action Code to update the task with ID
 	 */
 	public static final byte A_UPDATE_ID = 0x04;
-	
+
 	/**
-	 * Action Code to slowly accelerate to target duty cycle without overload at the engines.
+	 * Action Code to slowly accelerate to target duty cycle without overload at
+	 * the engines.
 	 */
 	public static final byte A_ACCELERATE = 0x11;
-	
-	/**
-	 * Action Code to slowly slow down to target duty cycle.
-	 */
-	public static final byte A_SLOWDOWN = 0x12;
-	
+
 	/**
 	 * Action Code to stop the engines (is NOT like duty cycle = 0).
 	 */
-	public static final byte A_STOP = 0x13;
+	public static final byte A_STOP = 0x12;
 
 	// ----------Direction Codes----------
 
@@ -161,6 +157,8 @@ public class EngineControl {
 	 * ID for messages that have to be executed immediately.
 	 */
 	public static final byte ID_IMMEDIATE = (byte) 0xfe;
+
+	// Robot parameters
 
 	/**
 	 * Width of the SmartRobot in meters.
@@ -271,6 +269,11 @@ public class EngineControl {
 		return (int) Math.round((distance * 1000) / (speed));
 	}
 
+	public static EngineTask accelerateStraight(boolean forward) {
+		return new EngineTask(ID_BROADCAST, A_ACCELERATE, forward ? DIRECTION_FORWARD : DIRECTION_BACKWARD, (byte) speedToDutyCycle(speed),
+				(byte) speedToDutyCycle(speed), 0);
+	}
+
 	public static EngineTask driveStraight(boolean forward, double distance) {
 		return new EngineTask(ID_BROADCAST, A_NEW, forward ? DIRECTION_FORWARD : DIRECTION_BACKWARD, (byte) speedToDutyCycle(speed),
 				(byte) speedToDutyCycle(speed), getTimeToDrive(distance));
@@ -328,6 +331,10 @@ public class EngineControl {
 
 	public static EngineTask abortAll() {
 		return new EngineTask(ID_IMMEDIATE, A_DELETE_ALL, (byte) 0, (byte) 0, (byte) 0, 0);
+	}
+
+	public static EngineTask stop() {
+		return new EngineTask(ID_BROADCAST, A_STOP, (byte) 0, (byte) 0, (byte) 0, 0);
 	}
 
 	public static EngineTask turn(boolean clockwise, double angle) {
