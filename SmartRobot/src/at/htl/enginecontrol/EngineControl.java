@@ -42,6 +42,21 @@ public class EngineControl {
 	 * Action Code to update the task with ID
 	 */
 	public static final byte A_UPDATE_ID = 0x04;
+	
+	/**
+	 * Action Code to slowly accelerate to target duty cycle without overload at the engines.
+	 */
+	public static final byte A_ACCELERATE = 0x11;
+	
+	/**
+	 * Action Code to slowly slow down to target duty cycle.
+	 */
+	public static final byte A_SLOWDOWN = 0x12;
+	
+	/**
+	 * Action Code to stop the engines (is NOT like duty cycle = 0).
+	 */
+	public static final byte A_STOP = 0x13;
 
 	// ----------Direction Codes----------
 
