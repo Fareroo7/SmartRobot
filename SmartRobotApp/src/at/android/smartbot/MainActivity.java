@@ -13,7 +13,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.Toast;
-import at.htl.EngineControl.EngineControl;
+import at.htl.enginecontrol.EngineControl;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -59,13 +59,13 @@ public class MainActivity extends ActionBarActivity {
 //					showMessage("Backward");
 					break;
 				
-				case R.id.btnLeft:
-					mEngineControl.send(EngineControl.driveCurve(true, 2.0, Math.PI / 2));
+				case R.id.btnLeft:t	
+					mEngineControl.send(EngineControl.driveCurve(true, true, 2.0, Math.PI / 2));
 //					showMessage("Left");
 					break;
 				
 				case R.id.btnRight:
-					mEngineControl.send(EngineControl.driveCurve(false, 2.0, Math.PI / 2));
+					mEngineControl.send(EngineControl.driveCurve(false, true, 2.0, Math.PI / 2));
 //					showMessage("Right");
 					break;
 				

@@ -12,12 +12,42 @@
         android:id="@+id/spinner_action_code"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp" />
-    
+
     <Spinner
         android:id="@+id/spinner_direction_code"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/spinner_action_code"
+        android:layout_below="@+id/spinner_action_code"
         android:layout_marginTop="10dp" />
+
+   	<EditText
+        android:id="@+id/et_id"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/et_id"
+        android:layout_below="@+id/spinner_direction_code"
+        android:ems="10" />
+   	
+ 	<EditText
+ 	    android:layout_marginTop="10dp"
+        android:id="@+id/et_dutycycle_left"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/et_id"
+        android:ems="10" />
+
+    <EditText
+        android:layout_marginTop="10dp"
+        android:id="@+id/et_dutycycle_right"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/et_dutycycle_left"
+        android:layout_alignBottom="@+id/et_dutycycle_left"
+        android:layout_alignParentRight="true"
+        android:ems="10" />
 
 </RelativeLayout>

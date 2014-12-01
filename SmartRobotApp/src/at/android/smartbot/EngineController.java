@@ -13,9 +13,7 @@ import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import android.widget.Toast;
-import at.htl.EngineControl.ECP;
-import at.htl.EngineControl.EngineControl;
-import at.htl.EngineControl.EngineTask;
+import at.htl.enginecontrol.EngineTask;
 
 import com.android.future.usb.UsbAccessory;
 import com.android.future.usb.UsbManager;
@@ -131,7 +129,7 @@ public class EngineController implements Runnable {
 	public void send(EngineTask task) {
 		if(mOutputStream != null){
 			try {
-				mOutputStream.write(ECP.getECP(task));
+				mOutputStream.write(task.getECP());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
