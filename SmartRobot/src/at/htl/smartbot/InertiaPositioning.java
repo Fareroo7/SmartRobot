@@ -4,6 +4,11 @@ import java.util.Observable;
 
 import at.htl.geometrics.*;
 
+/**
+ * 
+ * @author Jakob Ecker
+ *
+ */
 public class InertiaPositioning extends Observable {
 
 	private Point start_Pos;
@@ -20,18 +25,32 @@ public class InertiaPositioning extends Observable {
 		this.current_Pos = this.start_Pos;
 	}
 
-	// Observable ?
+	/**
+	 * Updates the current position by calculating the covered distance in the
+	 * timespan to the last update-time from the acceleration.
+	 * 
+	 * @param time
+	 *            absolut system time in ns. The diffence is calculated
+	 *            internal.
+	 * @param acceleration
+	 *            the acceleration for the timespan in m per s<sup>2</sup>
+	 */
 	public void newValue(long time, CartesianVector acceleration) {
 		this.setChanged();
 
-		CartesianVector dv = new CartesianVector(acceleration.getX() * Utils.sqr(time - this.last_update_time), acceleration.getY()
-				* Utils.sqr(time - this.last_update_time));
+		CartesianVector dv = new CartesianVector(acceleration.getX() * Utils.sqr((time - this.last_update_time) / 1E9), acceleration.getY()
+				* Utils.sqr((time - this.last_update_time) / 1E9));
 		current_Pos = current_Pos.addVector(dv);
 		this.last_update_time = time;
 
 		this.notifyObservers(current_Pos);
 	}
 
+	/**
+	 * Resets all values to start-values
+	 * @param time new start-time
+	 * @param start_position position where the relative positioning starts.
+	 */
 	public void reset(long time, Point start_position) {
 		this.start_Pos = start_position;
 		this.current_Pos = start_position;
