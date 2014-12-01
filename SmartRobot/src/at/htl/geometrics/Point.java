@@ -215,5 +215,5 @@ public class Point {
 		CartesianVector cv = v.toCartesianVector();
 		return new Point(this.getX() + cv.getX(), this.getY() + cv.getY());
 	}
-
+	
 }
