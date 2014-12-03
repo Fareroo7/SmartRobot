@@ -216,4 +216,10 @@ public class Point {
 		return new Point(this.getX() + cv.getX(), this.getY() + cv.getY());
 	}
 	
+	public CartesianVector subPoint(Point p){
+		return new CartesianVector(this.getDeltaX(p),this.getDeltaY(p));
+	}
+	
+	
+	
 }

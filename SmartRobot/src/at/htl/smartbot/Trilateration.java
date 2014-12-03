@@ -29,6 +29,7 @@ public class Trilateration {
 
 		Triangle triangle;
 
+		//Berechne die Schnittpunkte jeder Kreiskombination
 		ArrayList<Point> points_of_intersection = new ArrayList<Point>();
 
 		Line temp_points_of_intersection = getPointsOfIntersectionCrircle(pos_S1, pos_S2, distance_S1, distance_S2);
@@ -43,18 +44,22 @@ public class Trilateration {
 		points_of_intersection.add(temp_points_of_intersection.getPoint1());
 		points_of_intersection.add(temp_points_of_intersection.getPoint2());
 
+		//Überprüfe ob nur ein Schnittpunkt vorhanden ist und entferne alle doppelten Punkte
 		points_of_intersection = Point.checkOneIntersectionPoint(points_of_intersection);
 
+		//Wenn es nur einen Schnittpunkt gibt, diesen zurückgeben
 		if (points_of_intersection.size() == 1) {
 			return points_of_intersection.get(0);
 		}
+		//Wenn es keinen Schnittpunkt nichts zurückgeben
 		if (points_of_intersection.size() == 0) {
 			System.out.println("Something goes wrong!");
 			return null;
 		}
 
-
+		//Ein Dreieck aus den am nächsten zusammenliegenden Punkten konstruieren
 		triangle = Triangle.getSmallestTriangel(points_of_intersection);
+		//Schwerpunkt berechnen und zurückgeben
 		return triangle.getCentroidOfTriangle();
 	}
 
@@ -67,18 +72,21 @@ public class Trilateration {
 	 */
 	public static Point trilaterate(Circle c1, Circle c2, Circle c3) {
 		
+		//Berechne die Schnittpunkte jeder Kreiskombination
 		Point[] intersA = c1.getPointsOfIntersection(c2);
 		Point[] intersB = c2.getPointsOfIntersection(c3);
 		Point[] intersC = c3.getPointsOfIntersection(c1);
 		
-
+		//Deklaration der Punkte des triangulations-Dreieck
 		Point pA = null;
 		Point pB = null;
 		Point pC = null;
 
+		//Abfage of die Kreiskombination A nur einen Schnittpunkt hat, wenn ja kann dieser gleich für das Dreieck festgelegt werden.
 		if (intersA[0].equals(intersA[1])) {
 			pA = intersA[0];
 		} else {
+			//um einen der 2 Schnittpunkte der A-Kombination auszuwählen wird die Distanz von beiden zu allen anderen Schnittpunkten berechnet
 			double[] distances = new double[4];
 			distances[0] = intersA[0].getDistanceTo(intersB[0]);
 			distances[1] = intersA[0].getDistanceTo(intersB[1]);
@@ -91,6 +99,8 @@ public class Trilateration {
 			distances2[2] = intersA[1].getDistanceTo(intersC[0]);
 			distances2[3] = intersA[1].getDistanceTo(intersC[1]);
 
+			//Um den richtigen Punkt auszuwählen wird für beide Punkte die minimale distanz ermittelt verglichen
+			//der index der kleinsten distanz wird gespeichert um den Punkt danach gleich zuweisen zu können.
 			double smallesDistance = Double.MAX_VALUE;
 			int index = 0;
 			double smallesDistance2 = Double.MAX_VALUE;
@@ -107,6 +117,7 @@ public class Trilateration {
 				}
 			}
 
+			//
 			if (smallesDistance < smallesDistance2) {
 				pA = intersA[0];
 

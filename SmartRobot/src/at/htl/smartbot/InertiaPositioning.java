@@ -5,9 +5,9 @@ import java.util.Observable;
 import at.htl.geometrics.*;
 
 /**
- * 
+ * Api to track the position of the bot with time and acceleration - values. This class just works when starting-speed is zero.
  * @author Jakob Ecker
- *
+ *@version 1.0
  */
 public class InertiaPositioning extends Observable {
 
