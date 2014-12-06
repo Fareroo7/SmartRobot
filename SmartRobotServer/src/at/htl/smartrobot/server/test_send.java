@@ -21,9 +21,10 @@ import java.util.TimerTask;
 
 public class test_send {
 	
-	public static long sendTime;
-	public static long receiveTime;
+	public static long timeSend;
+	public static long timeReceived;
 	public static long timeOffset;
+
 	
 	public static InetAddress mInetAddress;
 	public static int port;
@@ -38,6 +39,7 @@ public class test_send {
 	public static int counter = 1;
 	
 	public static void main(String[] args) {
+
 		Receiver r = new Receiver(50100, 4);
 		try {
 			bw = new BufferedWriter(new FileWriter(new File("./offsets.csv")));
@@ -52,10 +54,10 @@ public class test_send {
 
 			@Override
 			public void onReceive(UDPReceiveEvent e) {
-				receiveTime = System.nanoTime();
+//				receiveTime = System.nanoTime();
 				if(e.getUdpPacket().getData()[0] == 'A'){
 				
-					timeOffset = receiveTime - sendTime;
+//					timeOffset = receiveTime - sendTime;
 					
 	//				System.out.println("gesendet: \t" + sendTime);
 	//				System.out.println("empfangen: \t" + receiveTime);
@@ -95,7 +97,7 @@ public class test_send {
 						packet = new DatagramPacket(data, data.length, mInetAddress, port);
 						socket = new DatagramSocket();
 						
-						sendTime = System.nanoTime();
+//						sendTime = System.nanoTime();
 						
 						socket.send(packet);
 					} catch (UnknownHostException e) {
@@ -142,7 +144,6 @@ public class test_send {
 					this.cancel();
 				}
 			}
-			
 		}
 		
 		Timer timer = new Timer();
