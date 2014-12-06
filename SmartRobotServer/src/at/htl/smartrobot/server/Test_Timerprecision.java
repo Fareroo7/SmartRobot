@@ -24,7 +24,7 @@ public class Test_Timerprecision {
 	public static long lastTime;
 	public static long currentTime;
 	public static int count = 0;
-	public static int runs = 1000;
+	public static int runs = 5000;
 
 	public static void main(String[] args) {
 
@@ -52,7 +52,8 @@ public class Test_Timerprecision {
 
 					for (long difference : values) {
 						try {
-							bw.write(Long.toString(difference));
+							bw.write(Long.toString(difference)+";");
+							bw.newLine();
 							System.out.println(difference);
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
@@ -67,6 +68,7 @@ public class Test_Timerprecision {
 						e.printStackTrace();
 					}
 					this.cancel();
+					System.exit(0);
 				}
 
 			}

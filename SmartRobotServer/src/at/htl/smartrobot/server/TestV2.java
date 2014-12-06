@@ -9,8 +9,16 @@ import java.sql.Date;
 public class TestV2 {
 
 	private static int runs = 5000;
-	private static long[] offsets = new long[runs];
+	private static double[] offsets = new double[runs];
 	private static long systemTimerAfter, systemTimerBefore, nanoTimerAfter, nanoTimerBefore, offsetSystemTime, offsetNanoTime;
+
+	private long[] offset_Timer = new long[runs];
+	long systemTimer_before;
+	long systemTimer_after;
+	long nanoTimer_before;
+	long nanoTimer_after;
+	
+	
 	
 	public static void main(String[] args) {
 	
@@ -27,12 +35,12 @@ public class TestV2 {
 				offsetSystemTime = systemTimerBefore - systemTimerAfter;
 				offsetNanoTime = nanoTimerBefore - nanoTimerAfter;
 				
-				offsets[i] = offsetNanoTime - (offsetSystemTime * 1000000);
+				offsets[i] = ((double)offsetNanoTime / 1000000) - (double)offsetSystemTime;
 				System.out.println(i);
 			}
 			
-			for(long offset : offsets){
-				bw.write(Long.toString(offset) + ";");
+			for(double offset : offsets){
+				bw.write(offset + ";");
 				bw.newLine();
 			}
 			
