@@ -4,80 +4,21 @@ import android.support.v7.app.ActionBarActivity;
 import android.content.Intent;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.SeekBar;
 import android.widget.Toast;
 import at.htl.enginecontrol.EngineControl;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements USBReceiveListener{
 
 	private Accelerometer mAccelerometer;
 
 	private EngineController mEngineControl;
-	private Handler mUsbHandler = new Handler() {
-
-		@Override
-		public void handleMessage(Message msg) {
-			super.handleMessage(msg);
-			switch (msg.what) {
-			case 1:
-				byte[] rec = (byte[]) msg.obj;
-				if(rec[1] != 1){
-					String out = rec[1] + " / " + rec[2];
-					showMessage(out);
-				}
-				break;
-			}
-		}
-
-	};
 	
-	private OnClickListener mControlButtonListener = new OnClickListener() {
-		
-		@Override
-		public void onClick(View v) {
-			switch(v.getId()){
-			
-				case R.id.btnForward:
-					mEngineControl.send(EngineControl.driveStraight(true, 2.0));
-//					mEngineControl.send(ECP.getECP(ECP.DIRECTION_FORWARD, seekBar.getProgress(), seekBar.getProgress()));
-//					mEngineControl.driveForward(1.5);
-//					showMessage("Forward");
-					break;
-					
-				case R.id.btnBackward:
-					mEngineControl.send(EngineControl.driveStraight(false, 3.0));
-//					mEngineControl.send(ECP.getECP(ECP.DIRECTION_BACKWARD, seekBar.getProgress(), seekBar.getProgress()));
-//					mEngineControl.driveBackward(1.5);
-//					showMessage("Backward");
-					break;
-				
-				case R.id.btnLeft:
-					mEngineControl.send(EngineControl.driveCurve(true, true, 2.0, Math.PI / 2));
-//					showMessage("Left");
-					break;
-				
-				case R.id.btnRight:
-					mEngineControl.send(EngineControl.driveCurve(false, true, 2.0, Math.PI / 2));
-//					showMessage("Right");
-					break;
-				
-				case R.id.btnStop:
-					mEngineControl.send(EngineControl.abortAll());
-//					mEngineControl.stop();
-//					showMessage("Stop");
-					break;
-			}
-		}
-	};
-
 	private Button btnSend;
 	private Button btnAcc;
 	
@@ -87,14 +28,46 @@ public class MainActivity extends ActionBarActivity {
 	private Button btnBackward;
 	private Button btnStop;
 	
-	private SeekBar seekBar;
+	private OnClickListener mControlButtonListener = new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			switch(v.getId()){
+			
+				case R.id.btnForward:
+					mEngineControl.send(EngineControl.driveStraight(true, 2.0));
+					break;
+					
+				case R.id.btnBackward:
+					mEngineControl.send(EngineControl.driveStraight(false, 3.0));
+					break;
+				
+				case R.id.btnLeft:
+					mEngineControl.send(EngineControl.driveCurve(true, true, 2.0, Math.PI / 2));
+					break;
+				
+				case R.id.btnRight:
+					mEngineControl.send(EngineControl.driveCurve(false, true, 2.0, Math.PI / 2));
+					break;
+				
+				case R.id.btnStop:
+					mEngineControl.send(EngineControl.abortAll());
+					break;
+			}
+		}
+	};
+	
+//	private SeekBar seekBar;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
-		mEngineControl = new EngineController(getApplicationContext(), mUsbHandler);
+		
+		mEngineControl = new EngineController(getApplicationContext());
+		mEngineControl.addUSBReceiveListener(this);
+		
+		
 		mAccelerometer = new Accelerometer((SensorManager) this.getSystemService(SENSOR_SERVICE));
 		mAccelerometer.register();
 		
@@ -229,5 +202,20 @@ public class MainActivity extends ActionBarActivity {
 	public void showMessage(String message) {
 		Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
 	}
+	
+	private void showMessageFromThread(final String text){
+		runOnUiThread(new Runnable() {
+			public void run() {
+				Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT).show();
+			}
+		});
+	}
+
+	@Override
+	public void onUSBReceive(USBReceiveEvent e) {
+		byte[] data = e.getData();
+		showMessageFromThread(data[0] + " / " + data[1] + " / "  + data[2] + " / " + data[3]);
+	}
+
 
 }

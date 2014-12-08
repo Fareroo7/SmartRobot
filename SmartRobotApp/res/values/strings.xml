@@ -28,6 +28,8 @@
     <string name="text_id">ID:</string>
     <string name="text_dutycycle_right">Right:</string>
     <string name="text_dutycycle_left">Left:</string>
+    <string name="text_duration">Duration:</string>
+
     <string-array name="direction_code">
         <item>Forward</item>
         <item>Backward</item>
