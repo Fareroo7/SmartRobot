@@ -16,20 +16,27 @@ public class Trilateration {
 
 	/**
 	 * Calculates the position, using the distance to three known Points.
+	 * 
 	 * @deprecated
-	 * @param pos_S1 Point one.
-	 * @param pos_S2 Point two.
-	 * @param pos_S3 Point three.
-	 * @param distance_S1 Distance to Point one.
-	 * @param distance_S2 Distance to Point two.
-	 * @param distance_S3 Distance to Point three.
+	 * @param pos_S1
+	 *            Point one.
+	 * @param pos_S2
+	 *            Point two.
+	 * @param pos_S3
+	 *            Point three.
+	 * @param distance_S1
+	 *            Distance to Point one.
+	 * @param distance_S2
+	 *            Distance to Point two.
+	 * @param distance_S3
+	 *            Distance to Point three.
 	 * @return The Position as {@link Point}.
 	 */
 	public static Point trilaterate(Point pos_S1, Point pos_S2, Point pos_S3, double distance_S1, double distance_S2, double distance_S3) {
 
 		Triangle triangle;
 
-		//Berechne die Schnittpunkte jeder Kreiskombination
+		// Berechne die Schnittpunkte jeder Kreiskombination
 		ArrayList<Point> points_of_intersection = new ArrayList<Point>();
 
 		Line temp_points_of_intersection = getPointsOfIntersectionCrircle(pos_S1, pos_S2, distance_S1, distance_S2);
@@ -44,49 +51,57 @@ public class Trilateration {
 		points_of_intersection.add(temp_points_of_intersection.getPoint1());
 		points_of_intersection.add(temp_points_of_intersection.getPoint2());
 
-		//Überprüfe ob nur ein Schnittpunkt vorhanden ist und entferne alle doppelten Punkte
+		// Überprüfe ob nur ein Schnittpunkt vorhanden ist und entferne alle
+		// doppelten Punkte
 		points_of_intersection = Point.checkOneIntersectionPoint(points_of_intersection);
 
-		//Wenn es nur einen Schnittpunkt gibt, diesen zurückgeben
+		// Wenn es nur einen Schnittpunkt gibt, diesen zurückgeben
 		if (points_of_intersection.size() == 1) {
 			return points_of_intersection.get(0);
 		}
-		//Wenn es keinen Schnittpunkt nichts zurückgeben
+		// Wenn es keinen Schnittpunkt nichts zurückgeben
 		if (points_of_intersection.size() == 0) {
 			System.out.println("Something goes wrong!");
 			return null;
 		}
 
-		//Ein Dreieck aus den am nächsten zusammenliegenden Punkten konstruieren
+		// Ein Dreieck aus den am nächsten zusammenliegenden Punkten
+		// konstruieren
 		triangle = Triangle.getSmallestTriangel(points_of_intersection);
-		//Schwerpunkt berechnen und zurückgeben
+		// Schwerpunkt berechnen und zurückgeben
 		return triangle.getCentroidOfTriangle();
 	}
 
 	/**
 	 * Calculates the position, using the distance to three known Circles.
-	 * @param c1 Circle one.
-	 * @param c2 Circle two.
-	 * @param c3 Circle three.
+	 * 
+	 * @param c1
+	 *            Circle one.
+	 * @param c2
+	 *            Circle two.
+	 * @param c3
+	 *            Circle three.
 	 * @return The Position as {@link Point}.
 	 */
 	public static Point trilaterate(Circle c1, Circle c2, Circle c3) {
-		
-		//Berechne die Schnittpunkte jeder Kreiskombination
+
+		// Berechne die Schnittpunkte jeder Kreiskombination
 		Point[] intersA = c1.getPointsOfIntersection(c2);
 		Point[] intersB = c2.getPointsOfIntersection(c3);
 		Point[] intersC = c3.getPointsOfIntersection(c1);
-		
-		//Deklaration der Punkte des triangulations-Dreieck
+
+		// Deklaration der Punkte des triangulations-Dreieck
 		Point pA = null;
 		Point pB = null;
 		Point pC = null;
 
-		//Abfage of die Kreiskombination A nur einen Schnittpunkt hat, wenn ja kann dieser gleich für das Dreieck festgelegt werden.
+		// Abfage of die Kreiskombination A nur einen Schnittpunkt hat, wenn ja
+		// kann dieser gleich für das Dreieck festgelegt werden.
 		if (intersA[0].equals(intersA[1])) {
 			pA = intersA[0];
 		} else {
-			//um einen der 2 Schnittpunkte der A-Kombination auszuwählen wird die Distanz von beiden zu allen anderen Schnittpunkten berechnet
+			// um einen der 2 Schnittpunkte der A-Kombination auszuwählen wird
+			// die Distanz von beiden zu allen anderen Schnittpunkten berechnet
 			double[] distances = new double[4];
 			distances[0] = intersA[0].getDistanceTo(intersB[0]);
 			distances[1] = intersA[0].getDistanceTo(intersB[1]);
@@ -99,8 +114,10 @@ public class Trilateration {
 			distances2[2] = intersA[1].getDistanceTo(intersC[0]);
 			distances2[3] = intersA[1].getDistanceTo(intersC[1]);
 
-			//Um den richtigen Punkt auszuwählen wird für beide Punkte die minimale distanz ermittelt verglichen
-			//der index der kleinsten distanz wird gespeichert um den Punkt danach gleich zuweisen zu können.
+			// Um den richtigen Punkt auszuwählen wird für beide Punkte die
+			// minimale distanz ermittelt verglichen
+			// der index der kleinsten distanz wird gespeichert um den Punkt
+			// danach gleich zuweisen zu können.
 			double smallesDistance = Double.MAX_VALUE;
 			int index = 0;
 			double smallesDistance2 = Double.MAX_VALUE;
@@ -117,7 +134,8 @@ public class Trilateration {
 				}
 			}
 
-			//
+			// Zu dem ausgewählten Punkt der A-Kombination wird der zugehörige
+			// Punkt mit der kleinsten Distanz ausgewählt
 			if (smallesDistance < smallesDistance2) {
 				pA = intersA[0];
 
@@ -157,6 +175,8 @@ public class Trilateration {
 
 		}
 
+		// Jetzt wird der noch nicht ausgewählte punkt wieder über die kürzeste
+		// distanz zugewiesen
 		if (pB == null) {
 			if (pA.getDistanceTo(intersB[0]) < pA.getDistanceTo(intersB[1])) {
 				pB = intersB[0];
@@ -172,20 +192,28 @@ public class Trilateration {
 			}
 		}
 
+		// Falls die Punkte übereinstimmen (nur ein Schnittpunkt) wird dieser
+		// Zurückgegeben.
 		if (pA.equals(pB) && pA.equals(pC))
 			return pA;
 
+		// Den Schwerpunkt des gebildeten Dreiecks berechnen und zurückgeben
 		return new Triangle(pA, pB, pC).getCentroidOfTriangle();
 	}
 
 	/**
 	 * Calculates the intersectionpoints of two circles.
-	 * @deprecated
-	 * @param m1 Centre-point Circle one as {@link Point}.
-	 * @param m2 Centre-point Circle two as {@link Point}.
-	 * @param r1 Radius Circle one.
-	 * @param r2 Radius Circle two.
-	 * @return 2d array mit Schnittpunkt 1 auf [0] und Schittpunkt 2 auf [1].
+	 * 
+	 * @deprecated Use the methode of the class {@link Circle}.
+	 * @param m1
+	 *            Centre-point Circle one as {@link Point}.
+	 * @param m2
+	 *            Centre-point Circle two as {@link Point}.
+	 * @param r1
+	 *            Radius Circle one.
+	 * @param r2
+	 *            Radius Circle two.
+	 * @return {@link Line} between the points of intersection
 	 */
 	public static Line getPointsOfIntersectionCrircle(Point m1, Point m2, double r1, double r2) {
 
@@ -195,18 +223,23 @@ public class Trilateration {
 		boolean isSwaped = false;
 
 		// Mit freundlicher unterstuetzung von Mag. Harald Tranacher
+		// Das Koordinatensystem wird so verschoben das der Mittelpunkt von m1
+		// im Koordinatenursprung liegt
 		temp_m2_x = (m2.getX() - m1.getX());
 		temp_m2_y = (m2.getY() - m1.getY());
 
-		// 90 Grad Drehung wenn Punkte auf gleicher X-Achse liegen
+		// 90 Grad Drehung wenn Punkte auf gleicher X-Achse liegen, da sonst
+		// keinen mathematische Lösung möglich ist
 		if (0 == temp_m2_x) {
 			temp_m2_x = temp_m2_y;
 			temp_m2_y = 0;
 			isSwaped = true;
 		}
 
+		// Es wird überprüft ob die Kreise einen Schnittpunkt haben können
 		if (r1 + r2 >= distance.getLength()) {
 
+			//Anwenden der hergeleiten Formeln (siehe Doku)
 			double a = (Utils.sqr(r1) - Utils.sqr(r2) + Utils.sqr(temp_m2_x) + Utils.sqr(temp_m2_y)) / (2.0 * temp_m2_x);
 			double b = -(2.0 * temp_m2_y) / (2.0 * temp_m2_x);
 			double p = (2.0 * a * b) / (Utils.sqr(b) + 1.0);
@@ -219,6 +252,10 @@ public class Trilateration {
 			x2 = a + b * y2;
 
 		} else {
+			// Falls die Kreise keinen Schnittpunkt haben wird einer
+			// Interpoliert
+			// Der kleinste Abstand zwischen den Radien wird halbiert und dieser
+			// Punkt als Schnittpunkt gespeichert
 			double vectorlength_to_point = ((distance.getLength() - r1 - r2) / 2.0) + r1;
 			double k = (distance.getLength()) / vectorlength_to_point;
 			x1 = (temp_m2_x / k);
