@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.Toast;
 import at.htl.enginecontrol.EngineControl;
+import at.htl.smartbot.InertiaPositioning;
 
 
 public class MainActivity extends ActionBarActivity {
