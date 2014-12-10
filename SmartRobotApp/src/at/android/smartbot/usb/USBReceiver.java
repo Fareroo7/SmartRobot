@@ -1,4 +1,4 @@
-package at.android.smartbot;
+package at.android.smartbot.usb;
 
 import java.util.ArrayList;
 
@@ -14,7 +14,7 @@ public class USBReceiver {
 		listeners.remove(listener);
 	}
 
-	protected synchronized void notifyUSBReceived(USBReceiveEvent e) {
+	public synchronized void notifyUSBReceived(USBReceiveEvent e) {
 		for (USBReceiveListener l : listeners) {
 			l.onUSBReceive(e);
 		}

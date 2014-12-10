@@ -13,6 +13,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.ParcelFileDescriptor;
 import android.widget.Toast;
+import at.android.smartbot.usb.USBReceiveEvent;
+import at.android.smartbot.usb.USBReceiveListener;
 import at.htl.enginecontrol.EngineTask;
 
 import com.android.future.usb.UsbAccessory;

@@ -1,4 +1,4 @@
-package at.android.smartbot;
+package at.android.smartbot.usb;
 
 import java.util.EventObject;
 

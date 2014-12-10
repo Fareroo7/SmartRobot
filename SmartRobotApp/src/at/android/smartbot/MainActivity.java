@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
+import at.android.smartbot.usb.*;
 import at.htl.enginecontrol.EngineControl;
-import at.htl.smartbot.InertiaPositioning;
 
 
 public class MainActivity extends ActionBarActivity implements USBReceiveListener{
@@ -217,6 +217,5 @@ public class MainActivity extends ActionBarActivity implements USBReceiveListene
 		byte[] data = e.getData();
 		showMessageFromThread(data[0] + " / " + data[1] + " / "  + data[2] + " / " + data[3]);
 	}
-
 
 }
