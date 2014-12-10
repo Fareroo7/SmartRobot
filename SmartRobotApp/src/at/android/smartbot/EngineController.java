@@ -4,13 +4,13 @@ import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import android.widget.Toast;
 import at.htl.enginecontrol.EngineTask;
@@ -18,7 +18,7 @@ import at.htl.enginecontrol.EngineTask;
 import com.android.future.usb.UsbAccessory;
 import com.android.future.usb.UsbManager;
 
-/** 
+/**
  * 
  * @author Simon Dominik
  * @version 1.0
@@ -37,9 +37,8 @@ public class EngineController implements Runnable {
 	private FileInputStream mInputStream;
 	private FileOutputStream mOutputStream;
 
-	private Handler mHandler;
-
 	private Context mContext;
+	private ArrayList<USBReceiveListener> listeners = new ArrayList<USBReceiveListener>();
 
 	private final BroadcastReceiver mUsbReceiver = new BroadcastReceiver() {
 		@Override
@@ -48,12 +47,10 @@ public class EngineController implements Runnable {
 			if (ACTION_USB_PERMISSION.equals(action)) {
 				synchronized (this) {
 					UsbAccessory accessory = UsbManager.getAccessory(intent);
-					if (intent.getBooleanExtra(
-							UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
+					if (intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
 						openAccessory(accessory);
 					} else {
-						showMessage("permission denied for accessory "
-								+ accessory);
+						showMessage("permission denied for accessory " + accessory);
 					}
 					mPermissionRequestPending = false;
 				}
@@ -66,12 +63,10 @@ public class EngineController implements Runnable {
 		}
 	};
 
-	public EngineController(Context context, Handler handler) {
+	public EngineController(Context context) {
 		mContext = context;
-		mHandler = handler;
 		mUsbManager = UsbManager.getInstance(mContext);
-		mPermissionIntent = PendingIntent.getBroadcast(mContext, 0, new Intent(
-				ACTION_USB_PERMISSION), 0);
+		mPermissionIntent = PendingIntent.getBroadcast(mContext, 0, new Intent(ACTION_USB_PERMISSION), 0);
 		IntentFilter filter = new IntentFilter(ACTION_USB_PERMISSION);
 		filter.addAction(UsbManager.ACTION_USB_ACCESSORY_DETACHED);
 		mContext.registerReceiver(mUsbReceiver, filter);
@@ -79,7 +74,6 @@ public class EngineController implements Runnable {
 
 	@Override
 	public void run() {
-		// TODO Write a custom Eventlistner
 		int ret = 0;
 		byte[] buffer = new byte[16];
 
@@ -89,17 +83,18 @@ public class EngineController implements Runnable {
 			} catch (IOException e) {
 				break;
 			}
-			mHandler.obtainMessage(1, ret, -1, buffer).sendToTarget();
+			notifyUSBReceived(new USBReceiveEvent(getClass(), buffer));
 		}
-		
+
 	}
 
 	/**
 	 * Sends a String to the Arduino.
-	 * @param w the String to be send.
+	 * 
+	 * @param w
+	 *            the String to be send.
 	 */
 	public void send(String w) {
-
 		if (mOutputStream != null) {
 			try {
 				mOutputStream.write(w.getBytes());
@@ -112,10 +107,11 @@ public class EngineController implements Runnable {
 
 	/**
 	 * Sends a Byte-Array to the Arduino.
-	 * @param w the Byte-Array to be send.
+	 * 
+	 * @param w
+	 *            the Byte-Array to be send.
 	 */
 	public void send(byte[] w) {
-
 		if (mOutputStream != null) {
 			try {
 				mOutputStream.write(w);
@@ -125,14 +121,13 @@ public class EngineController implements Runnable {
 		}
 
 	}
-	
+
 	public void send(EngineTask task) {
-		if(mOutputStream != null){
+		if (mOutputStream != null) {
 			try {
 				mOutputStream.write(task.getECP());
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				showMessage("write failed");
 			}
 		}
 	}
@@ -150,8 +145,7 @@ public class EngineController implements Runnable {
 			} else {
 				synchronized (mUsbReceiver) {
 					if (!mPermissionRequestPending) {
-						mUsbManager.requestPermission(accessory,
-								mPermissionIntent);
+						mUsbManager.requestPermission(accessory, mPermissionIntent);
 						mPermissionRequestPending = true;
 					}
 				}
@@ -203,24 +197,26 @@ public class EngineController implements Runnable {
 		// TODO write code to disable the GUI
 
 	}
-	
-//	public void driveForward(double speed){
-//		int dutyCycle = EngineControl.speedToDutyCycle(speed);
-//		send(ECP.getECP(ECP.DIRECTION_FORWARD, dutyCycle, dutyCycle));
-//	}
-//	
-//	public void driveBackward(double speed){
-//		int dutyCycle = EngineControl.speedToDutyCycle(speed);
-//		send(ECP.getECP(ECP.DIRECTION_BACKWARD, dutyCycle, dutyCycle));
-//	}
-//	
-//	public void stop(){
-//		send(ECP.getECP(ECP.DIRECTION_FORWARD, 0, 0));
-//	}
+
+	public void addUSBReceiveListener(USBReceiveListener listener) {
+		listeners.add(listener);
+	}
+
+	public void removeUSBReceiveListener(USBReceiveListener listener) {
+		listeners.remove(listener);
+	}
+
+	protected synchronized void notifyUSBReceived(USBReceiveEvent e) {
+		for (USBReceiveListener l : listeners) {
+			l.onUSBReceive(e);
+		}
+	}
 
 	/**
 	 * Shows a {@link Toast} (only for testing)
-	 * @param message the message to be shown in the Toast
+	 * 
+	 * @param message
+	 *            the message to be shown in the Toast
 	 */
 	private void showMessage(String message) {
 		Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();

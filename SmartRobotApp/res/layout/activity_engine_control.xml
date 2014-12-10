@@ -1,4 +1,5 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--
+ <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,77 +9,145 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="at.android.smartbot.EngineControlActivity" >
 
-    <Spinner
-        android:id="@+id/spinner_action_code"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp" />
-
-    <Spinner
-        android:id="@+id/spinner_direction_code"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/spinner_action_code"
-        android:layout_below="@+id/spinner_action_code"
-        android:layout_marginTop="10dp" />
-
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/spinner_direction_code"
-        android:stretchColumns="1">
+        android:stretchColumns="1" >
 
-        <TableRow 
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp">
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" >
+            
             <TextView 
-                android:id="@+id/text_id"
+                android:id="@+id/text_duration"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/text_id"
-                android:layout_marginRight="20dp"/>
-            <EditText
-		        android:id="@+id/et_id"
-		        android:layout_width="fill_parent"
-		        android:layout_height="wrap_content"
-				android:gravity="right"
-		        android:ems="10"/>
-        </TableRow>
-        <TableRow 
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp">
+                android:text="@string/text_duration"/>
             
-            <TextView 
-                android:id="@+id/text_dutycycle_right"
-                android:layout_width="match_parent"
+            <EditText
+                android:id="@+id/et_duration"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:text="@string/text_dutycycle_right"
-                android:layout_marginRight="20dp"/>
-            
-            <EditText
-		        android:id="@+id/et_dutycycle_right"
-		        android:layout_width="50dp"
-		        android:layout_height="wrap_content"
-		        android:ems="10" />
-            
-            <TextView 
-                android:id="@+id/text_dutycycle_left"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/text_dutycycle_left"
-                android:layout_marginRight="20dp"/>
-            
-            <EditText
-		        android:id="@+id/et_dutycycle_left"
-		        android:layout_width="50dp"
-		        android:layout_height="wrap_content"
-		        android:ems="10" />
-            
+                android:ems="10"
+                android:hint="@string/text_duration"
+                android:inputType="number" />
         </TableRow>
+
+        <Button
+            android:id="@+id/btnSendECP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/btnSend" />
+
     </TableLayout>
 
 </RelativeLayout>
+-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <Spinner
+        android:id="@+id/spinner_action_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    
+    <Spinner
+        android:id="@+id/spinner_direction_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <TextView 
+                android:id="@+id/text_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_id"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:textSize="20sp"/>
+        
+        <EditText
+                android:id="@+id/et_id"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/text_id"
+                android:inputType="number" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <TextView 
+                android:id="@+id/text_dutycycle_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_dutycycle_left"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:textSize="20sp"/>
+        
+        <EditText
+                android:id="@+id/et_dutycycle_left"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/text_dutycycle_left"
+                android:inputType="number" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <TextView 
+                android:id="@+id/text_dutycycle_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_dutycycle_right"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:textSize="20sp"/>
+        
+        <EditText
+                android:id="@+id/et_dutycycle_right"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/text_dutycycle_right"
+                android:inputType="number" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <TextView 
+                android:id="@+id/text_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_duration"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:textSize="20sp"/>
+        
+        <EditText
+                android:id="@+id/et_duration"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/text_duration"
+                android:inputType="number" />
+    </LinearLayout>
+    
+    <Button
+            android:id="@+id/btnSendECP"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/btnSend" />
+    
+</LinearLayout>
