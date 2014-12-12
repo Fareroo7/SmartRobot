@@ -43,4 +43,6 @@
         <item>Delete All</item>
     </string-array>
 
+    <string name="title_activity_inertia_pos">Inertia Positioning</string>
+
 </resources>

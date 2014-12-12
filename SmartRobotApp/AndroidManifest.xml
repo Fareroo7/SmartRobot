@@ -41,6 +41,10 @@
             android:name=".EngineControlActivity"
             android:label="@string/title_activity_engine_control" >
         </activity>
+        <activity
+            android:name="at.android.smartbot.inertiapos.InertiaPosActivity"
+            android:label="@string/title_activity_inertia_pos" >
+        </activity>
     </application>
 
 </manifest>
