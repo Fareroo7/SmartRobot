@@ -41,6 +41,8 @@
         <item>Delete Task</item>
         <item>Update Task</item>
         <item>Delete All</item>
+        <item>Start up</item>
+        <item>Stop</item>
     </string-array>
 
     <string name="title_activity_inertia_pos">Inertia Positioning</string>
