@@ -42,6 +42,7 @@ public class Receiver extends Thread {
 	@Override
 	public void run() {
 		try {
+			
 			socket = new DatagramSocket(port);
 
 			while (!this.isInterrupted()) {

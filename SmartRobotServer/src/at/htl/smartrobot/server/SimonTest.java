@@ -12,6 +12,8 @@ import at.htl.smartrobot.server.utils.UDPReceiveListener;
 public class SimonTest implements UDPReceiveListener {
 	
 	public static Receiver mReceiver;
+	public static int port = 50010;
+	public static int packetsize = 1;
 	public static Scanner scn;
 	public static boolean run = true;
 	public static boolean listening = false;
@@ -28,7 +30,7 @@ public class SimonTest implements UDPReceiveListener {
 	
 	public static void main(String[] args) {
 		scn = new Scanner(System.in);
-		mReceiver = new Receiver(50010, 1);
+		mReceiver = new Receiver(port, packetsize);
 		mReceiver.addUDPReceiveListener(new SimonTest());
 		
 		System.out.println("Time sync. V1.0\n"
@@ -41,6 +43,7 @@ public class SimonTest implements UDPReceiveListener {
 				if(array.length == 1){
 					if(array[0].equalsIgnoreCase("start") || array[0].equalsIgnoreCase("s") ){
 						if(!listening){
+							mReceiver = new Receiver(port, packetsize);
 							mReceiver.start();
 							startTimestamp = System.nanoTime();
 							listening = true;
@@ -68,13 +71,11 @@ public class SimonTest implements UDPReceiveListener {
 					}
 				} else {
 					if(array[0].equalsIgnoreCase("port")){
-						int port = Integer.parseInt(array[1]);
-						mReceiver.setPort(port);
+						port = Integer.parseInt(array[1]);
 						System.out.println("Set Port to " + port);
 					}else if(array[0].equalsIgnoreCase("size")){
-						int size = Integer.parseInt(array[1]);
-						mReceiver.setPackageSize(size);;
-						System.out.println("Set Port to " + size);
+						packetsize = Integer.parseInt(array[1]);
+						System.out.println("Set Port to " + packetsize);
 					} else {
 						System.out.println("Command not found!\nType h for help.");
 					}

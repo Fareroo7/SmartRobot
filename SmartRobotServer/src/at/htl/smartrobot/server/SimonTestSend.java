@@ -15,26 +15,28 @@ public class SimonTestSend {
 	public static DatagramPacket packet; 
 	
 	public static void main(String[] args) {
-		try {
+		for(int i = 0; i < 100; i++){
+			try {
+				
+				mInetAddress = InetAddress.getByName("10.0.0.51");
+				port = 50010;
+				
+				packet = new DatagramPacket(data, data.length, mInetAddress, port);
+				socket = new DatagramSocket();
 			
-			mInetAddress = InetAddress.getByName("10.0.0.51");
-			port = 50010;
-			
-			packet = new DatagramPacket(data, data.length, mInetAddress, port);
-			socket = new DatagramSocket();
-			
-//			sendTime = System.nanoTime();
-			
-			socket.send(packet);
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SocketException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+//				sendTime = System.nanoTime();
+				
+				socket.send(packet);
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SocketException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 }
