@@ -27,8 +27,16 @@ public class Receiver extends Thread {
 		this.port = port;
 	}
 	
+	public int getPort(){
+		return port;
+	}
+	
 	public void setPackageSize(int packageSize){
 		this.packageSize = packageSize;
+	}
+	
+	public int getPackageSize(){
+		return packageSize;
 	}
 
 	@Override
@@ -43,15 +51,13 @@ public class Receiver extends Thread {
 
 			}
 
-			socket.close();
+			if(!socket.isClosed())socket.close();
 
 		} catch (SocketException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("Interrupted!");
 			interrupt();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("Interrupted!");
 			interrupt();
 		}
 		super.run();
@@ -73,7 +79,7 @@ public class Receiver extends Thread {
 
 	@Override
 	public void interrupt() {
-		socket.close();
+		if(!socket.isClosed()) socket.close();
 		super.interrupt();
 	}
 
