@@ -22,6 +22,14 @@ public class Receiver extends Thread {
 		this.port = port;
 		this.packageSize = packageSize;
 	}
+	
+	public void setPort(int port){
+		this.port = port;
+	}
+	
+	public void setPackageSize(int packageSize){
+		this.packageSize = packageSize;
+	}
 
 	@Override
 	public void run() {
@@ -31,7 +39,7 @@ public class Receiver extends Thread {
 			while (!this.isInterrupted()) {
 				DatagramPacket packet = new DatagramPacket(new byte[packageSize], packageSize);
 				socket.receive(packet);
-				notifyUDPReceived(new UDPReceiveEvent(this, packet));
+				notifyUDPReceived(new UDPReceiveEvent(this, packet, System.nanoTime()));
 
 			}
 
