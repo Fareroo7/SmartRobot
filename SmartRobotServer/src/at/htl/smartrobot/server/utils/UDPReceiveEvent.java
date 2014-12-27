@@ -1,4 +1,4 @@
-package at.htl.smartrobot.server;
+package at.htl.smartrobot.server.utils;
 
 import java.net.DatagramPacket;
 import java.util.EventObject;

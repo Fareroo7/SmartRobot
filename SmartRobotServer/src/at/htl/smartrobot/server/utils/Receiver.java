@@ -1,4 +1,4 @@
-package at.htl.smartrobot.server;
+package at.htl.smartrobot.server.utils;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
