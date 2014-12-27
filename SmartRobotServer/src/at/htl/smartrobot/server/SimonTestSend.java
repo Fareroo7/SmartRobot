@@ -7,6 +7,8 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
+import at.htl.smartrobot.server.utils.ByteUtils;
+
 public class SimonTestSend {
 	public static InetAddress mInetAddress;
 	public static int port;
@@ -21,12 +23,13 @@ public class SimonTestSend {
 				mInetAddress = InetAddress.getByName("10.0.0.51");
 				port = 50010;
 				
-				packet = new DatagramPacket(data, data.length, mInetAddress, port);
+				packet = new DatagramPacket(ByteUtils.longToBytes(System.nanoTime()), Long.SIZE / 8, mInetAddress, port);
 				socket = new DatagramSocket();
 			
 //				sendTime = System.nanoTime();
 				
 				socket.send(packet);
+				Thread.sleep(10);
 			} catch (UnknownHostException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -34,6 +37,9 @@ public class SimonTestSend {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

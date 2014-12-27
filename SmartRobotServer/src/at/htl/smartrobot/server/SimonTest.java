@@ -3,6 +3,7 @@ package at.htl.smartrobot.server;
 import java.util.Arrays;
 import java.util.Scanner;
 
+import at.htl.smartrobot.server.utils.ByteUtils;
 import at.htl.smartrobot.server.utils.Receiver;
 import at.htl.smartrobot.server.utils.UDPReceiveEvent;
 import at.htl.smartrobot.server.utils.UDPReceiveListener;
@@ -11,7 +12,7 @@ public class SimonTest implements UDPReceiveListener {
 	
 	public static Receiver mReceiver;
 	public static int port = 50010;
-	public static int packetsize = 1;
+	public static int packetsize = 4;
 	public static Scanner scn;
 	public static boolean run = true;
 	public static boolean listening = false;
@@ -85,7 +86,8 @@ public class SimonTest implements UDPReceiveListener {
 
 	@Override
 	public void onReceive(UDPReceiveEvent e) {
-		System.out.println("Packet:\t" + e.getUdpPacket().getAddress() + ":" + e.getUdpPacket().getPort() + "\t" + Arrays.toString(e.getUdpPacket().getData()) + "\t" + e.getTimestamp());
+		System.out.println(e.getTimestamp() - ByteUtils.bytesToLong(e.getUdpPacket().getData()));
+//		System.out.println("Packet:\t" + e.getUdpPacket().getAddress() + ":" + e.getUdpPacket().getPort() + "\t" + Arrays.toString(e.getUdpPacket().getData()) + "\t" + e.getTimestamp());
 		counter++;
 	}
 	
