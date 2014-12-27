@@ -56,6 +56,7 @@ public class SimonTest implements UDPReceiveListener {
 							System.out.println("Stop Listening!");
 							System.out.println("Received Packages: " + counter + "\n"
 									+ "Listening-Time: " + ((double)(stopTimestamp - startTimestamp) / 1000000000) + "s");
+							counter = 0;
 						} else {
 							System.out.println("Not Listening anymore.\n");
 						}
@@ -87,7 +88,7 @@ public class SimonTest implements UDPReceiveListener {
 	@Override
 	public void onReceive(UDPReceiveEvent e) {
 		System.out.println("Packet:\t" + e.getUdpPacket().getAddress() + ":" + e.getUdpPacket().getPort() + "\t" + Arrays.toString(e.getUdpPacket().getData()) + "\t" + e.getTimestamp());
-		
+		counter++;
 	}
 	
 }
