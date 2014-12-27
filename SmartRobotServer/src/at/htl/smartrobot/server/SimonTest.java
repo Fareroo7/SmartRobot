@@ -1,5 +1,6 @@
 package at.htl.smartrobot.server;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 import javax.sql.rowset.serial.SerialArray;
@@ -85,7 +86,7 @@ public class SimonTest implements UDPReceiveListener {
 
 	@Override
 	public void onReceive(UDPReceiveEvent e) {
-		System.out.println("Packet:\t" + e.getUdpPacket().getAddress() + ":" + e.getUdpPacket().getPort() + "\t" + e.getUdpPacket().getData() + "\t" + e.getTimestamp());
+		System.out.println("Packet:\t" + e.getUdpPacket().getAddress() + ":" + e.getUdpPacket().getPort() + "\t" + Arrays.toString(e.getUdpPacket().getData()) + "\t" + e.getTimestamp());
 		
 	}
 	
