@@ -6,6 +6,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Arrays;
 
 import at.htl.smartrobot.server.utils.ByteUtils;
 
@@ -27,7 +28,8 @@ public class SimonTestSend {
 				socket = new DatagramSocket();
 			
 //				sendTime = System.nanoTime();
-				
+				System.out.println(System.nanoTime());
+				System.out.println(Arrays.toString(ByteUtils.longToBytes(System.nanoTime())));
 				socket.send(packet);
 				Thread.sleep(10);
 			} catch (UnknownHostException e) {
