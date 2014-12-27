@@ -86,7 +86,7 @@ public class SimonTest implements UDPReceiveListener {
 	@Override
 	public void onReceive(UDPReceiveEvent e) {
 		System.out.println("Packet:\t" + e.getUdpPacket().getAddress() + ":" + e.getUdpPacket().getPort() + "\t" + e.getUdpPacket().getData() + "\t" + e.getTimestamp());
-		if(listening) mReceiver.start();
+		
 	}
 	
 }
