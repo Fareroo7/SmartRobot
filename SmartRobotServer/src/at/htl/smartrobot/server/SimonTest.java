@@ -3,8 +3,6 @@ package at.htl.smartrobot.server;
 import java.util.Arrays;
 import java.util.Scanner;
 
-import javax.sql.rowset.serial.SerialArray;
-
 import at.htl.smartrobot.server.utils.Receiver;
 import at.htl.smartrobot.server.utils.UDPReceiveEvent;
 import at.htl.smartrobot.server.utils.UDPReceiveListener;
@@ -30,8 +28,6 @@ public class SimonTest implements UDPReceiveListener {
 	
 	public static void main(String[] args) {
 		scn = new Scanner(System.in);
-		mReceiver = new Receiver(port, packetsize);
-		mReceiver.addUDPReceiveListener(new SimonTest());
 		
 		System.out.println("Time sync. V1.0\n"
 				+ "Type h for help.");
@@ -44,6 +40,7 @@ public class SimonTest implements UDPReceiveListener {
 					if(array[0].equalsIgnoreCase("start") || array[0].equalsIgnoreCase("s") ){
 						if(!listening){
 							mReceiver = new Receiver(port, packetsize);
+							mReceiver.addUDPReceiveListener(new SimonTest());
 							mReceiver.start();
 							startTimestamp = System.nanoTime();
 							listening = true;
