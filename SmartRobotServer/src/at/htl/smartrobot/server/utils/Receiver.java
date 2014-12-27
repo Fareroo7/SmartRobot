@@ -48,9 +48,11 @@ public class Receiver extends Thread {
 		} catch (SocketException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			interrupt();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			interrupt();
 		}
 		super.run();
 	}
