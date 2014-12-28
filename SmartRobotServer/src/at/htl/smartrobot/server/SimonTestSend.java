@@ -28,10 +28,7 @@ public class SimonTestSend {
 				socket = new DatagramSocket();
 			
 //				sendTime = System.nanoTime();
-				System.out.println(System.nanoTime());
-				System.out.println(Arrays.toString(ByteUtils.longToBytes(System.nanoTime())));
 				socket.send(packet);
-				Thread.sleep(10);
 			} catch (UnknownHostException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -39,9 +36,6 @@ public class SimonTestSend {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

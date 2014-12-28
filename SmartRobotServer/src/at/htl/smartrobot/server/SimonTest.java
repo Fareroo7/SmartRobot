@@ -1,7 +1,15 @@
 package at.htl.smartrobot.server;
 
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.Scanner;
+
+import javax.xml.crypto.Data;
 
 import at.htl.smartrobot.server.utils.ByteUtils;
 import at.htl.smartrobot.server.utils.Receiver;
@@ -12,7 +20,7 @@ public class SimonTest implements UDPReceiveListener {
 	
 	public static Receiver mReceiver;
 	public static int port = 50010;
-	public static int packetsize = 8;
+	public static int packetsize = 1;
 	public static Scanner scn;
 	public static boolean run = true;
 	public static boolean listening = false;
@@ -86,8 +94,31 @@ public class SimonTest implements UDPReceiveListener {
 
 	@Override
 	public void onReceive(UDPReceiveEvent e) {
-		System.out.println(e.getTimestamp() - ByteUtils.bytesToLong(e.getUdpPacket().getData()));
+//		System.out.println(e.getTimestamp() - ByteUtils.bytesToLong(e.getUdpPacket().getData()));
 //		System.out.println("Packet:\t" + e.getUdpPacket().getAddress() + ":" + e.getUdpPacket().getPort() + "\t" + Arrays.toString(e.getUdpPacket().getData()) + "\t" + e.getTimestamp());
+		DatagramPacket packet = null;
+		DatagramSocket socket = null;
+		
+		try {
+			
+			packet = new DatagramPacket(ByteUtils.longToBytes(System.nanoTime()), Long.SIZE / 8, e.getUdpPacket().getAddress(), 5042);
+			socket = new DatagramSocket();
+		
+//			sendTime = System.nanoTime();
+			socket.send(packet);
+		} catch (UnknownHostException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (SocketException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} finally {
+			if(socket != null) socket.close();
+		}
+		
 		counter++;
 	}
 	
