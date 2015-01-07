@@ -17,7 +17,7 @@ public class Clipper {
 		this.clippingSize = clippingSize;
 		this.values = new CartesianVector[this.clippingSize];
 		sum = new CartesianVector(0, 0);
-		min = new CartesianVector(Double.MAX_VALUE,Double.MAX_VALUE);
+		min = new CartesianVector(Double.MAX_VALUE, Double.MAX_VALUE);
 		max = new CartesianVector(Double.MIN_VALUE, Double.MIN_VALUE);
 	}
 
@@ -30,21 +30,30 @@ public class Clipper {
 			sum.setX(sum.getX() + v.getX());
 			sum.setY(sum.getY() + v.getY());
 		}
+
+		boolean refresh = false;
 		
-		if(values[pointer].getX()==min.getX()){
+		if (values[pointer].getX() == min.getX()) {
 			min.setX(Double.MAX_VALUE);
+			refresh = true;
 		}
-		if(values[pointer].getY()==min.getY()){
+		if (values[pointer].getY() == min.getY()) {
 			min.setY(Double.MAX_VALUE);
+			refresh = true;
 		}
-		if(values[pointer].getX()==max.getX()){
+		if (values[pointer].getX() == max.getX()) {
 			max.setX(Double.MIN_VALUE);
+			refresh = true;
 		}
-		if(values[pointer].getY()==max.getY()){
+		if (values[pointer].getY() == max.getY()) {
 			max.setY(Double.MIN_VALUE);
+			refresh = true;
 		}
-		
+
+		checkMinMax(v);
 		values[pointer] = v;
+		
+		if(refresh) refreshMinMax();
 
 		if (pointer >= clippingSize - 1) {
 			pointer = 0;
@@ -53,20 +62,36 @@ public class Clipper {
 			pointer++;
 		}
 	}
-	
-	private void checkMinMax(CartesianVector v){
-		if(v.getX()<min.getX()){
+
+	private void checkMinMax(CartesianVector v) {
+		if (v.getX() < min.getX()) {
 			min.setX(v.getX());
 		}
-		if(v.getX()>max.getX()){
+		if (v.getX() > max.getX()) {
 			max.setX(v.getX());
 		}
-		if(v.getY()<min.getY()){
-			min.setY(v.getY);
+		if (v.getY() < min.getY()) {
+			min.setY(v.getY());
 		}
-		if(v.getY()>max.getY()){
-			max.set(v.getY());
-		}	
+		if (v.getY() > max.getY()) {
+			max.setY(v.getY());
+		}
 	}
 
+	private void refreshMinMax(){
+		for(CartesianVector v : values){
+			if (v.getX() < min.getX()) {
+				min.setX(v.getX());
+			}
+			if (v.getX() > max.getX()) {
+				max.setX(v.getX());
+			}
+			if (v.getY() < min.getY()) {
+				min.setY(v.getY());
+			}
+			if (v.getY() > max.getY()) {
+				max.setY(v.getY());
+			}
+		}
+	}
 }
