@@ -31,7 +31,19 @@ public class Clipper {
 			sum.setY(sum.getY() + v.getY());
 		}
 		
-		//insert Min-Max operation
+		if(v.getX()<min.getX()){
+			min.setX(v.getX());
+		}
+		if(v.getX()>max.getX()){
+			max.setX(v.getX());
+		}
+		if(v.getY()<min.getY()){
+			min.setY(v.getY);
+		}
+		if(v.getY()>max.getY()){
+			max.set(v.getY());
+		}
+		
 
 		values[pointer] = v;
 
