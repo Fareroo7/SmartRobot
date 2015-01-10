@@ -55,6 +55,10 @@ public class CartesianVector {
 	public Point addToPoint(Point p) {
 		return new Point(p.getX() + this.x, p.getY() + this.y);
 	}
+	
+	public CartesianVector addTo(CartesianVector v){
+		return new CartesianVector(this.getX()+v.getX(),this.getY()+v.getY());
+	}
 
 	/**
 	 * Returns the x value of the cartesian vector.
