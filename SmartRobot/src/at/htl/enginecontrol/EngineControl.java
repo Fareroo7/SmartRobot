@@ -236,7 +236,8 @@ public class EngineControl {
 
 	public static void main(String[] args) {
 		speed = 1.5;
-		System.out.println(speedToRPM(speed));
+		System.out.println(turn(true,Math.PI/2));
+		System.out.println(1.5/0.20943951023931953);
 
 	}
 
@@ -357,6 +358,7 @@ public class EngineControl {
 	public static EngineTask turn(boolean clockwise, double angle) {
 
 		double distance = angle * ROBOT_AVG_TURN_RADIUS;
+		System.out.println(distance);
 		int time = getTimeToDrive(distance);
 		byte dutyCycle = (byte) speedToDutyCycle(speed);
 		return new EngineTask(ID_BROADCAST, A_NEW, clockwise ? DIRECTION_TURN_CLOCKWISE : DIRECTION_TURN_ANTICLOCKWISE,
