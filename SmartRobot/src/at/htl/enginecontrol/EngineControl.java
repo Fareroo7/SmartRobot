@@ -410,6 +410,7 @@ public class EngineControl {
 	 *            The {@link EngineTask} that will be send.
 	 * @return The {@link EngineTask} with header and footer for the
 	 *         communication.
+	 * @deprecated Use the getECP-method of the {@link EngineTask}
 	 */
 	public static byte[] getECP(EngineTask task) {
 		return new byte[] { START, task.getId(), task.getActionCode(), task.getDirectionCode(), task.getDutyCircleLeft(), task.getDutyCircleRight(),
