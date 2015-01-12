@@ -218,27 +218,20 @@ public class EngineControl {
 	private static double speed = SPEED_NORMAL;
 	
 
-	public static double getCurveRadius() {
+	public double getCurveRadius() {
 		return curveRadius;
 	}
 
-	public static void setCurveRadius(double curveRadius) {
+	public void setCurveRadius(double curveRadius) {
 		EngineControl.curveRadius = curveRadius;
 	}
 
-	public static double getSpeed() {
+	public double getSpeed() {
 		return speed;
 	}
 
-	public static void setSpeed(double speed) {
+	public void setSpeed(double speed) {
 		EngineControl.speed = speed;
-	}
-
-	public static void main(String[] args) {
-		speed = 1.5;
-		System.out.println(turn(true,Math.PI/2));
-		System.out.println(1.5/0.20943951023931953);
-
 	}
 
 	/**
@@ -248,7 +241,7 @@ public class EngineControl {
 	 *            Speed in meters per second.
 	 * @return Calculated RPM.
 	 */
-	private static double speedToRPM(double speed) {
+	private double speedToRPM(double speed) {
 		return speed / (WHEEL_DIAMETER * Math.PI) * GEAR_RATIO;
 	}
 
@@ -259,7 +252,7 @@ public class EngineControl {
 	 *            Rotation per minute.
 	 * @return Duty cycle (max 255).
 	 */
-	private static int rpmToDutyCycle(double rpm) {
+	private int rpmToDutyCycle(double rpm) {
 		return (int) Math.round((MAX_DUTY_CYCLE / MAX_RPM) * rpm);
 	}
 
@@ -270,7 +263,7 @@ public class EngineControl {
 	 *            Speed in meter per second.
 	 * @return Duty cycle (max 255).
 	 */
-	public static int speedToDutyCycle(double speed) {
+	public int speedToDutyCycle(double speed) {
 		return speed <= SPEED_MAX ? rpmToDutyCycle(speedToRPM(speed)) : rpmToDutyCycle(speedToRPM(SPEED_MAX));
 	}
 
@@ -281,17 +274,17 @@ public class EngineControl {
 	 *            Distance in m.
 	 * @return The needed time in milliseconds.
 	 */
-	private static int getTimeToDrive(double distance) {
+	private int getTimeToDrive(double distance) {
 		// v = s / t => t = s / v
 		return (int) Math.round((distance * 1000) / (speed));
 	}
 
-	public static EngineTask accelerateStraight(boolean forward) {
+	public EngineTask accelerateStraight(boolean forward) {
 		return new EngineTask(ID_BROADCAST, A_ACCELERATE, forward ? DIRECTION_FORWARD : DIRECTION_BACKWARD,
 				(byte) speedToDutyCycle(speed), (byte) speedToDutyCycle(speed), 0);
 	}
 
-	public static EngineTask driveStraight(boolean forward, double distance) {
+	public EngineTask driveStraight(boolean forward, double distance) {
 		return new EngineTask(ID_BROADCAST, A_NEW, forward ? DIRECTION_FORWARD : DIRECTION_BACKWARD,
 				(byte) speedToDutyCycle(speed), (byte) speedToDutyCycle(speed), getTimeToDrive(distance));
 	}
@@ -306,7 +299,7 @@ public class EngineControl {
 	 *            in rad.
 	 * @return
 	 */
-	public static EngineTask driveCurve(boolean forward, boolean clockwise, double radius, double angle) {
+	public EngineTask driveCurve(boolean forward, boolean clockwise, double radius, double angle) {
 
 		double distance = radius * angle;
 		int time = getTimeToDrive(distance);
@@ -347,15 +340,15 @@ public class EngineControl {
 				(byte) leftDutyCycle, (byte) rightDutyCycle, time);
 	}
 
-	public static EngineTask abortAll() {
+	public EngineTask abortAll() {
 		return new EngineTask(ID_IMMEDIATE, A_DELETE_ALL, (byte) 0, (byte) 0, (byte) 0, 0);
 	}
 
-	public static EngineTask stop() {
+	public EngineTask stop() {
 		return new EngineTask(ID_BROADCAST, A_STOP, (byte) 0, (byte) 0, (byte) 0, 0);
 	}
 
-	public static EngineTask turn(boolean clockwise, double angle) {
+	public EngineTask turn(boolean clockwise, double angle) {
 
 		double distance = angle * ROBOT_AVG_TURN_RADIUS;
 		System.out.println(distance);
