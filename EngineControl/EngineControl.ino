@@ -15,19 +15,20 @@ AndroidAccessory acc("Smartbot",
 
 byte packet[9] = {EngineTask::START, 0xff, EngineTask::INSERT, EngineTask::FORWARD, 150, 100, 50, 140, EngineTask::END };
 
-Engine one(12, 13, 30);
-Engine two(2, 3, 31);
-Engine three(4, 5, 32);
-Engine four(8, 9, 33);
-Engine five(10, 11, 34);
-Engine six(6, 7, 35);
+Engine one(3, 2, 31);
+Engine two(4, 5, 32);
+Engine three(7, 6, 33);
+Engine four(8, 9, 34);
+Engine five(11, 10, 35);
+Engine six(12, 13, 36);
 
-EngineController controller(one, two, three, four, five, six);
+EngineController controller(one, three, five, two, four, six);
 
 SimpleTimer timer;
 
 void setup() {
   Serial.begin(9600);
+  acc.powerOn();
   /*
   EngineTask testTask(packet);
   sendAckTest(controller.handle(testTask));
@@ -62,11 +63,11 @@ void loop() {
   if(acc.isConnected()){
       int len  = acc.read(packet, sizeof(packet), 1);
       if (len > 0) {
-         unsigned int error = controller.handle(EngineTask(packet));
-         sendAck(error);
+         unsigned int error = controller.doTask(EngineTask(packet));
+         sendAckTest(error);
       }
   }
-  timer.run();
+  //timer.run();
 }
 
 void callMeLater(){

@@ -147,7 +147,8 @@ unsigned long EngineController::doNext()
 {
 	if(_taskIndex <= _index)
 	{
-		if(_tasks[_taskIndex].getDirectionCode() == EngineTask::FORWARD)
+		EngineController::doTask(_tasks[_taskIndex]);
+		/*if(_tasks[_taskIndex].getDirectionCode() == EngineTask::FORWARD)
 		{
 			drive(true, _tasks[_taskIndex].getDutyCycleLeft(), _tasks[_taskIndex].getDutyCycleRight());
 			unsigned long out = ((unsigned long)_tasks[_taskIndex].getDuration() << 16) | (_tasks[_taskIndex].getID() << 8) | EngineTask::TASK_COMPLETE;
@@ -175,13 +176,46 @@ unsigned long EngineController::doNext()
 		else
 		{
 			return ((unsigned long)0x0000 << 16) | (_tasks[_taskIndex].getID() << 8) | EngineTask::PROTOCOL_ERROR;
-		}
+		}*/
 	}
 	else
 	{
 		return ((unsigned long)0x0000 << 16) | (0xff << 8) | EngineTask::NO_TASK;
 	}
 		
+}
+
+unsigned long EngineController::doTask(EngineTask task)
+{
+	if(task.getDirectionCode() == EngineTask::FORWARD)
+	{
+		drive(true, task.getDutyCycleLeft(), task.getDutyCycleRight());
+		unsigned long out = ((unsigned long)task.getDuration() << 16) | (task.getID() << 8) | EngineTask::TASK_COMPLETE;
+		_taskIndex ++;
+		return  out;
+	} 
+	else if(task.getDirectionCode() == EngineTask::BACKWARD)
+	{
+		drive(false, task.getDutyCycleLeft(), task.getDutyCycleRight());
+		_taskIndex ++;
+		return ((unsigned long)task.getDuration() << 16) | (task.getID() << 8) | EngineTask::TASK_COMPLETE;
+	} 
+	else if(task.getDirectionCode() == EngineTask::CLOCKWISE)
+	{
+		turn(true, task.getDutyCycleLeft(), task.getDutyCycleRight());
+		_taskIndex ++;
+		return ((unsigned long)task.getDuration() << 16) | (task.getID() << 8) | EngineTask::TASK_COMPLETE;
+	} 
+	else if(task.getDirectionCode() == EngineTask::ANTICLOCKWISE)
+	{
+		turn(false, task.getDutyCycleLeft(), task.getDutyCycleRight());
+		_taskIndex ++;
+		return ((unsigned long)task.getDuration() << 16) | (task.getID() << 8) | EngineTask::TASK_COMPLETE;
+	}
+	else
+	{
+		return ((unsigned long)0x0000 << 16) | (task.getID() << 8) | EngineTask::PROTOCOL_ERROR;
+	}
 }
 
 byte EngineController::getCurrentTaskID()

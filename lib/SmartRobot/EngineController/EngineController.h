@@ -21,6 +21,7 @@ class EngineController
   void turn(bool clw, byte dutyCycleLeft, byte dutyCycleRight);
   unsigned int handle(EngineTask task);
   unsigned long doNext();
+  unsigned long doTask(EngineTask task);
   byte getCurrentTaskID();
   void printTasks();
 
