@@ -163,7 +163,7 @@ public class EngineControl {
 	/**
 	 * Width of the SmartRobot in meters.
 	 */
-	public static final double ROBOT_WIDTH = 0.20;
+	public static final double ROBOT_WIDTH = 0.26;
 
 	public static final double ROBOT_AVG_TURN_RADIUS = (ROBOT_WIDTH * 2) / 3;
 
@@ -204,7 +204,7 @@ public class EngineControl {
 	public static final double MAX_RPM = 293;
 
 	/**
-	 * Gear ratio of the engines in 1:x.
+	 * Gear ratio of the engines in x:1.
 	 */
 	public static final double GEAR_RATIO = 34;
 
@@ -253,8 +253,7 @@ public class EngineControl {
 	 * @return Duty cycle (max 255).
 	 */
 	public static int speedToDutyCycle(double speed) {
-		return speed <= SPEED_MAX ? rpmToDutyCycle(speedToRPM(speed))
-				: rpmToDutyCycle(speedToRPM(SPEED_MAX));
+		return speed <= SPEED_MAX ? rpmToDutyCycle(speedToRPM(speed)) : rpmToDutyCycle(speedToRPM(SPEED_MAX));
 	}
 
 	/**
@@ -270,16 +269,13 @@ public class EngineControl {
 	}
 
 	public static EngineTask accelerateStraight(boolean forward) {
-		return new EngineTask(ID_BROADCAST, A_ACCELERATE,
-				forward ? DIRECTION_FORWARD : DIRECTION_BACKWARD,
-				(byte) speedToDutyCycle(speed), (byte) speedToDutyCycle(speed),
-				0);
+		return new EngineTask(ID_BROADCAST, A_ACCELERATE, forward ? DIRECTION_FORWARD : DIRECTION_BACKWARD,
+				(byte) speedToDutyCycle(speed), (byte) speedToDutyCycle(speed), 0);
 	}
 
 	public static EngineTask driveStraight(boolean forward, double distance) {
-		return new EngineTask(ID_BROADCAST, A_NEW, forward ? DIRECTION_FORWARD
-				: DIRECTION_BACKWARD, (byte) speedToDutyCycle(speed),
-				(byte) speedToDutyCycle(speed), getTimeToDrive(distance));
+		return new EngineTask(ID_BROADCAST, A_NEW, forward ? DIRECTION_FORWARD : DIRECTION_BACKWARD,
+				(byte) speedToDutyCycle(speed), (byte) speedToDutyCycle(speed), getTimeToDrive(distance));
 	}
 
 	/**
@@ -292,8 +288,7 @@ public class EngineControl {
 	 *            in rad.
 	 * @return
 	 */
-	public static EngineTask driveCurve(boolean forward, boolean clockwise,
-			double radius, double angle) {
+	public static EngineTask driveCurve(boolean forward, boolean clockwise, double radius, double angle) {
 
 		double distance = radius * angle;
 		int time = getTimeToDrive(distance);
@@ -330,19 +325,16 @@ public class EngineControl {
 		// System.out.println("lDut: " + leftDutyCycle + " rdut: " +
 		// rightDutyCycle);
 
-		return new EngineTask(ID_BROADCAST, A_NEW, forward ? DIRECTION_FORWARD
-				: DIRECTION_BACKWARD, (byte) leftDutyCycle,
-				(byte) rightDutyCycle, time);
+		return new EngineTask(ID_BROADCAST, A_NEW, forward ? DIRECTION_FORWARD : DIRECTION_BACKWARD,
+				(byte) leftDutyCycle, (byte) rightDutyCycle, time);
 	}
 
 	public static EngineTask abortAll() {
-		return new EngineTask(ID_IMMEDIATE, A_DELETE_ALL, (byte) 0, (byte) 0,
-				(byte) 0, 0);
+		return new EngineTask(ID_IMMEDIATE, A_DELETE_ALL, (byte) 0, (byte) 0, (byte) 0, 0);
 	}
 
 	public static EngineTask stop() {
-		return new EngineTask(ID_BROADCAST, A_STOP, (byte) 0, (byte) 0,
-				(byte) 0, 0);
+		return new EngineTask(ID_BROADCAST, A_STOP, (byte) 0, (byte) 0, (byte) 0, 0);
 	}
 
 	public static EngineTask turn(boolean clockwise, double angle) {
@@ -350,10 +342,8 @@ public class EngineControl {
 		double distance = angle * ROBOT_AVG_TURN_RADIUS;
 		int time = getTimeToDrive(distance);
 		byte dutyCycle = (byte) speedToDutyCycle(speed);
-		return new EngineTask(ID_BROADCAST, A_NEW,
-				clockwise ? DIRECTION_TURN_CLOCKWISE
-						: DIRECTION_TURN_ANTICLOCKWISE, dutyCycle, dutyCycle,
-				time);
+		return new EngineTask(ID_BROADCAST, A_NEW, clockwise ? DIRECTION_TURN_CLOCKWISE : DIRECTION_TURN_ANTICLOCKWISE,
+				dutyCycle, dutyCycle, time);
 	}
 
 	/**
@@ -369,8 +359,7 @@ public class EngineControl {
 	 * @deprecated with version 2.1
 	 */
 	public static String getECMessage(boolean forward, int left, int right) {
-		return START + (forward ? DIRECTION_FORWARD : DIRECTION_BACKWARD)
-				+ (char) left + (char) right + END + "";
+		return START + (forward ? DIRECTION_FORWARD : DIRECTION_BACKWARD) + (char) left + (char) right + END + "";
 	}
 
 	/**
@@ -391,10 +380,9 @@ public class EngineControl {
 	 * @return ECP-Message as {@link String}.
 	 * @deprecated with version 3.0
 	 */
-	public static String getECPtoString(int id, byte directionCode,
-			int leftDutyCycle, int rightDutyCycle, int duration) {
-		return START + (char) id + (char) directionCode + (char) leftDutyCycle
-				+ (char) rightDutyCycle + (char) duration + END + "";
+	public static String getECPtoString(int id, byte directionCode, int leftDutyCycle, int rightDutyCycle, int duration) {
+		return START + (char) id + (char) directionCode + (char) leftDutyCycle + (char) rightDutyCycle
+				+ (char) duration + END + "";
 	}
 
 	/**
@@ -413,11 +401,9 @@ public class EngineControl {
 	 * @return Engine Control Protocol as {@link Byte}-Array.
 	 * @deprecated with version 3.0
 	 */
-	public static byte[] getECP(int id, byte directionCode, int leftDutyCycle,
-			int rightDutyCycle, int duration) {
-		return new byte[] { START, (byte) id, directionCode,
-				(byte) leftDutyCycle, (byte) rightDutyCycle, (byte) duration,
-				END };
+	public static byte[] getECP(int id, byte directionCode, int leftDutyCycle, int rightDutyCycle, int duration) {
+		return new byte[] { START, (byte) id, directionCode, (byte) leftDutyCycle, (byte) rightDutyCycle,
+				(byte) duration, END };
 	}
 
 	/**
@@ -430,10 +416,8 @@ public class EngineControl {
 	 * @deprecated Use the getECP-method of the {@link EngineTask}
 	 */
 	public static byte[] getECP(EngineTask task) {
-		return new byte[] { START, task.getId(), task.getActionCode(),
-				task.getDirectionCode(), task.getDutyCircleLeft(),
-				task.getDutyCircleRight(), task.getDurationMSB(),
-				task.getDurationLSB(), END };
+		return new byte[] { START, task.getId(), task.getActionCode(), task.getDirectionCode(),
+				task.getDutyCircleLeft(), task.getDutyCircleRight(), task.getDurationMSB(), task.getDurationLSB(), END };
 	}
 
 }
