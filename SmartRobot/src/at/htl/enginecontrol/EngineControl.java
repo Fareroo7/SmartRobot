@@ -216,6 +216,23 @@ public class EngineControl {
 	private static double curveRadius = 0.5;
 
 	private static double speed = SPEED_NORMAL;
+	
+
+	public static double getCurveRadius() {
+		return curveRadius;
+	}
+
+	public static void setCurveRadius(double curveRadius) {
+		EngineControl.curveRadius = curveRadius;
+	}
+
+	public static double getSpeed() {
+		return speed;
+	}
+
+	public static void setSpeed(double speed) {
+		EngineControl.speed = speed;
+	}
 
 	public static void main(String[] args) {
 		speed = 1.5;
