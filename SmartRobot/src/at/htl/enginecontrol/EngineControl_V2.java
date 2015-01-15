@@ -7,7 +7,7 @@ package at.htl.enginecontrol;
  * @author Dominik Simon
  * @version 3.1
  */
-public class EngineControl {
+public class EngineControl_V2 {
 
 	// ----------Protokollparameter----------
 
@@ -160,63 +160,79 @@ public class EngineControl {
 
 	// Robot parameters
 
-	/**
-	 * Width of the SmartRobot in meters.
-	 */
-	public static final double ROBOT_WIDTH = 0.26;
+	private double robot_width = 0.26;
 
-	public static final double ROBOT_AVG_TURN_RADIUS = (ROBOT_WIDTH * 2) / 3;
+	private double robot_avgTurnRadius = (robot_width * 2) / 3;
 
-	/**
-	 * One of the five speed steps in meters per second.<br>
-	 * Maximum speed.
-	 */
-	public static final double SPEED_MAX = 3.25;
+	private double robot_maxSpeed = 3.25;
 
-	/**
-	 * One of the five speed steps in meters per second.<br>
-	 */
-	public static final double SPEED_FAST = SPEED_MAX * 4 / 5;
+	private double robot_wheelDiameter = 0.12;
 
-	/**
-	 * One of the five speed steps in meters per second. Normal speed.
-	 */
-	public static final double SPEED_NORMAL = SPEED_MAX * 3 / 5;
+	private double robot_maxRPM = 293;
 
-	/**
-	 * One of the five speed steps in meters per second.
-	 */
-	public static final double SPEED_SLOW = SPEED_MAX * 2 / 5;
+	private double robot_gearRatio = 34;
 
-	/**
-	 * One of the five speed steps in meters per second. Minimum speed.
-	 */
-	public static final double SPEED_MIN = SPEED_MAX / 5;
-
-	/**
-	 * Diameter of the wheels from SmartRobot in meter.
-	 */
-	public static final double WHEEL_DIAMETER = 0.12;
-
-	/**
-	 * Maximum RPM of the SmartRobot's engines.
-	 */
-	public static final double MAX_RPM = 293;
-
-	/**
-	 * Gear ratio of the engines in x:1.
-	 */
-	public static final double GEAR_RATIO = 34;
-
-	/**
-	 * Defines the maximum duty cycle of the hardware (arduino => 8bit).
-	 */
-	public static final int MAX_DUTY_CYCLE = 0xFF;
+	private int robot_maxDutyCycle = 0xFF;
 
 	private double curveRadius = 0.5;
 
-	private double speed = SPEED_NORMAL;
-	
+	private double speed = 1.0;
+
+	public double getRobot_width() {
+		return robot_width;
+	}
+
+	public void setRobot_width(double robot_width) {
+		this.robot_width = robot_width;
+	}
+
+	public double getRobot_avgTurnRadius() {
+		return robot_avgTurnRadius;
+	}
+
+	public void setRobot_avgTurnRadius(double robot_avgTurnRadius) {
+		this.robot_avgTurnRadius = robot_avgTurnRadius;
+	}
+
+	public double getRobot_maxSpeed() {
+		return robot_maxSpeed;
+	}
+
+	public void setRobot_maxSpeed(double robot_maxSpeed) {
+		this.robot_maxSpeed = robot_maxSpeed;
+	}
+
+	public double getRobot_wheelDiameter() {
+		return robot_wheelDiameter;
+	}
+
+	public void setRobot_wheelDiameter(double robot_wheelDiameter) {
+		this.robot_wheelDiameter = robot_wheelDiameter;
+	}
+
+	public double getRobot_maxRPM() {
+		return robot_maxRPM;
+	}
+
+	public void setRobot_maxRPM(double robot_maxRPM) {
+		this.robot_maxRPM = robot_maxRPM;
+	}
+
+	public double getRobot_gearRatio() {
+		return robot_gearRatio;
+	}
+
+	public void setRobot_gearRatio(double robot_gearRatio) {
+		this.robot_gearRatio = robot_gearRatio;
+	}
+
+	public int getRobot_maxDutyCycle() {
+		return robot_maxDutyCycle;
+	}
+
+	public void setRobot_maxDutyCycle(int robot_maxDutyCycle) {
+		this.robot_maxDutyCycle = robot_maxDutyCycle;
+	}
 
 	public double getCurveRadius() {
 		return curveRadius;
@@ -231,40 +247,23 @@ public class EngineControl {
 	}
 
 	public void setSpeed(double speed) {
-		this.speed = speed;
+		if (speed <= this.robot_maxSpeed) {
+			this.speed = speed;
+		} else {
+			this.speed = this.robot_maxSpeed;
+		}
 	}
 
-	/**
-	 * Calculates the RPM needed for committed speed.
-	 * 
-	 * @param speed
-	 *            Speed in meters per second.
-	 * @return Calculated RPM.
-	 */
-	private double speedToRPM(double speed) {
-		return speed / (WHEEL_DIAMETER * Math.PI) * GEAR_RATIO;
+	public double getRPM() {
+		return speed / (robot_wheelDiameter * Math.PI) * robot_gearRatio;
 	}
 
-	/**
-	 * Calculates the PWM duty cycle (8bit) for arduino.
-	 * 
-	 * @param rpm
-	 *            Rotation per minute.
-	 * @return Duty cycle (max 255).
-	 */
-	private int rpmToDutyCycle(double rpm) {
-		return (int) Math.round((MAX_DUTY_CYCLE / MAX_RPM) * rpm);
+	public int getDutyCycle() {
+		return (int) Math.round((robot_maxDutyCycle / robot_maxRPM) * this.getRPM());
 	}
 
-	/**
-	 * Calculates the PWM duty cycle (8bit) for the arduino.
-	 * 
-	 * @param speed
-	 *            Speed in meter per second.
-	 * @return Duty cycle (max 255).
-	 */
 	public int speedToDutyCycle(double speed) {
-		return speed <= SPEED_MAX ? rpmToDutyCycle(speedToRPM(speed)) : rpmToDutyCycle(speedToRPM(SPEED_MAX));
+		return (int) Math.round((robot_maxDutyCycle / robot_maxRPM) * (speed / (robot_wheelDiameter * Math.PI) * robot_gearRatio));
 	}
 
 	/**
@@ -274,19 +273,19 @@ public class EngineControl {
 	 *            Distance in m.
 	 * @return The needed time in milliseconds.
 	 */
-	private int getTimeToDrive(double distance) {
+	public int getTimeToDrive(double distance) {
 		// v = s / t => t = s / v
 		return (int) Math.round((distance * 1000) / (speed));
 	}
 
 	public EngineTask accelerateStraight(boolean forward) {
-		return new EngineTask(ID_BROADCAST, A_ACCELERATE, forward ? DIRECTION_FORWARD : DIRECTION_BACKWARD,
-				(byte) speedToDutyCycle(speed), (byte) speedToDutyCycle(speed), 0);
+		return new EngineTask(ID_BROADCAST, A_ACCELERATE, forward ? DIRECTION_FORWARD : DIRECTION_BACKWARD, (byte) this.getDutyCycle(),
+				(byte) this.getDutyCycle(), 0);
 	}
 
 	public EngineTask driveStraight(boolean forward, double distance) {
-		return new EngineTask(ID_BROADCAST, A_NEW, forward ? DIRECTION_FORWARD : DIRECTION_BACKWARD,
-				(byte) speedToDutyCycle(speed), (byte) speedToDutyCycle(speed), getTimeToDrive(distance));
+		return new EngineTask(ID_BROADCAST, A_NEW, forward ? DIRECTION_FORWARD : DIRECTION_BACKWARD, (byte) this.getDutyCycle(), (byte) this.getDutyCycle(),
+				this.getTimeToDrive(distance));
 	}
 
 	/**
@@ -306,16 +305,16 @@ public class EngineControl {
 
 		System.out.println("mid dist: " + distance + " time: " + time);
 
-		double innerDistance = (radius - (ROBOT_WIDTH / 2)) * angle;
-		double outerDistance = (radius + (ROBOT_WIDTH / 2)) * angle;
+		double innerDistance = (radius - (robot_width / 2)) * angle;
+		double outerDistance = (radius + (robot_width / 2)) * angle;
 
 		// System.out.println("Dist: " + innerDistance + " ; " + outerDistance);
 
 		double innerSpeed = innerDistance * 1000 / time;
 		double outerSpeed = outerDistance * 1000 / time;
 
-		if (outerSpeed > SPEED_MAX) {
-			double diff = outerSpeed - SPEED_MAX;
+		if (outerSpeed > robot_maxSpeed) {
+			double diff = outerSpeed - robot_maxSpeed;
 			outerSpeed -= diff;
 			innerSpeed -= diff;
 		}
@@ -336,8 +335,7 @@ public class EngineControl {
 		// System.out.println("lDut: " + leftDutyCycle + " rdut: " +
 		// rightDutyCycle);
 
-		return new EngineTask(ID_BROADCAST, A_NEW, forward ? DIRECTION_FORWARD : DIRECTION_BACKWARD,
-				(byte) leftDutyCycle, (byte) rightDutyCycle, time);
+		return new EngineTask(ID_BROADCAST, A_NEW, forward ? DIRECTION_FORWARD : DIRECTION_BACKWARD, (byte) leftDutyCycle, (byte) rightDutyCycle, time);
 	}
 
 	public EngineTask abortAll() {
@@ -350,12 +348,11 @@ public class EngineControl {
 
 	public EngineTask turn(boolean clockwise, double angle) {
 
-		double distance = angle * ROBOT_AVG_TURN_RADIUS;
+		double distance = angle * robot_avgTurnRadius;
 		System.out.println(distance);
 		int time = getTimeToDrive(distance);
-		byte dutyCycle = (byte) speedToDutyCycle(speed);
-		return new EngineTask(ID_BROADCAST, A_NEW, clockwise ? DIRECTION_TURN_CLOCKWISE : DIRECTION_TURN_ANTICLOCKWISE,
-				dutyCycle, dutyCycle, time);
+		return new EngineTask(ID_BROADCAST, A_NEW, clockwise ? DIRECTION_TURN_CLOCKWISE : DIRECTION_TURN_ANTICLOCKWISE, (byte) this.getDutyCycle(),
+				(byte) this.getDutyCycle(), time);
 	}
 
 	/**
@@ -393,8 +390,7 @@ public class EngineControl {
 	 * @deprecated with version 3.0
 	 */
 	public static String getECPtoString(int id, byte directionCode, int leftDutyCycle, int rightDutyCycle, int duration) {
-		return START + (char) id + (char) directionCode + (char) leftDutyCycle + (char) rightDutyCycle
-				+ (char) duration + END + "";
+		return START + (char) id + (char) directionCode + (char) leftDutyCycle + (char) rightDutyCycle + (char) duration + END + "";
 	}
 
 	/**
@@ -414,8 +410,7 @@ public class EngineControl {
 	 * @deprecated with version 3.0
 	 */
 	public static byte[] getECP(int id, byte directionCode, int leftDutyCycle, int rightDutyCycle, int duration) {
-		return new byte[] { START, (byte) id, directionCode, (byte) leftDutyCycle, (byte) rightDutyCycle,
-				(byte) duration, END };
+		return new byte[] { START, (byte) id, directionCode, (byte) leftDutyCycle, (byte) rightDutyCycle, (byte) duration, END };
 	}
 
 	/**
@@ -428,8 +423,8 @@ public class EngineControl {
 	 * @deprecated Use the getECP-method of the {@link EngineTask}
 	 */
 	public static byte[] getECP(EngineTask task) {
-		return new byte[] { START, task.getId(), task.getActionCode(), task.getDirectionCode(),
-				task.getDutyCircleLeft(), task.getDutyCircleRight(), task.getDurationMSB(), task.getDurationLSB(), END };
+		return new byte[] { START, task.getId(), task.getActionCode(), task.getDirectionCode(), task.getDutyCircleLeft(), task.getDutyCircleRight(),
+				task.getDurationMSB(), task.getDurationLSB(), END };
 	}
 
 }
