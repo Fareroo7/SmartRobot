@@ -1,4 +1,4 @@
-package at.htl.smartrobot.server;
+package at.htl.smartrobot.server.utils;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -22,27 +22,44 @@ public class Receiver extends Thread {
 		this.port = port;
 		this.packageSize = packageSize;
 	}
+	
+	public void setPort(int port){
+		this.port = port;
+	}
+	
+	public int getPort(){
+		return port;
+	}
+	
+	public void setPackageSize(int packageSize){
+		this.packageSize = packageSize;
+	}
+	
+	public int getPackageSize(){
+		return packageSize;
+	}
 
 	@Override
 	public void run() {
 		try {
+			
 			socket = new DatagramSocket(port);
 
 			while (!this.isInterrupted()) {
 				DatagramPacket packet = new DatagramPacket(new byte[packageSize], packageSize);
 				socket.receive(packet);
-				notifyUDPReceived(new UDPReceiveEvent(this, packet));
+				notifyUDPReceived(new UDPReceiveEvent(this, packet, System.nanoTime()));
 
 			}
 
-			socket.close();
+			if(!socket.isClosed())socket.close();
 
 		} catch (SocketException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("Interrupted!");
+			interrupt();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("Interrupted!");
+			interrupt();
 		}
 		super.run();
 	}
@@ -63,7 +80,7 @@ public class Receiver extends Thread {
 
 	@Override
 	public void interrupt() {
-		socket.close();
+		if(!socket.isClosed()) socket.close();
 		super.interrupt();
 	}
 
