@@ -11,6 +11,8 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.TimerTask;
 
+import java.util.Timer;
+
 import at.htl.smartrobot.server.utils.Receiver;
 import at.htl.smartrobot.server.utils.UDPReceiveEvent;
 import at.htl.smartrobot.server.utils.UDPReceiveListener;
@@ -62,6 +64,7 @@ public class SmartRuntime extends TimerTask implements UDPReceiveListener {
 			mRobotAddress = InetAddress.getByName(robotAddress);
 			this.serverPort = serverPort;
 			this.robotPort = robotPort;
+			mReceiver = new Receiver(serverPort, 1);
 			robotSocket = new DatagramSocket();
 			runtimeRequest = new DatagramPacket("m".getBytes(), 1, mRobotAddress, robotPort);
 			log = new BufferedWriter(new FileWriter(logFile));
@@ -72,6 +75,11 @@ public class SmartRuntime extends TimerTask implements UDPReceiveListener {
 		}
 	}
 
+	public static void main(String[] args){
+		Timer t1 = new Timer();
+		t1.schedule(new SmartRuntime("10.130.2.16","10.14.221.141",50042,50100), 0,5000);
+	}
+	
 	@Override
 	public void run() {
 		avgRuntime = 0;
@@ -81,6 +89,7 @@ public class SmartRuntime extends TimerTask implements UDPReceiveListener {
 			log.newLine();
 			timeBefore = System.nanoTime();
 			robotSocket.send(runtimeRequest);
+			System.out.println("---Start 20 Requesets---");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -93,6 +102,7 @@ public class SmartRuntime extends TimerTask implements UDPReceiveListener {
 		switch (input) {
 		case "r":
 			timeAfter = System.nanoTime();
+			System.out.println(">Request "+mCounter+" ack received.");
 			if (mCounter < 20) {
 				mCounter++;
 				try {
@@ -103,6 +113,7 @@ public class SmartRuntime extends TimerTask implements UDPReceiveListener {
 					log.write(logCount+";"+((timeAfter - timeBefore) / 2)+";"+avgRuntime);
 					log.newLine();
 					logCount++;
+					System.out.println(">Sended next request");
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
