@@ -66,6 +66,7 @@ public class SmartRuntime extends TimerTask implements UDPReceiveListener {
 			this.robotPort = robotPort;
 			mReceiver = new Receiver(serverPort, 1);
 			robotSocket = new DatagramSocket();
+			mReceiver=new Receiver(serverPort,1);
 			runtimeRequest = new DatagramPacket("m".getBytes(), 1, mRobotAddress, robotPort);
 			log = new BufferedWriter(new FileWriter(logFile));
 			mReceiver.addUDPReceiveListener(this);

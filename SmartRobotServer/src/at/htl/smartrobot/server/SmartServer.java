@@ -55,6 +55,7 @@ public class SmartServer implements UDPReceiveListener {
 			this.serverPort = serverPort;
 			this.robotPort = robotPort;
 			serverSocket = new DatagramSocket();
+			mReceiver=new Receiver(serverPort,1);
 			runtimeRespond = new DatagramPacket("r".getBytes(), 1, mRobotAddress, robotPort);
 		} catch (UnknownHostException | SocketException e) {
 			// TODO Auto-generated catch block
