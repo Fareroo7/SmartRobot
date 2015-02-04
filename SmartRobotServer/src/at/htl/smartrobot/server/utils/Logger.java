@@ -30,6 +30,14 @@ public class Logger {
 		}
 	}
 	
+	public String getLogFilePath(){
+		return logFile.getAbsolutePath();
+	}
+	
+	public File getLogFile(){
+		return logFile;
+	}
+	
 	public void write(String text){
 		if(log != null){
 			try {

@@ -24,6 +24,7 @@ public class SmartServer implements UDPReceiveListener {
 	private InetAddress robotAddress;
 	private int robotPort = 50001;
 	private Receiver udpReceiver;
+	private boolean isListening = false;
 
 	private static Scanner scn;
 	private static boolean run = true;
@@ -33,47 +34,12 @@ public class SmartServer implements UDPReceiveListener {
 	public DatagramPacket packet = null;
 	public DatagramSocket socket = null;
 
-	public static void main(String args[]) {
-
-		SmartServer s = new SmartServer("192.168.88.252", 50001);
-		scn = new Scanner(System.in);
-
-		System.out.println("---SmartServer---");
-		showHelpText();
-		
-		while (run) {
-			String input = scn.nextLine();
-			switch (input) {
-			case "s":
-				System.out.println("Start listening on port: " + s.getPort());
-				s.startListening();
-				break;
-
-			case "t":
-				System.out.println("Stop listening");
-				s.stopListening();
-				break;
-
-			case "e":
-				run = false;
-				s.socket.close();
-				s.log.close();
-				break;
-
-			case "h":
-			default:
-				showHelpText();
-				break;
-			}
-		}
-	}
-
 	public SmartServer(String robotIp, int robotPort) {
 		try {
 			robotAddress = InetAddress.getByName(robotIp);
 			packet = new DatagramPacket(new byte[] {RUNTIME_RESPONSE}, 1, robotAddress, robotPort);
 			socket = new DatagramSocket();
-			this.port = robotPort;
+			this.robotPort = robotPort;
 		} catch (UnknownHostException | SocketException e) {
 			e.printStackTrace();
 		}
@@ -88,11 +54,13 @@ public class SmartServer implements UDPReceiveListener {
 		udpReceiver = new Receiver(port, 1);
 		udpReceiver.addUDPReceiveListener(this);
 		udpReceiver.start();
+		isListening=true;
 	}
 
 	public void stopListening() {
 		udpReceiver.removeUDPReceiveListener(this);
 		udpReceiver.interrupt();
+		isListening=false;
 	}
 
 	public int getPort() {
@@ -124,7 +92,15 @@ public class SmartServer implements UDPReceiveListener {
 		this.robotPort = robotPort;
 		packet = new DatagramPacket(new byte[] {RUNTIME_RESPONSE}, 1, robotAddress, this.robotPort);
 	}
+	
+	public void setLogFile(String filepath){
+		log = new Logger(filepath);
+	}
 
+	public boolean isListening(){
+		return isListening;
+	}
+	
 	@Override
 	public void onReceive(UDPReceiveEvent e) {
 		
