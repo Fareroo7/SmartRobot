@@ -57,7 +57,7 @@ public class SmartServerCLI {
 					if (stoppedListening) {
 						mServer.startListening();
 						System.out.println("SmartServer running on port: " + mServer.getPort());
-						stoppedListening=false;
+						stoppedListening = false;
 					}
 					break;
 				case "p":
@@ -74,7 +74,7 @@ public class SmartServerCLI {
 					if (stoppedListening) {
 						mServer.startListening();
 						System.out.println("SmartServer running on port: " + mServer.getPort());
-						stoppedListening=false;
+						stoppedListening = false;
 					}
 					break;
 				case "l":
@@ -121,8 +121,9 @@ public class SmartServerCLI {
 	}
 
 	private static void showHelpText() {
-		System.out.println("Try following commands: \n" + "s - start server \n" + "t - terminate server \n" + "c - change robot ip \n" + "p - change robot port"
-				+"l - open log file"+"f - change log file"+"i - show system information"+ "e - exit programm \n" + "h - show help");
+		System.out.println("Try following commands: \n" + "s - start server \n" + "t - terminate server \n" + "c - change robot ip \n"
+				+ "p - change robot port\n" + "l - open log file\n" + "f - change log file\n" + "i - show system information\n" + "e - exit programm \n"
+				+ "h - show help");
 	}
 
 }

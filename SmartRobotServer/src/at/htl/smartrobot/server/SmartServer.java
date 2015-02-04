@@ -8,7 +8,6 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Arrays;
-import java.util.Scanner;
 
 import at.htl.smartrobot.server.utils.*;
 
@@ -25,9 +24,6 @@ public class SmartServer implements UDPReceiveListener {
 	private int robotPort = 50001;
 	private Receiver udpReceiver;
 	private boolean isListening = false;
-
-	private static Scanner scn;
-	private static boolean run = true;
 
 	public Logger log = new Logger("./log.txt");
 	
