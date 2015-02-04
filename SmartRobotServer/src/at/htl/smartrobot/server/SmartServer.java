@@ -1,21 +1,10 @@
 package at.htl.smartrobot.server;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
+
 import java.net.InetAddress;
-import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharsetEncoder;
-import java.util.ArrayList;
 import java.util.Scanner;
-
 import at.htl.smartrobot.server.utils.*;
-
 import com.pi4j.io.gpio.*;
 
 public class SmartServer implements UDPReceiveListener {
