@@ -7,6 +7,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 import at.htl.smartrobot.server.utils.*;
@@ -34,13 +35,12 @@ public class SmartServer implements UDPReceiveListener {
 
 	public static void main(String args[]) {
 
-		SmartServer s = new SmartServer("192.168.88.250", 50001);
+		SmartServer s = new SmartServer("192.168.88.252", 50001);
 		scn = new Scanner(System.in);
 
 		System.out.println("---SmartServer---");
-		System.out.println("Try following commands:\n" + "s - start server \n" + "t - terminate server \n"
-				+ "e - exit programm\n" + "h - show help");
-
+		showHelpText();
+		
 		while (run) {
 			String input = scn.nextLine();
 			switch (input) {
@@ -62,8 +62,7 @@ public class SmartServer implements UDPReceiveListener {
 
 			case "h":
 			default:
-				System.out.println("Try following commands:\n" + "s - start server \n" + "t - terminate server \n"
-						+ "h - show help");
+				showHelpText();
 				break;
 			}
 		}
@@ -78,6 +77,11 @@ public class SmartServer implements UDPReceiveListener {
 		} catch (UnknownHostException | SocketException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static void showHelpText(){
+		System.out.println("Try following commands:\n" + "s - start server \n" + "t - terminate server \n"
+				+ "e - exit programm\n" + "h - show help");
 	}
 
 	public void startListening() {
@@ -134,7 +138,7 @@ public class SmartServer implements UDPReceiveListener {
 		}
 		
 		System.out.println(e.getTimestamp());
-		log.write("Timestamp" + e.getTimestamp() + " : Data " + new String(e.getUdpPacket().getData()));
+		log.write("Timestamp " + e.getTimestamp() + " : Data " + Arrays.toString(e.getUdpPacket().getData()));
 	}
 
 }
