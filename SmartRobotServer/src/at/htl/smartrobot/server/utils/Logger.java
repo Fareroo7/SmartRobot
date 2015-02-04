@@ -33,7 +33,8 @@ public class Logger {
 	public void write(String text){
 		if(log != null){
 			try {
-				log.write("["+new Date()+"] - "+text);
+				log.write("["+new Date()+"] - " + text);
+				log.newLine();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

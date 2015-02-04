@@ -6,7 +6,6 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.Arrays;
 
 import at.htl.smartrobot.server.utils.ByteUtils;
 import at.htl.smartrobot.server.utils.Receiver;
@@ -24,23 +23,20 @@ public class SimonTestSend implements UDPReceiveListener{
 	public static long serverTime;
 	
 	public static void main(String[] args) {
-		Receiver mReceiver = new Receiver(5042, Long.SIZE / 8);
-		mReceiver.addUDPReceiveListener(new SimonTestSend());
-		mReceiver.start();
+//		Receiver mReceiver = new Receiver(5042, Long.SIZE / 8);
+//		mReceiver.addUDPReceiveListener(new SimonTestSend());
+//		mReceiver.start();
 		
 		try {
 			
-			mInetAddress = InetAddress.getByName("10.0.0.51");
-			port = 50010;
+			mInetAddress = InetAddress.getByName("192.168.88.251");
+			port = 50000;
 			
-			packet = new DatagramPacket(ByteUtils.longToBytes(System.nanoTime()), Long.SIZE / 8, mInetAddress, port);
+			packet = new DatagramPacket(new byte[]{ 0x01 }, 1, mInetAddress, port);
 			socket = new DatagramSocket();
+			
+			socket.send(packet);
 		
-			for(int i = 0; i < 10000; i++){
-				sendTime = System.nanoTime();
-				socket.send(packet);
-				Thread.sleep(100);
-			}
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -48,9 +44,6 @@ public class SimonTestSend implements UDPReceiveListener{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
