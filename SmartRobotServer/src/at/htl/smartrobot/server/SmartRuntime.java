@@ -78,7 +78,8 @@ public class SmartRuntime extends TimerTask implements UDPReceiveListener {
 
 	public static void main(String[] args){
 		Timer t1 = new Timer();
-		t1.schedule(new SmartRuntime("10.130.2.16","10.14.221.141",50042,50100), 0,5000);
+		SmartRuntime s = new SmartRuntime("10.16.4.37","10.14.221.141",50042,50100);
+		t1.schedule(s, 0,5000);
 	}
 	
 	@Override
@@ -114,7 +115,7 @@ public class SmartRuntime extends TimerTask implements UDPReceiveListener {
 					log.write(logCount+";"+((timeAfter - timeBefore) / 2)+";"+avgRuntime);
 					log.newLine();
 					logCount++;
-					System.out.println(">Sended next request");
+					System.out.println(">Sent next request");
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -123,11 +124,21 @@ public class SmartRuntime extends TimerTask implements UDPReceiveListener {
 				timeSum += (timeAfter - timeBefore) / 2;
 				avgRuntime = timeSum / (mCounter + 1);
 				mCounter = 0;
+				this.closeLog();
 			}
 
 			break;
 		}
 
+	}
+	
+	public void closeLog(){
+		try {
+			log.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
