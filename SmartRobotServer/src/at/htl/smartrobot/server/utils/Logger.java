@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Date;
 
 public class Logger {
 
@@ -32,7 +33,7 @@ public class Logger {
 	public void write(String text){
 		if(log != null){
 			try {
-				log.write(text);
+				log.write("["+new Date()+"] - "+text);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
