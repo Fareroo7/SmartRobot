@@ -37,8 +37,8 @@ public class SmartServer implements UDPReceiveListener {
 
 	public SmartServer() {
 		try {
-			myAddress = InetAddress.getByName("132.168.88.21");
-			mRobotAddress = InetAddress.getByName("132.168.88.22");
+			myAddress = InetAddress.getByName("192.168.88.251");
+			mRobotAddress = InetAddress.getByName("192.168.88.250");
 			serverSocket = new DatagramSocket();
 			mReceiver=new Receiver(serverPort,1);
 			runtimeRespond = new DatagramPacket("r".getBytes(), 1, mRobotAddress, robotPort);

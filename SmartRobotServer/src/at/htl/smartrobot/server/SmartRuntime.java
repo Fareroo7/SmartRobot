@@ -78,7 +78,7 @@ public class SmartRuntime extends TimerTask implements UDPReceiveListener {
 
 	public static void main(String[] args){
 		Timer t1 = new Timer();
-		SmartRuntime s = new SmartRuntime("10.16.4.37","10.14.221.141",50042,50100);
+		SmartRuntime s = new SmartRuntime("192.168.88.251","192.168.88.250",50042,50100);
 		t1.schedule(s, 0,5000);
 	}
 	
