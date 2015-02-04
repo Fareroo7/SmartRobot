@@ -30,7 +30,7 @@ public class InertiaPositioning extends Observable {
 	 * timespan to the last update-time from the acceleration.
 	 * 
 	 * @param time
-	 *            absolut system time in ns. The diffence is calculated
+	 *            Absolute system time in ns. The difference is calculated
 	 *            internal.
 	 * @param acceleration
 	 *            the acceleration for the timespan in m per s<sup>2</sup>
