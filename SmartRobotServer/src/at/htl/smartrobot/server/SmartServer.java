@@ -1,5 +1,7 @@
 package at.htl.smartrobot.server;
 
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -10,99 +12,108 @@ import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import at.htl.smartrobot.server.utils.*;
+
 import com.pi4j.io.gpio.*;
 
 public class SmartServer implements UDPReceiveListener {
 
-	public static final String RUNTIME_MEASURE = "m";
+	// Definitionen
+	public static final byte RUNTIME_MEASURE = 0x01;
+	public static final byte RUNTIME_RESPONSE = 0x02;
 
-	private Receiver mReceiver;
-	
-	private int serverPort = 50099;
-	private int robotPort = 50100;
+	private int port = 50000;
+	private InetAddress robotAddress;
+	private Receiver udpReceiver;
 
-	private InetAddress myAddress;
-	private InetAddress mRobotAddress;
+	private static Scanner scn;
+	private static boolean run = true;
 
-	private DatagramSocket serverSocket;
+	public Logger log = new Logger("./log.txt");
 
-	private DatagramPacket runtimeRespond;
-	
-	
-	
-	private ArrayList<GpioPinDigitalOutput> pinList = new ArrayList<GpioPinDigitalOutput>();
-	private int nextPin = 0;
+	public static void main(String args[]) {
 
-	public SmartServer() {
+		SmartServer s = new SmartServer("192.168.88.250", 50001);
+		scn = new Scanner(System.in);
+
+		System.out.println("---SmartServer---");
+		System.out.println("Try following commands:\n" + "s - start server \n" + "t - terminate server \n"
+				+ "e - exit programm" + "h - show help");
+
+		while (run) {
+			String input = scn.nextLine();
+			switch (input) {
+			case "s":
+				System.out.println("Start listening on port: " + s.getPort());
+				s.startListening();
+				break;
+
+			case "t":
+				System.out.println("Stop listening");
+				s.stopListening();
+				break;
+
+			case "e":
+				run = false;
+				s.log.close();
+				break;
+
+			case "h":
+			default:
+				System.out.println("Try following commands:\n" + "s - start server \n" + "t - terminate server \n"
+						+ "h - show help");
+				break;
+			}
+		}
+		// SmartServer s = new SmartServer("192.168.88.250", 50001);
+		// s.start();
+	}
+
+	public SmartServer(String robotIp, int robotPort) {
 		try {
-			myAddress = InetAddress.getByName("192.168.88.251");
-			mRobotAddress = InetAddress.getByName("192.168.88.250");
-			serverSocket = new DatagramSocket();
-			mReceiver=new Receiver(serverPort,1);
-			runtimeRespond = new DatagramPacket("r".getBytes(), 1, mRobotAddress, robotPort);
-		} catch (UnknownHostException | SocketException e) {
-			// TODO Auto-generated catch block
+			robotAddress = InetAddress.getByName(robotIp);
+		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public SmartServer(String serverAddress, String robotAddress, int serverPort, int robotPort) {
-		try {
-			myAddress = InetAddress.getByName(serverAddress);
-			mRobotAddress = InetAddress.getByName(robotAddress);
-			this.serverPort = serverPort;
-			this.robotPort = robotPort;
-			serverSocket = new DatagramSocket();
-			mReceiver=new Receiver(serverPort,1);
-			runtimeRespond = new DatagramPacket("r".getBytes(), 1, mRobotAddress, robotPort);
-		} catch (UnknownHostException | SocketException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void startListening() {
+		udpReceiver = new Receiver(port, 1);
+		udpReceiver.addUDPReceiveListener(this);
+		udpReceiver.start();
 	}
 
-	public static void main(String[] args) {
-		SmartServer server = new SmartServer();
-		server.mReceiver.addUDPReceiveListener(server);
+	public void stopListening() {
+		udpReceiver.removeUDPReceiveListener(this);
+		udpReceiver.interrupt();
 	}
-	
-	public void addOutputPin(GpioPinDigitalOutput pin){
-		pinList.add(pin);
+
+	public int getPort() {
+		return port;
+	}
+
+	public void setPort(int port) {
+		this.port = port;
+	}
+
+	public String getRobotAddress() {
+		return robotAddress.getHostAddress();
+	}
+
+	public void setRobotAddress(String ip) {
+		try {
+			this.robotAddress = InetAddress.getByName(ip);
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void onReceive(UDPReceiveEvent e) {
-		String input = new String(e.getUdpPacket().getData());
-
-		switch (input) {
-		case "m":
-			try {
-				serverSocket.send(runtimeRespond);
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			break;
-		case "a":
-			pinList.get(nextPin).setState(true);
-			try {
-				serverSocket.send(new DatagramPacket(("s"+nextPin).getBytes(), ("s"+nextPin).getBytes().length,mRobotAddress,robotPort));
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			if(nextPin<pinList.size()){
-				nextPin++;	
-			}else{
-				nextPin=0;
-			}
-			break;
-		default:
-			break;
-		}
-
+		System.out.println(e.getTimestamp());
+		log.write(e.getTimestamp() + " : " + new String(e.getUdpPacket().getData()));
 	}
 
 }
