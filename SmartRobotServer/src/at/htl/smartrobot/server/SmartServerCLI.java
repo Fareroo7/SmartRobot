@@ -79,6 +79,9 @@ public class SmartServerCLI {
 					break;
 				case "l":
 					Desktop.getDesktop().open(mServer.log.getLogFile());
+					//------------------------
+					Runtime.getRuntime().exec("nano "+mServer.log.getLogFilePath()); //Diese zeile bitte auf raspberry testen
+					//------------------------
 					break;
 				case "f":
 					System.out.println("Please enter the new absolute or relative file path");
