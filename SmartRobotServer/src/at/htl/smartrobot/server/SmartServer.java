@@ -40,11 +40,6 @@ public class SmartServer implements UDPReceiveListener {
 			e.printStackTrace();
 		}
 	}
-	
-	public static void showHelpText(){
-		System.out.println("Try following commands:\n" + "s - start server \n" + "t - terminate server \n"
-				+ "e - exit programm\n" + "h - show help");
-	}
 
 	public void startListening() {
 		udpReceiver = new Receiver(port, 1);

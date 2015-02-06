@@ -33,7 +33,7 @@ public class SimonTestSend implements UDPReceiveListener{
 		try {
 			
 			mInetAddress = InetAddress.getByName("192.168.88.251");
-			port = 50001;
+			port = 50000;
 			
 			packet = new DatagramPacket(new byte[]{ 0x01 }, 1, mInetAddress, port);
 			socket = new DatagramSocket();
