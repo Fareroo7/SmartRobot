@@ -1,15 +1,17 @@
 package at.htl.smartrobot.server.utils;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
+import java.util.ArrayList;
 
 import javax.swing.event.EventListenerList;
 
 public class Receiver extends Thread {
 
-	private EventListenerList listeners = new EventListenerList();
+	private ArrayList<UDPReceiveListener> listeners = new ArrayList<UDPReceiveListener>();
 
 	private int port = 50000;
 	private int packageSize = 1024;
@@ -65,15 +67,15 @@ public class Receiver extends Thread {
 	}
 
 	public void addUDPReceiveListener(UDPReceiveListener listener) {
-		listeners.add(UDPReceiveListener.class, listener);
+		listeners.add(listener);
 	}
 
 	public void removeUDPReceiveListener(UDPReceiveListener listener) {
-		listeners.remove(UDPReceiveListener.class, listener);
+		listeners.remove(listener);
 	}
 
 	protected synchronized void notifyUDPReceived(UDPReceiveEvent e) {
-		for (UDPReceiveListener l : listeners.getListeners(UDPReceiveListener.class)) {
+		for (UDPReceiveListener l : listeners) {
 			l.onReceive(e);
 		}
 	}
