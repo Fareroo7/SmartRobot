@@ -1,6 +1,10 @@
 package at.htl.smartrobot.server;
 
 import java.awt.Desktop;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
@@ -78,9 +82,10 @@ public class SmartServerCLI {
 					}
 					break;
 				case "l":
-					Desktop.getDesktop().open(mServer.log.getLogFile());
+					showTxtFile(mServer.log.getLogFile());
+//					Desktop.getDesktop().open(mServer.log.getLogFile());
 					//------------------------
-					Runtime.getRuntime().exec("nano "+mServer.log.getLogFilePath()); //Diese zeile bitte auf raspberry testen
+//					Runtime.getRuntime().exec("nano "+mServer.log.getLogFilePath()); //Diese zeile bitte auf raspberry testen
 					//------------------------
 					break;
 				case "f":
@@ -127,6 +132,26 @@ public class SmartServerCLI {
 		System.out.println("Try following commands: \n" + "s - start server \n" + "t - terminate server \n" + "c - change robot ip \n"
 				+ "p - change robot port\n" + "l - open log file\n" + "f - change log file\n" + "i - show system information\n" + "e - exit programm \n"
 				+ "h - show help");
+	}
+	
+	private static boolean showTxtFile(File txt){
+		try {
+			BufferedReader bw = new BufferedReader(new FileReader(txt));
+			String input;
+			System.out.println("--- SmartServer Logfile: "+txt.getName()+"---");
+			System.out.println("Path: "+txt.getAbsolutePath());
+			int rowNumber=0;
+			while((input=bw.readLine())!=null){
+				rowNumber++;
+				System.out.println(rowNumber+": "+input);
+			}
+			bw.close();
+			System.out.println("---------------------------------------------");
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 }
