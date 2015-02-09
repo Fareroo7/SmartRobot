@@ -8,27 +8,31 @@ import java.util.Date;
 
 public class Logger {
 
-	private File logFile=new File("./log.txt"); 
-	
-	public Logger(){
+	private File logFile = new File("./log.txt");
+
+	public Logger() {
 	}
-	
-	public Logger(String logFilePath){
-		logFile=new File(logFilePath);
+
+	public Logger(String logFilePath) {
+		logFile = new File(logFilePath);
 	}
-	
-	public String getLogFilePath(){
+
+	public String getLogFilePath() {
 		return logFile.getAbsolutePath();
 	}
-	
-	public File getLogFile(){
+
+	public File getLogFile() {
 		return logFile;
 	}
-	
-	public void write(String text){
+
+	public void deleteLogFile() {
+		logFile.delete();
+	}
+
+	public void write(String text) {
 		try {
-			BufferedWriter log = new BufferedWriter(new FileWriter(logFile,true));
-			log.write("["+new Date()+"] - " + text);
+			BufferedWriter log = new BufferedWriter(new FileWriter(logFile, true));
+			log.write("[" + new Date() + "] - " + text);
 			log.newLine();
 			log.close();
 		} catch (IOException e) {

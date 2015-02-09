@@ -21,7 +21,7 @@ public class SmartServerCLI {
 		int robotPort = defaultRobotPort;
 		SmartServer mServer = new SmartServer(robotIP, robotPort);
 		Scanner scn = new Scanner(System.in);
-		try {	
+		try {
 			System.out.println("--- Welcome to SmartServer V1.5---");
 			System.out.println("Local IP: " + Inet4Address.getLocalHost().getHostAddress() + ":" + mServer.getPort());
 			System.out.println("Robot IP: " + mServer.getRobotAddress() + ":" + mServer.getRobotPort());
@@ -61,7 +61,7 @@ public class SmartServerCLI {
 					robotIP = scn.nextLine();
 					mServer = new SmartServer(robotIP, robotPort);
 					System.out.println("IP-address changed");
-					mServer.log.write("Robot IP changed to "+robotIP);
+					mServer.log.write("Robot IP changed to " + robotIP);
 					if (stoppedListening) {
 						mServer.startListening();
 						System.out.println("SmartServer running on port: " + mServer.getPort());
@@ -81,7 +81,7 @@ public class SmartServerCLI {
 					robotPort = scn.nextInt();
 					mServer = new SmartServer(robotIP, robotPort);
 					System.out.println("Port changed");
-					mServer.log.write("Robot port changed to "+robotPort);
+					mServer.log.write("Robot port changed to " + robotPort);
 					if (stoppedListening) {
 						mServer.startListening();
 						System.out.println("SmartServer running on port: " + mServer.getPort());
@@ -91,10 +91,15 @@ public class SmartServerCLI {
 					break;
 				case "l":
 					showTxtFile(mServer.log.getLogFile());
-//					Desktop.getDesktop().open(mServer.log.getLogFile());
-					//------------------------
-//					Runtime.getRuntime().exec("nano "+mServer.log.getLogFilePath()); //Diese zeile bitte auf raspberry testen
-					//------------------------
+					// Desktop.getDesktop().open(mServer.log.getLogFile());
+					// ------------------------
+					// Runtime.getRuntime().exec("nano "+mServer.log.getLogFilePath());
+					// //Diese zeile bitte auf raspberry testen
+					// ------------------------
+					break;
+				case "d":
+					mServer.log.deleteLogFile();
+					System.out.println("The logfile has been deleted");
 					break;
 				case "f":
 					System.out.println("Please enter the new absolute or relative file path");
@@ -140,20 +145,20 @@ public class SmartServerCLI {
 
 	private static void showHelpText() {
 		System.out.println("Try following commands: \n" + "s - start server \n" + "t - terminate server \n" + "c - change robot ip \n"
-				+ "p - change robot port\n" + "l - open log file\n" + "f - change log file\n" + "i - show system information\n" + "e - exit programm \n"
-				+ "h - show help");
+				+ "p - change robot port\n" + "l - open log file\n" + "d - delete log file\n" + "f - change log file\n" + "i - show system information\n"
+				+ "e - exit programm \n" + "h - show help");
 	}
-	
-	private static boolean showTxtFile(File txt){
+
+	private static boolean showTxtFile(File txt) {
 		try {
 			BufferedReader bw = new BufferedReader(new FileReader(txt));
 			String input;
-			System.out.println("--- SmartServer Logfile: "+txt.getName()+"---");
-			System.out.println("Path: "+txt.getAbsolutePath());
-			int rowNumber=0;
-			while((input=bw.readLine())!=null){
+			System.out.println("--- SmartServer Logfile: " + txt.getName() + "---");
+			System.out.println("Path: " + txt.getAbsolutePath());
+			int rowNumber = 0;
+			while ((input = bw.readLine()) != null) {
 				rowNumber++;
-				System.out.println(rowNumber+": "+input);
+				System.out.println(rowNumber + ": " + input);
 			}
 			bw.close();
 			System.out.println("---------------------------------------------");
