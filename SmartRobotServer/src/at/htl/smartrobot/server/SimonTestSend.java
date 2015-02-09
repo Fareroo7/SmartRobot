@@ -50,8 +50,6 @@ public class SimonTestSend implements UDPReceiveListener{
 					e.printStackTrace();
 				}
 			}
-			
-			log.close();
 		
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block

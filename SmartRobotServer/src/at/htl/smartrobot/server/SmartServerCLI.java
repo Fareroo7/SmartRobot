@@ -16,12 +16,12 @@ public class SmartServerCLI {
 	private static final int defaultRobotPort = 50001;
 
 	public static void main(String[] args) {
-		try {
-			boolean exit = false;
-			String robotIP = defaultRobotIP;
-			int robotPort = defaultRobotPort;
-			SmartServer mServer = new SmartServer(robotIP, robotPort);
-			Scanner scn = new Scanner(System.in);
+		boolean exit = false;
+		String robotIP = defaultRobotIP;
+		int robotPort = defaultRobotPort;
+		SmartServer mServer = new SmartServer(robotIP, robotPort);
+		Scanner scn = new Scanner(System.in);
+		try {	
 			System.out.println("--- Welcome to SmartServer V1.5---");
 			System.out.println("Local IP: " + Inet4Address.getLocalHost().getHostAddress() + ":" + mServer.getPort());
 			System.out.println("Robot IP: " + mServer.getRobotAddress() + ":" + mServer.getRobotPort());
@@ -35,6 +35,7 @@ public class SmartServerCLI {
 					if (!mServer.isListening()) {
 						mServer.startListening();
 						System.out.println("SmartServer running on port: " + mServer.getPort());
+						mServer.log.write("SmartServer started");
 					} else {
 						System.out.println("SmartServer already running on port: " + mServer.getPort());
 					}
@@ -43,6 +44,7 @@ public class SmartServerCLI {
 					if (mServer.isListening()) {
 						mServer.stopListening();
 						System.out.println("SmartServer stopped");
+						mServer.log.write("SmartServer stopped");
 					} else {
 						System.out.println("SmartServer was not running!");
 					}
@@ -53,14 +55,17 @@ public class SmartServerCLI {
 						mServer.stopListening();
 						stoppedListening = true;
 						System.out.println("SmartServer stopped");
+						mServer.log.write("SmartServer stopped");
 					}
 					System.out.println("Please enter the new IP-address of the robot");
 					robotIP = scn.nextLine();
 					mServer = new SmartServer(robotIP, robotPort);
 					System.out.println("IP-address changed");
+					mServer.log.write("Robot IP changed to "+robotIP);
 					if (stoppedListening) {
 						mServer.startListening();
 						System.out.println("SmartServer running on port: " + mServer.getPort());
+						mServer.log.write("SmartServer started");
 						stoppedListening = false;
 					}
 					break;
@@ -70,14 +75,17 @@ public class SmartServerCLI {
 						mServer.stopListening();
 						stoppedListening = true;
 						System.out.println("SmartServer stopped");
+						mServer.log.write("SmartServer stopped");
 					}
 					System.out.println("Please enter new portnumber of the robot");
 					robotPort = scn.nextInt();
 					mServer = new SmartServer(robotIP, robotPort);
 					System.out.println("Port changed");
+					mServer.log.write("Robot port changed to "+robotPort);
 					if (stoppedListening) {
 						mServer.startListening();
 						System.out.println("SmartServer running on port: " + mServer.getPort());
+						mServer.log.write("SmartServer started");
 						stoppedListening = false;
 					}
 					break;
@@ -90,6 +98,7 @@ public class SmartServerCLI {
 					break;
 				case "f":
 					System.out.println("Please enter the new absolute or relative file path");
+					mServer.log.write("Change logfile");
 					mServer.setLogFile(scn.nextLine());
 					System.out.println("Log file changed");
 					break;
@@ -106,10 +115,11 @@ public class SmartServerCLI {
 					if (mServer.isListening()) {
 						mServer.stopListening();
 						System.out.println("SmartServer stopped");
+						mServer.log.write("SmartServer stopped");
 					}
 					mServer.socket.close();
-					mServer.log.close();
 					scn.close();
+					mServer.log.write("SmartServer shut down");
 					System.out.println("Exit programm");
 					break;
 				case "h":
@@ -120,7 +130,7 @@ public class SmartServerCLI {
 			}
 
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
+			mServer.log.write(e.getMessage());
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
