@@ -29,6 +29,9 @@ public class SmartServer implements UDPReceiveListener {
 	
 	public DatagramPacket packet = null;
 	public DatagramSocket socket = null;
+	
+	public GpioController gpio = null;
+	public GpioPinDigitalOutput pin = null;
 
 	public SmartServer(String robotIp, int robotPort) {
 		try {
@@ -36,6 +39,8 @@ public class SmartServer implements UDPReceiveListener {
 			packet = new DatagramPacket(new byte[] {RUNTIME_RESPONSE}, 1, robotAddress, robotPort);
 			socket = new DatagramSocket();
 			this.robotPort = robotPort;
+			gpio = GpioFactory.getInstance();
+			pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, PinState.LOW);
 		} catch (UnknownHostException | SocketException e) {
 			e.printStackTrace();
 		}
@@ -92,12 +97,17 @@ public class SmartServer implements UDPReceiveListener {
 		return isListening;
 	}
 	
+	public void sendSignal(){
+		pin.blink(1000);
+	}
+	
 	@Override
 	public void onReceive(UDPReceiveEvent e) {
 		
 		byte data = e.getUdpPacket().getData()[0];
 		if(data == RUNTIME_MEASURE){
 			try {
+				sendSignal();
 				socket.send(packet);
 			} catch (IOException e1) {
 				e1.printStackTrace();
