@@ -8,54 +8,37 @@ import java.util.Date;
 
 public class Logger {
 
-	private File logFile=new File("./log.txt"); 
-	private BufferedWriter log = null;
-	
-	public Logger(){
-		try {
-			log=new BufferedWriter(new FileWriter(logFile));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	private File logFile = new File("./log.txt");
+
+	public Logger() {
 	}
-	
-	public Logger(String logFilePath){
-		logFile=new File(logFilePath);
-		try {
-			log=new BufferedWriter(new FileWriter(logFile));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+	public Logger(String logFilePath) {
+		logFile = new File(logFilePath);
 	}
-	
-	public String getLogFilePath(){
+
+	public String getLogFilePath() {
 		return logFile.getAbsolutePath();
 	}
-	
-	public File getLogFile(){
+
+	public File getLogFile() {
 		return logFile;
 	}
-	
-	public void write(String text){
-		if(log != null){
-			try {
-				log.write("["+new Date()+"] - " + text);
-				log.newLine();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+
+	public void deleteLogFile() {
+		logFile.delete();
+	}
+
+	public void write(String text) {
+		try {
+			BufferedWriter log = new BufferedWriter(new FileWriter(logFile, true));
+			log.write("[" + new Date() + "] - " + text);
+			log.newLine();
+			log.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
-	
-	public void close(){
-		if(log != null){
-			try {
-				log.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+
 }
