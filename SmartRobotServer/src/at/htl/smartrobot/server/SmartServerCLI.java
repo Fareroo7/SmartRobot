@@ -3,7 +3,6 @@ package at.htl.smartrobot.server;
 import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.Inet4Address;
