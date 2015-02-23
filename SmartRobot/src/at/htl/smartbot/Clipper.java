@@ -26,6 +26,10 @@ public class Clipper {
 
 	}
 
+	/**
+	 * Adds new value to clipping and removes the oldest value
+	 * @param v
+	 */
 	public void add(CartesianVector v) {
 
 		if (isFull) {
