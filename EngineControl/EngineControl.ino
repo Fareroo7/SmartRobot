@@ -27,7 +27,7 @@ EngineController controller(one, three, five, two, four, six);
 SimpleTimer timer;
 
 void setup() {
-  Serial.begin(9600);
+  //Serial.begin(9600);
   acc.powerOn();
   /*
   EngineTask testTask(packet);
@@ -55,7 +55,7 @@ void setup() {
   delay(1000);
   */
   controller.start();
-  callMeLater(); 
+  //callMeLater(); 
 }
 
 void loop() {
@@ -64,7 +64,7 @@ void loop() {
       int len  = acc.read(packet, sizeof(packet), 1);
       if (len > 0) {
          unsigned int error = controller.doTask(EngineTask(packet));
-         sendAckTest(error);
+         sendAck(error);
       }
   }
   //timer.run();
