@@ -40,16 +40,16 @@ public class SimonTestSend implements UDPReceiveListener{
 			
 			log.write("Timestamp;Anzahl;Laufzeit [ns];");
 			
-			for(int i = 0; i < 100; i++){
+//			for(int i = 0; i < 100; i++){
 				socket.send(packet);
-				sendTime = System.nanoTime();
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
+//				sendTime = System.nanoTime();
+//				try {
+//					Thread.sleep(100);
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			}
 		
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
