@@ -1,6 +1,5 @@
 package at.htl.smartrobot.server;
 
-
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -26,17 +25,17 @@ public class SmartServer implements UDPReceiveListener {
 	private boolean isListening = false;
 
 	public Logger log = new Logger("./log.txt");
-	
+
 	public DatagramPacket packet = null;
 	public DatagramSocket socket = null;
-	
+
 	public GpioController gpio = null;
 	public GpioPinDigitalOutput pin = null;
 
 	public SmartServer(String robotIp, int robotPort) {
 		try {
 			robotAddress = InetAddress.getByName(robotIp);
-			packet = new DatagramPacket(new byte[] {RUNTIME_RESPONSE}, 1, robotAddress, robotPort);
+			packet = new DatagramPacket(new byte[] { RUNTIME_RESPONSE }, 1, robotAddress, robotPort);
 			socket = new DatagramSocket();
 			this.robotPort = robotPort;
 		} catch (UnknownHostException | SocketException e) {
@@ -50,14 +49,14 @@ public class SmartServer implements UDPReceiveListener {
 		udpReceiver.start();
 		gpio = GpioFactory.getInstance();
 		pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, PinState.LOW);
-		isListening=true;
+		isListening = true;
 	}
 
 	public void stopListening() {
 		udpReceiver.removeUDPReceiveListener(this);
 		udpReceiver.interrupt();
 		gpio.shutdown();
-		isListening=false;
+		isListening = false;
 	}
 
 	public int getPort() {
@@ -75,7 +74,7 @@ public class SmartServer implements UDPReceiveListener {
 	public void setRobotAddress(String ip) {
 		try {
 			this.robotAddress = InetAddress.getByName(ip);
-			packet = new DatagramPacket(new byte[] {RUNTIME_RESPONSE}, 1, robotAddress, robotPort);
+			packet = new DatagramPacket(new byte[] { RUNTIME_RESPONSE }, 1, robotAddress, robotPort);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
@@ -87,26 +86,26 @@ public class SmartServer implements UDPReceiveListener {
 
 	public void setRobotPort(int robotPort) {
 		this.robotPort = robotPort;
-		packet = new DatagramPacket(new byte[] {RUNTIME_RESPONSE}, 1, robotAddress, this.robotPort);
+		packet = new DatagramPacket(new byte[] { RUNTIME_RESPONSE }, 1, robotAddress, this.robotPort);
 	}
-	
-	public void setLogFile(String filepath){
+
+	public void setLogFile(String filepath) {
 		log = new Logger(filepath);
 	}
 
-	public boolean isListening(){
+	public boolean isListening() {
 		return isListening;
 	}
-	
-	public void sendSignal(){
+
+	public void sendSignal() {
 		pin.pulse(5);
 	}
-	
+
 	@Override
 	public void onReceive(UDPReceiveEvent e) {
-		
+
 		byte data = e.getUdpPacket().getData()[0];
-		if(data == RUNTIME_MEASURE){
+		if (data == RUNTIME_MEASURE) {
 			try {
 				sendSignal();
 				socket.send(packet);
@@ -114,9 +113,13 @@ public class SmartServer implements UDPReceiveListener {
 				e1.printStackTrace();
 			}
 		}
-		
+
 		System.out.println(e.getTimestamp());
 		log.write("Timestamp " + e.getTimestamp() + " : Data " + Arrays.toString(e.getUdpPacket().getData()));
+	}
+
+	public String getRasPiPin() {
+		return pin.getName();
 	}
 
 }

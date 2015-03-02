@@ -113,6 +113,10 @@ public class SmartServerCLI {
 					System.out.println("Logfile: " + mServer.log.getLogFilePath());
 					System.out.println("-----------------------------------------");
 					break;
+				case "o":
+					mServer.sendSignal();
+					System.out.println("Ouput testsignal at pin "+mServer.getRasPiPin());
+					break;
 				case "e":
 					exit = true;
 					if (mServer.isListening()) {
@@ -144,7 +148,7 @@ public class SmartServerCLI {
 	private static void showHelpText() {
 		System.out.println("Try following commands: \n" + "s - start server \n" + "t - terminate server \n" + "c - change robot ip \n"
 				+ "p - change robot port\n" + "l - open log file\n" + "d - delete log file\n" + "f - change log file\n" + "i - show system information\n"
-				+ "e - exit programm \n" + "h - show help");
+				+ "o - Output a testsignal from Raspberry Pi \n" + "e - exit programm \n" + "h - show help");
 	}
 
 	private static boolean showTxtFile(File txt) {

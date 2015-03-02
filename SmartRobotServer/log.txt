@@ -1,1 +1,1 @@
-SmartServer startedSmartServer stopped
+[Mon Mar 02 14:37:26 CET 2015] - SmartServer shut down
