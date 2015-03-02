@@ -28,7 +28,7 @@ public class SmartServerCLI {
 			showHelpText();
 
 			while (!exit) {
-				switch (scn.nextLine()) {
+				switch (scn.nextLine().toLowerCase()) {
 				case "s":
 					if (!mServer.isListening()) {
 						mServer.startListening();
