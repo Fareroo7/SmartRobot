@@ -114,7 +114,7 @@ public class UDPController extends Thread {
 
 	protected synchronized void notifyUDPReceived(UDPReceiveEvent e) {
 		for (UDPReceiveListener l : listeners) {
-			l.onReceive(e);
+			l.onUDPReceive(e);
 		}
 	}
 
