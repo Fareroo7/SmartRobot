@@ -1,4 +1,4 @@
-package at.android.smartrobotapp;
+package at.android.smartrobotapp.activities;
 
 import java.io.IOException;
 import java.net.SocketException;
@@ -12,8 +12,11 @@ import android.widget.Toast;
 import at.android.smartrobot.network.UDPController;
 import at.android.smartrobot.network.UDPReceiveEvent;
 import at.android.smartrobot.network.UDPReceiveListener;
+import at.android.smartrobot.usb.USBReceiveEvent;
+import at.android.smartrobot.usb.USBReceiveListener;
+import at.android.smartrobotapp.helpers.SmartHandler;
 
-public class SmartActivity extends ActionBarActivity implements UDPReceiveListener {
+public class SmartActivity extends ActionBarActivity implements UDPReceiveListener, USBReceiveListener {
 
 	//UI
 	public Button btnSend;
@@ -65,16 +68,21 @@ public class SmartActivity extends ActionBarActivity implements UDPReceiveListen
 	}
 
 	@Override
-	public void onReceive(UDPReceiveEvent e) {
-		Toast.makeText(getApplicationContext(), "...", Toast.LENGTH_SHORT).show();
-	}
-
-	@Override
 	protected void onDestroy() {
 		if(udpController != null) udpController.stopListening();
 		super.onDestroy();
 	}
+
+	@Override
+	public void onReceive(UDPReceiveEvent e) {
+		Toast.makeText(getApplicationContext(), "...", Toast.LENGTH_SHORT).show();
+	}
 	
+	@Override
+	public void onUSBReceive(USBReceiveEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 //	@Override

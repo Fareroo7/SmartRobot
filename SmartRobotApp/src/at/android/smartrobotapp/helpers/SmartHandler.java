@@ -1,4 +1,4 @@
-package at.android.smartrobotapp;
+package at.android.smartrobotapp.helpers;
 
 import android.content.Context;
 import android.os.Handler;
