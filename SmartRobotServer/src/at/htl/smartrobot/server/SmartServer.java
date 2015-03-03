@@ -98,7 +98,7 @@ public class SmartServer implements UDPReceiveListener {
 	}
 
 	public void sendSignal() {
-		pin.pulse(5);
+		pin.pulse(100);
 	}
 
 	@Override
