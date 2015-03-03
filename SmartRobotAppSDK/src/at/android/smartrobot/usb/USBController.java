@@ -17,12 +17,14 @@ import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.ParcelFileDescriptor;
-
+import android.util.Log;
 import at.android.smartrobot.helpers.SmartMessage;
 import at.htl.enginecontrol.EngineTask;
 
 public class USBController implements Runnable {
 
+	public static final String TAG = "USBController";
+	
 	// Messages
 	public static final int WHAT_USB_PREMISSION_DENIED = 200;
 	public static final int WHAT_ACCESSORY_RESUME_ERROR = 201;
@@ -62,6 +64,7 @@ public class USBController implements Runnable {
 					} else {
 						mHandler.sendMessage(SmartMessage.create(WHAT_USB_PREMISSION_DENIED,
 								"permission denied for accessory"));
+						Log.d(TAG, "permission denied for accessory");
 					}
 					mPermissionRequestPending = false;
 				}
@@ -74,6 +77,9 @@ public class USBController implements Runnable {
 		}
 	};
 
+	/**
+	 * Constructor
+	 */
 	public USBController(Context context) {
 		mContext = context;
 		mHandler = new Handler(Looper.getMainLooper());
@@ -145,6 +151,7 @@ public class USBController implements Runnable {
 			}
 		} else {
 			mHandler.sendMessage(SmartMessage.create(WHAT_ACCESSORY_RESUME_ERROR, "Accessory is null!"));
+			Log.d(TAG, "Accessory is null!");
 		}
 	}
 
@@ -166,8 +173,10 @@ public class USBController implements Runnable {
 			Thread thread = new Thread(null, this, "EC");
 			thread.start();
 			mHandler.sendMessage(SmartMessage.create(WHAT_ACCESSORY_OPEN, "Accessory open"));
+			Log.d(TAG, "Accessory open");
 		} else {
 			mHandler.sendMessage(SmartMessage.create(WHAT_ACCESSORY_OPEN_ERROR, "Accessory open failed"));
+			Log.d(TAG, "Accessory open failed");
 		}
 	}
 
@@ -183,6 +192,14 @@ public class USBController implements Runnable {
 		}
 	}
 
+//	public void stop(){
+//		if(mInputStream != null)
+//			try {
+//				mInputStream.close();
+//			} catch (IOException e) {
+//			}
+//	}
+//	
 	@Override
 	public void run() {
 		int ret = 0;
