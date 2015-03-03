@@ -21,7 +21,7 @@ import android.util.Log;
 import at.android.smartrobot.helpers.SmartMessage;
 import at.htl.enginecontrol.EngineTask;
 
-public class USBController implements Runnable {
+public class USBController extends Thread {
 
 	public static final String TAG = "USBController";
 	
@@ -131,7 +131,7 @@ public class USBController implements Runnable {
 			mOutputStream.write(task.getECP());
 	}
 
-	public void resume() {
+	public void onResume() {
 		if (mInputStream != null && mOutputStream != null) {
 			return;
 		}
@@ -155,11 +155,11 @@ public class USBController implements Runnable {
 		}
 	}
 
-	public void pause() {
+	public void onPause() {
 		closeAccessory();
 	}
 
-	public void destroy() {
+	public void onDestroy() {
 		mContext.unregisterReceiver(mUsbReceiver);
 	}
 
@@ -191,15 +191,19 @@ public class USBController implements Runnable {
 			mAccessory = null;
 		}
 	}
+	
+	public void startListening(){
+		this.start();
+	}
 
-//	public void stop(){
-//		if(mInputStream != null)
-//			try {
-//				mInputStream.close();
-//			} catch (IOException e) {
-//			}
-//	}
-//	
+	public void stopListenting() {
+		if (mInputStream != null)
+			try {
+				mInputStream.close();
+			} catch (IOException e) {
+			}
+	}
+
 	@Override
 	public void run() {
 		int ret = 0;
