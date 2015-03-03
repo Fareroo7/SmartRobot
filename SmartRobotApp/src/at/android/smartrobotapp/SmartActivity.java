@@ -50,7 +50,7 @@ public class SmartActivity extends ActionBarActivity implements UDPReceiveListen
 			@Override
 			public void onClick(View v) {
 				try {
-					udpController.send('A');
+					udpController.send("A");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
