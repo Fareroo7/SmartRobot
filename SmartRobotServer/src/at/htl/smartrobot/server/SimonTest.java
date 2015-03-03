@@ -19,7 +19,7 @@ import at.htl.smartrobot.server.utils.UDPReceiveListener;
 public class SimonTest implements UDPReceiveListener {
 	
 	public static Receiver mReceiver;
-	public static int port = 50010;
+	public static int port = 5000;
 	public static int packetsize = 1;
 	public static Scanner scn;
 	public static boolean run = true;
