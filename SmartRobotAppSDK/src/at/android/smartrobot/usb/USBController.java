@@ -21,14 +21,40 @@ import android.util.Log;
 import at.android.smartrobot.helpers.SmartMessage;
 import at.htl.enginecontrol.EngineTask;
 
+/**
+ * @author Dominik Simon
+ * @version 2.0
+ */
 public class USBController extends Thread {
 
+	/**
+	 * Tag of the Class (for LogCat debugging).
+	 */
 	public static final String TAG = "USBController";
 	
 	// Messages
+	/**
+	 * <b>What:</b> The Application has no USB permission.
+	 * <em>This is for the Handler.</em>
+	 */
 	public static final int WHAT_USB_PREMISSION_DENIED = 200;
+	
+	/**
+	 * <b>What:</b> An Error occurred while trying to reopen the Accessory.
+	 * <em>This is for the Handler.</em>
+	 */
 	public static final int WHAT_ACCESSORY_RESUME_ERROR = 201;
+	
+	/**
+	 * <b>What:</b> The Accessory is open.
+	 * <em>This is for the Handler.</em>
+	 */
 	public static final int WHAT_ACCESSORY_OPEN = 202;
+	
+	/**
+	 * <b>What:</b> An Error occurred while trying to open the Accessory.
+	 * <em>This is for the Handler.</em>
+	 */
 	public static final int WHAT_ACCESSORY_OPEN_ERROR = 203;
 
 	// USB Intent Filter
@@ -78,7 +104,8 @@ public class USBController extends Thread {
 	};
 
 	/**
-	 * Constructor
+	 * Default constructor.
+	 * @param context The Application Context, is needed to register a Broadcastreceiver.
 	 */
 	public USBController(Context context) {
 		mContext = context;
@@ -88,6 +115,22 @@ public class USBController extends Thread {
 		IntentFilter filter = new IntentFilter(ACTION_USB_PERMISSION);
 		filter.addAction(UsbManager.ACTION_USB_ACCESSORY_DETACHED);
 		mContext.registerReceiver(mUsbReceiver, filter);
+	}
+	
+	/**
+	 * Consructor for passing the accessory over Intents.
+	 * @param context The Application Context, is needed to register a Broadcastreceiver.
+	 * @param accessory USB Accessory that is atteched.
+	 */
+	public USBController(Context context, UsbAccessory accessory){
+		mContext = context;
+		mHandler = new Handler(Looper.getMainLooper());
+		mUsbManager = UsbManager.getInstance(context);
+		mPermissionIntent = PendingIntent.getBroadcast(context, 0, new Intent(ACTION_USB_PERMISSION), 0);
+		IntentFilter filter = new IntentFilter(ACTION_USB_PERMISSION);
+		filter.addAction(UsbManager.ACTION_USB_ACCESSORY_DETACHED);
+		mContext.registerReceiver(mUsbReceiver, filter);
+		openAccessory(accessory);
 	}
 
 	/**
@@ -116,21 +159,57 @@ public class USBController extends Thread {
 		}
 	}
 
-	public void send(String w) throws IOException {
+	/**
+	 * Sends a String to an attached USB Accessory.
+	 * @param message The message to be send.
+	 * @throws IOException
+	 */
+	public void send(String message) throws IOException {
 		if (mOutputStream != null)
-			mOutputStream.write(w.getBytes());
+			mOutputStream.write(message.getBytes());
 	}
 
-	public void send(byte[] w) throws IOException {
+	/**
+	 * Sends a Array of bytes to an attached USB Accessory.
+	 * @param data The data to be send.
+	 * @throws IOException
+	 */
+	public void send(byte[] data) throws IOException {
 		if (mOutputStream != null)
-			mOutputStream.write(w);
+			mOutputStream.write(data);
 	}
 
+	/**
+	 * Sends an {@link EngineTask} to an attached USB Accessory.  
+	 * @param task The {@link EngineTask} to be send.
+	 * @throws IOException
+	 */
 	public void send(EngineTask task) throws IOException {
 		if (mOutputStream != null)
 			mOutputStream.write(task.getECP());
 	}
+	
+	/**
+	 * Starts to listening, if something is received from USB and fires then a {@link USBReceiveEvent} 
+	 */
+	public void startListening(){
+		this.start();
+	}
 
+	/**
+	 * Stops listening.
+	 */
+	public void stopListenting() {
+		if (mInputStream != null)
+			try {
+				mInputStream.close();
+			} catch (IOException e) {
+			}
+	}
+
+	/**
+	 * Call in the Application onResume method, to open the attached Accessory.
+	 */
 	public void onResume() {
 		if (mInputStream != null && mOutputStream != null) {
 			return;
@@ -155,12 +234,19 @@ public class USBController extends Thread {
 		}
 	}
 
+	/**
+	 * Call in the Application onPause method, to close the open Accessory.
+	 */
 	public void onPause() {
 		closeAccessory();
 	}
 
+	/**
+	 * Call in the Application onDestroy method, to close the open Accessory and unregister the Broadcastreceiver.
+	 */
 	public void onDestroy() {
 		mContext.unregisterReceiver(mUsbReceiver);
+		closeAccessory();
 	}
 
 	private void openAccessory(UsbAccessory accessory) {
@@ -190,18 +276,6 @@ public class USBController extends Thread {
 			mFileDescriptor = null;
 			mAccessory = null;
 		}
-	}
-	
-	public void startListening(){
-		this.start();
-	}
-
-	public void stopListenting() {
-		if (mInputStream != null)
-			try {
-				mInputStream.close();
-			} catch (IOException e) {
-			}
 	}
 
 	@Override
