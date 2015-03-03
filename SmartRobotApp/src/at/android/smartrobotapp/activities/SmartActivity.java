@@ -8,7 +8,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 import at.android.smartrobot.network.UDPController;
 import at.android.smartrobot.network.UDPReceiveEvent;
 import at.android.smartrobot.network.UDPReceiveListener;
@@ -72,14 +71,15 @@ public class SmartActivity extends ActionBarActivity implements UDPReceiveListen
 		if(udpController != null) udpController.stopListening();
 		super.onDestroy();
 	}
-
-	@Override
-	public void onReceive(UDPReceiveEvent e) {
-		Toast.makeText(getApplicationContext(), "...", Toast.LENGTH_SHORT).show();
-	}
 	
 	@Override
 	public void onUSBReceive(USBReceiveEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onUDPReceive(UDPReceiveEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
