@@ -89,6 +89,7 @@ public class UDPController extends Thread {
 
 	public void setPort(int port) {
 		this.port = port;
+		isListening = false;
 	}
 
 	public int getPackageSize() {
