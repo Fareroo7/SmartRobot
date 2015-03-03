@@ -32,16 +32,18 @@ public class SimonTestSend implements UDPReceiveListener{
 		
 		try {
 			
-			mInetAddress = InetAddress.getByName("192.168.88.251");
-			port = 50000;
+			mInetAddress = InetAddress.getByName("10.0.0.19");
+			port = 50001;
 			
-			packet = new DatagramPacket(new byte[]{ 0x01 }, 1, mInetAddress, port);
+			packet = new DatagramPacket("Test".getBytes(), 4, mInetAddress, port);
 			socket = new DatagramSocket();
 			
-			log.write("Timestamp;Anzahl;Laufzeit [ns];");
+			socket.send(packet);
+			
+//			log.write("Timestamp;Anzahl;Laufzeit [ns];");
 			
 //			for(int i = 0; i < 100; i++){
-				socket.send(packet);
+//				socket.send(packet);
 //				sendTime = System.nanoTime();
 //				try {
 //					Thread.sleep(100);
