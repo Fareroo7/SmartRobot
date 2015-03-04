@@ -21,7 +21,7 @@ public class UDPController extends Thread {
 	public static final int WHAT_SOCKET_IO_ERROR = 302;
 	
 	public static final byte SEND_RUNTIME_MEASURE = 0x01;
-	public static final byte SEND_RUNTIME_RESPONSE = 0x02;
+	public static final byte RUNTIME_RESPONSE = 0x02;
 	
 	private Handler mHandler;
 
@@ -46,6 +46,11 @@ public class UDPController extends Thread {
 		this.socket = new DatagramSocket(port);
 	}
 
+	public void send(byte b) throws IOException{
+		DatagramPacket packet = new DatagramPacket(new byte[] {b}, 1, serverAddress, serverPort);
+		socket.send(packet);
+	}
+	
 	public void send(byte[] data) throws IOException {
 		DatagramPacket packet = new DatagramPacket(data, data.length, serverAddress, serverPort);
 		socket.send(packet);
