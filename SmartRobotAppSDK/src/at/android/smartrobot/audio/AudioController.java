@@ -14,6 +14,8 @@ public class AudioController extends Thread {
 	private short[] buffer;
 	private boolean isRecording = false;
 	
+	private double periodicTime = 1 / SAMPLE_RATE;
+	
 	private ArrayList<AudioEventListener> listeners = new ArrayList<AudioEventListener>();
 
 	public AudioController() {
@@ -51,8 +53,28 @@ public class AudioController extends Thread {
 	public void run() {
 		while(isRecording){
 			int readSize = audioRecorder.read(buffer, 0, buffer.length);
+			long timestamp = System.nanoTime();
+			if(readSize > 0){
+				int signalOffset = analyseSignal(500);
+				if(signalOffset > 0){
+					timestamp -= (long)((buffer.length - signalOffset) * periodicTime);
+					notifyUSBReceived(new AudioEvent(getClass(), timestamp));
+				}
+			}
 			
 		}
+	}
+
+	private int analyseSignal(int minAmplitude) {
+		for(int i = 0; i < buffer.length - 1; i++){
+			if(buffer[i] > 0 && buffer[i + 1] < 0 && buffer[i + 2] > 0 && buffer[i + 3] < 0){
+				int amplitude = (int) Math.sqrt(buffer[i] * buffer[i] + buffer[i + 1] * buffer[i + 1] + buffer[i + 2] * buffer[i + 2] + buffer[i + 3] * buffer[i + 3]);
+				if(amplitude >= minAmplitude){
+					return i;
+				}
+			}
+		}
+		return -1;
 	}
 	
 	
