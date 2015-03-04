@@ -20,6 +20,9 @@ public class UDPController extends Thread {
 	public static final int WHAT_SOCKET_RECEIVE_ERROR = 301;
 	public static final int WHAT_SOCKET_IO_ERROR = 302;
 	
+	public static final byte SEND_RUNTIME_MEASURE = 0x01;
+	public static final byte SEND_RUNTIME_RESPONSE = 0x02;
+	
 	private Handler mHandler;
 
 	private DatagramSocket socket;
