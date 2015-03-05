@@ -22,6 +22,8 @@ import at.android.smartrobot.usb.USBReceiveListener;
 import at.android.smartrobotapp.helpers.SmartHandler;
 
 public class SmartActivity extends ActionBarActivity implements UDPReceiveListener, USBReceiveListener, AudioEventListener {
+	
+	public static final String TAG = "SmartActivity";
 
 	//UI
 	public Button btnSend;
@@ -58,6 +60,7 @@ public class SmartActivity extends ActionBarActivity implements UDPReceiveListen
 					udpController.send(UDPController.SEND_RUNTIME_MEASURE);
 					timeReceiveSignal = System.nanoTime();
 					isWaitingForSignal = true;
+					Log.d(TAG, "Send: " + timeReceiveSignal);
 				} catch (IOException e) {
 					handler.sendEmptyMessage(0);
 				}
@@ -102,7 +105,8 @@ public class SmartActivity extends ActionBarActivity implements UDPReceiveListen
 
 	@Override
 	public void onUDPReceive(UDPReceiveEvent e) {
-		timeReceiveAcknowlage = e.getTimestamp();		
+		timeReceiveAcknowlage = e.getTimestamp();	
+		Log.d(TAG, "ACK: " + timeReceiveAcknowlage);
 	}
 
 	@Override
@@ -111,7 +115,13 @@ public class SmartActivity extends ActionBarActivity implements UDPReceiveListen
 			timeReceiveSignal = e.getTimestamp();
 			isWaitingForSignal = false;
 			
-			long laufzeit = timeReceiveSignal - ((timeReceiveAcknowlage - timeSendRequest) / 2);
+			Log.d(TAG, "Signal: " + timeReceiveSignal);
+			
+			long sendezeit = timeSendRequest + ((timeReceiveAcknowlage - timeSendRequest) / 2);
+			
+			long laufzeit = timeReceiveSignal - sendezeit;
+			
+			Log.d(TAG, "Laufzeit: " + laufzeit);
 			
 			Message m = new Message();
 			m.what = 1;
