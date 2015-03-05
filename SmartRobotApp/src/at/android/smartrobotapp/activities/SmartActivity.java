@@ -34,6 +34,9 @@ public class SmartActivity extends ActionBarActivity implements UDPReceiveListen
 	public SmartHandler handler = null;
 	
 	public boolean isWaitingForSignal = false;
+	public long timeSendRequest;
+	public long timeReceiveAcknowlage;
+	public long timeReceiveSignal;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +66,12 @@ public class SmartActivity extends ActionBarActivity implements UDPReceiveListen
 			
 			@Override
 			public void onClick(View v) {
-				audioController.notifySignalReceiveReceived(new AudioEvent(getClass(), System.nanoTime()));
+				try {
+					udpController.send(UDPController.SEND_RUNTIME_MEASURE);
+					isWaitingForSignal = true;
+				} catch (IOException e) {
+					handler.sendEmptyMessage(0);
+				}
 			}
 		});
 		

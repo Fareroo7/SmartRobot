@@ -27,6 +27,10 @@ public class SmartHandler extends Handler{
 		case 1:
 			showMessage("Test");
 			break;
+			
+		default:
+			showMessage("Error");
+			break;
 		
 		}
 		
