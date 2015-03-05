@@ -25,7 +25,7 @@ public class SmartHandler extends Handler{
 			break;
 		
 		case 1:
-			showMessage("Test");
+			showMessage("Signal" + msg.obj);
 			break;
 			
 		default:

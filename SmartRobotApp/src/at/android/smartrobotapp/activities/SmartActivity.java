@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 import at.android.smartrobot.audio.AudioController;
 import at.android.smartrobot.audio.AudioEvent;
 import at.android.smartrobot.audio.AudioEventListener;
@@ -45,22 +46,9 @@ public class SmartActivity extends ActionBarActivity implements UDPReceiveListen
 		
 		handler = new SmartHandler(getApplicationContext());
 		
+		initConnections();
+		
 		initUI();
-		
-		try {
-			//usbController = new USBController(getApplicationContext());
-			udpController = new UDPController(50001, 8, "10.0.0.17", 50000);
-		} catch (UnknownHostException | SocketException e) {
-			//TODO
-			e.printStackTrace();
-		}
-		
-		udpController.addUDPReceiveListener(this);
-		udpController.startListening();
-		
-		audioController = new AudioController();
-		audioController.addSignalReceiveListener(this);
-		audioController.startListening();
 		
 		btnSend.setOnClickListener(new View.OnClickListener() {
 			
@@ -68,6 +56,7 @@ public class SmartActivity extends ActionBarActivity implements UDPReceiveListen
 			public void onClick(View v) {
 				try {
 					udpController.send(UDPController.SEND_RUNTIME_MEASURE);
+					timeReceiveSignal = System.nanoTime();
 					isWaitingForSignal = true;
 				} catch (IOException e) {
 					handler.sendEmptyMessage(0);
@@ -79,6 +68,23 @@ public class SmartActivity extends ActionBarActivity implements UDPReceiveListen
 
 	private void initUI() {
 		btnSend = (Button) findViewById(R.id.btnSend);
+	}
+	
+	private void initConnections(){
+		try {
+			//usbController = new USBController(getApplicationContext());
+			udpController = new UDPController(50001, 8, "192.168.88.248", 50000);
+		} catch (UnknownHostException | SocketException e) {
+			//TODO
+			e.printStackTrace();
+		}
+		
+		udpController.addUDPReceiveListener(this);
+		udpController.startListening();
+		
+		audioController = new AudioController();
+		audioController.addSignalReceiveListener(this);
+		audioController.startListening();
 	}
 
 	@Override
@@ -96,13 +102,22 @@ public class SmartActivity extends ActionBarActivity implements UDPReceiveListen
 
 	@Override
 	public void onUDPReceive(UDPReceiveEvent e) {
-		// TODO Auto-generated method stub
-		
+		timeReceiveAcknowlage = e.getTimestamp();		
 	}
 
 	@Override
 	public void onSignalReceive(AudioEvent e) {
-		Log.d("AUDIO", e.getTimestamp() + "");
+		if(isWaitingForSignal){
+			timeReceiveSignal = e.getTimestamp();
+			isWaitingForSignal = false;
+			
+			long laufzeit = timeReceiveSignal - ((timeReceiveAcknowlage - timeSendRequest) / 2);
+			
+			Message m = new Message();
+			m.what = 1;
+			m.obj = laufzeit;
+			handler.sendMessage(m);
+		}
 	}
 	
 
