@@ -72,11 +72,6 @@ public class AudioController extends Thread {
 		int numCrossing = 0;
 		for (int i = 0; i < buffer.length - 1; i++) {
 			if ((buffer[i] > 0 && buffer[i + 1] <= 0) || (buffer[i] < 0 && buffer[i + 1] >= 0)) {
-//				int amplitude = (int) Math.sqrt(buffer[i] * buffer[i] + buffer[i + 1] * buffer[i + 1] + buffer[i + 2]
-//						* buffer[i + 2] + buffer[i + 3] * buffer[i + 3]);
-//				if (amplitude >= minAmplitude) {
-//					return i;
-//				}
 				numCrossing ++;
 				if(numCrossing >= 10){
 					return i - 10;
