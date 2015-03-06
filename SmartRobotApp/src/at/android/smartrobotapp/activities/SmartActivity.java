@@ -10,7 +10,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 import at.android.smartrobot.audio.AudioController;
 import at.android.smartrobot.audio.AudioEvent;
 import at.android.smartrobot.audio.AudioEventListener;
@@ -21,70 +20,70 @@ import at.android.smartrobot.usb.USBReceiveEvent;
 import at.android.smartrobot.usb.USBReceiveListener;
 import at.android.smartrobotapp.helpers.SmartHandler;
 
-public class SmartActivity extends ActionBarActivity implements UDPReceiveListener, USBReceiveListener, AudioEventListener {
-	
+public class SmartActivity extends ActionBarActivity implements UDPReceiveListener, USBReceiveListener,
+		AudioEventListener {
+
 	public static final String TAG = "SmartActivity";
 
-	//UI
+	// UI
 	public Button btnSend;
-	
-	//Connections
-	//public USBController usbController;
+
+	// Connections
+	// public USBController usbController;
 	public UDPController udpController;
 	public AudioController audioController;
-	
-	//Handler
+
+	// Handler
 	public SmartHandler handler = null;
-	
+
 	public boolean isWaitingForSignal = false;
 	public long timeSendRequest;
 	public long timeReceiveAcknowlage;
 	public long timeReceiveSignal;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_smart);
-		
+
 		handler = new SmartHandler(getApplicationContext());
-		
+
 		initConnections();
-		
+
 		initUI();
-		
+
 		btnSend.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				try {
 					udpController.send(UDPController.SEND_RUNTIME_MEASURE);
-					timeReceiveSignal = System.nanoTime();
+					timeSendRequest = System.nanoTime();
 					isWaitingForSignal = true;
-					Log.d(TAG, "Send: " + timeReceiveSignal);
 				} catch (IOException e) {
 					handler.sendEmptyMessage(0);
 				}
 			}
 		});
-		
+
 	}
 
 	private void initUI() {
 		btnSend = (Button) findViewById(R.id.btnSend);
 	}
-	
-	private void initConnections(){
+
+	private void initConnections() {
 		try {
-			//usbController = new USBController(getApplicationContext());
+			// usbController = new USBController(getApplicationContext());
 			udpController = new UDPController(50001, 8, "192.168.88.248", 50000);
 		} catch (UnknownHostException | SocketException e) {
-			//TODO
+			// TODO
 			e.printStackTrace();
 		}
-		
+
 		udpController.addUDPReceiveListener(this);
 		udpController.startListening();
-		
+
 		audioController = new AudioController();
 		audioController.addSignalReceiveListener(this);
 		audioController.startListening();
@@ -92,36 +91,36 @@ public class SmartActivity extends ActionBarActivity implements UDPReceiveListen
 
 	@Override
 	protected void onDestroy() {
-		if(udpController != null) udpController.stopListening();
-		if(audioController != null) audioController.stopListening();
+		if (udpController != null)
+			udpController.stopListening();
+		if (audioController != null)
+			audioController.stopListening();
 		super.onDestroy();
 	}
-	
+
 	@Override
 	public void onUSBReceive(USBReceiveEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onUDPReceive(UDPReceiveEvent e) {
-		timeReceiveAcknowlage = e.getTimestamp();	
-		Log.d(TAG, "ACK: " + timeReceiveAcknowlage);
+		timeReceiveAcknowlage = e.getTimestamp();
 	}
 
 	@Override
 	public void onSignalReceive(AudioEvent e) {
-		if(isWaitingForSignal){
+		if (isWaitingForSignal) {
 			timeReceiveSignal = e.getTimestamp();
 			isWaitingForSignal = false;
-			
-			Log.d(TAG, "Signal: " + timeReceiveSignal);
-			
+
 			long sendezeit = timeSendRequest + ((timeReceiveAcknowlage - timeSendRequest) / 2);
-			
+
 			long laufzeit = timeReceiveSignal - sendezeit;
-			
-			Log.d(TAG, "Laufzeit: " + laufzeit);
+
+			laufzeit /= 1000;
+			laufzeit /= 1000;
 			
 			Message m = new Message();
 			m.what = 1;
@@ -129,24 +128,23 @@ public class SmartActivity extends ActionBarActivity implements UDPReceiveListen
 			handler.sendMessage(m);
 		}
 	}
-	
 
-//	@Override
-//	public boolean onCreateOptionsMenu(Menu menu) {
-//		// Inflate the menu; this adds items to the action bar if it is present.
-//		getMenuInflater().inflate(R.menu.smart, menu);
-//		return true;
-//	}
+	// @Override
+	// public boolean onCreateOptionsMenu(Menu menu) {
+	// // Inflate the menu; this adds items to the action bar if it is present.
+	// getMenuInflater().inflate(R.menu.smart, menu);
+	// return true;
+	// }
 
-//	@Override
-//	public boolean onOptionsItemSelected(MenuItem item) {
-//		// Handle action bar item clicks here. The action bar will
-//		// automatically handle clicks on the Home/Up button, so long
-//		// as you specify a parent activity in AndroidManifest.xml.
-//		int id = item.getItemId();
-//		if (id == R.id.action_settings) {
-//			return true;
-//		}
-//		return super.onOptionsItemSelected(item);
-//	}
+	// @Override
+	// public boolean onOptionsItemSelected(MenuItem item) {
+	// // Handle action bar item clicks here. The action bar will
+	// // automatically handle clicks on the Home/Up button, so long
+	// // as you specify a parent activity in AndroidManifest.xml.
+	// int id = item.getItemId();
+	// if (id == R.id.action_settings) {
+	// return true;
+	// }
+	// return super.onOptionsItemSelected(item);
+	// }
 }
