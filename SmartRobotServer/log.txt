@@ -1,7 +1,0 @@
-[Mon Mar 02 14:37:26 CET 2015] - SmartServer shut down
-[Mon Mar 02 14:46:44 CET 2015] - SmartServer shut down
-[Mon Mar 02 15:00:13 CET 2015] - SmartServer shut down
-[Tue Mar 03 19:58:27 CET 2015] - Timestamp 14721730008067 : Data [65]
-[Tue Mar 03 19:58:28 CET 2015] - Timestamp 14722721947077 : Data [65]
-[Tue Mar 03 19:58:29 CET 2015] - Timestamp 14723977550214 : Data [65]
-[Tue Mar 03 19:58:30 CET 2015] - Timestamp 14724694999988 : Data [65]

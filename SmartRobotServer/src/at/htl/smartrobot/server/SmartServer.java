@@ -17,6 +17,7 @@ public class SmartServer implements UDPReceiveListener {
 	// Definitionen
 	public static final byte RUNTIME_MEASURE = 0x01;
 	public static final byte RUNTIME_RESPONSE = 0x02;
+	public static final byte SERVER_EXECUTIONTIME = 0x03;
 
 	private int port = 50000;
 	private InetAddress robotAddress;
@@ -35,7 +36,7 @@ public class SmartServer implements UDPReceiveListener {
 	public SmartServer(String robotIp, int robotPort) {
 		try {
 			robotAddress = InetAddress.getByName(robotIp);
-			packet = new DatagramPacket(new byte[] { RUNTIME_RESPONSE }, 1, robotAddress, robotPort);
+			packet = new DatagramPacket(new byte[] { RUNTIME_RESPONSE }, 8, robotAddress, robotPort);
 			socket = new DatagramSocket();
 			this.robotPort = robotPort;
 		} catch (UnknownHostException | SocketException e) {
@@ -103,23 +104,22 @@ public class SmartServer implements UDPReceiveListener {
 
 	@Override
 	public void onReceive(UDPReceiveEvent e) {
-		long executionTimeSendSignal = 0;
 		long executionTime = 0;
 		byte data = e.getUdpPacket().getData()[0];
 		if (data == RUNTIME_MEASURE) {
 			try {
 				long before = System.nanoTime();
 				sendSignal();
-				executionTimeSendSignal = System.nanoTime() - before;
+				executionTime = System.nanoTime() - before;
+				packet.setData(ByteUtils.longToBytes(executionTime));
 				socket.send(packet);
-				executionTime = System.nanoTime()-before;
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
 		}
 
-		System.out.println("Response Executiontime: "+ (executionTime / 1000) + " Signal Exec.: " + (executionTimeSendSignal / 1000) + " Send Ack.: " + ((executionTime - executionTimeSendSignal) / 1000));
-		log.write("Timestamp " + e.getTimestamp() + " : Data " + Arrays.toString(e.getUdpPacket().getData())+" Respondexecution: "+executionTime);
+		System.out.println("Response Executiontime: " + (executionTime / 1000));
+		log.write("Timestamp " + e.getTimestamp() + " : Data " + Arrays.toString(e.getUdpPacket().getData()) + " Respondexecution: " + executionTime);
 	}
 
 	public String getRasPiPin() {
