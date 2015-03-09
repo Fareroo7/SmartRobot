@@ -29,7 +29,7 @@ public class UDPController extends Thread {
 	private boolean isListening = false;
 
 	private int port = 5000;
-	private int packageSize = 1024;
+	private int packageSize = 8;
 
 	private InetAddress serverAddress;
 	private int serverPort = 5001;
