@@ -60,7 +60,7 @@ public class AudioController extends Thread {
 			if (readSize > 0) {
 				int signalOffset = analyseSignal(10);
 				if (signalOffset > 0) {
-					timestamp -= (long) ((buffer.length - signalOffset) * periodicTime);
+					timestamp -= (long) (signalOffset * periodicTime);
 					notifySignalReceiveReceived(new AudioEvent(getClass(), timestamp));
 				}
 			}
