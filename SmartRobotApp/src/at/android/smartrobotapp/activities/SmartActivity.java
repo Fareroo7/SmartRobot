@@ -19,6 +19,7 @@ import at.android.smartrobot.network.UDPReceiveListener;
 import at.android.smartrobot.usb.USBReceiveEvent;
 import at.android.smartrobot.usb.USBReceiveListener;
 import at.android.smartrobotapp.helpers.SmartHandler;
+import at.htl.smartbot.EnvironmentalParameter;
 
 public class SmartActivity extends ActionBarActivity implements UDPReceiveListener, USBReceiveListener,
 		AudioEventListener {
@@ -38,8 +39,13 @@ public class SmartActivity extends ActionBarActivity implements UDPReceiveListen
 
 	public boolean isWaitingForSignal = false;
 	public long timeSendRequest;
-	public long timeReceiveAcknowlage;
+	public long timeReceiveAcknowlage;	
 	public long timeReceiveSignal;
+	
+	public long udpRuntime;
+	
+	public boolean receivedAck=false;
+	public boolean receivedSig=false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -107,28 +113,42 @@ public class SmartActivity extends ActionBarActivity implements UDPReceiveListen
 	@Override
 	public void onUDPReceive(UDPReceiveEvent e) {
 		timeReceiveAcknowlage = e.getTimestamp();
+		udpRuntime= (timeReceiveAcknowlage-timeSendRequest)/2;
+		receivedAck=true;
+		
+		if(receivedAck && receivedSig){
+			calcDistance();
+			receivedAck=false;
+			receivedSig=false;
+		}
+		
 	}
 
 	@Override
 	public void onSignalReceive(AudioEvent e) {
-		if (isWaitingForSignal) {
+//		if (isWaitingForSignal) {
 			timeReceiveSignal = e.getTimestamp();
+			receivedSig=true;
 			isWaitingForSignal = false;
-
-			long sendezeit = timeSendRequest + ((timeReceiveAcknowlage - timeSendRequest) / 2);
-
-			long laufzeit = timeReceiveSignal - sendezeit;
-
-			laufzeit /= 1000;
-			laufzeit /= 1000;
 			
-			Message m = new Message();
-			m.what = 1;
-			m.obj = laufzeit;
-			handler.sendMessage(m);
-		}
+			if(receivedAck && receivedSig){
+				calcDistance();
+				receivedAck=false;
+				receivedSig=false;
+			}
+			
+//		}
 	}
 
+	public void calcDistance(){
+		Message msg = new Message();
+		msg.what=1;
+		long runtime = timeReceiveSignal - (timeSendRequest + udpRuntime);
+		double distance = 331.5 * (((double)runtime/1000000000) - 0.002);
+		msg.obj=distance;
+		handler.sendMessage(msg);
+	}
+	
 	// @Override
 	// public boolean onCreateOptionsMenu(Menu menu) {
 	// // Inflate the menu; this adds items to the action bar if it is present.
