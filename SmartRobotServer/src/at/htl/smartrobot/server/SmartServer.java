@@ -98,17 +98,19 @@ public class SmartServer implements UDPReceiveListener {
 	}
 
 	public void sendSignal() {
-		pin.pulse(100);
+		pin.pulse(50);
 	}
 
 	@Override
 	public void onReceive(UDPReceiveEvent e) {
-		long executionTime=0;
+		long executionTimeSendSignal = 0;
+		long executionTime = 0;
 		byte data = e.getUdpPacket().getData()[0];
 		if (data == RUNTIME_MEASURE) {
 			try {
 				long before = System.nanoTime();
 				sendSignal();
+				executionTimeSendSignal = System.nanoTime() - before;
 				socket.send(packet);
 				executionTime = System.nanoTime()-before;
 			} catch (IOException e1) {
@@ -116,7 +118,7 @@ public class SmartServer implements UDPReceiveListener {
 			}
 		}
 
-		System.out.println("Response Executiontime: "+executionTime);
+		System.out.println("Response Executiontime: "+ (executionTime / 1000) + " Signal Exec.: " + (executionTimeSendSignal / 1000) + " Send Ack.: " + ((executionTime - executionTimeSendSignal) / 1000));
 		log.write("Timestamp " + e.getTimestamp() + " : Data " + Arrays.toString(e.getUdpPacket().getData())+" Respondexecution: "+executionTime);
 	}
 
