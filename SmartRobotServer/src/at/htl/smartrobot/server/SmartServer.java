@@ -103,19 +103,21 @@ public class SmartServer implements UDPReceiveListener {
 
 	@Override
 	public void onReceive(UDPReceiveEvent e) {
-
+		long executionTime=0;
 		byte data = e.getUdpPacket().getData()[0];
 		if (data == RUNTIME_MEASURE) {
 			try {
+				long before = System.nanoTime();
 				sendSignal();
 				socket.send(packet);
+				executionTime = System.nanoTime()-before;
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
 		}
 
-		System.out.println(e.getTimestamp());
-		log.write("Timestamp " + e.getTimestamp() + " : Data " + Arrays.toString(e.getUdpPacket().getData()));
+		System.out.println("Response Executiontime: "+executionTime);
+		log.write("Timestamp " + e.getTimestamp() + " : Data " + Arrays.toString(e.getUdpPacket().getData())+" Respondexecution: "+executionTime);
 	}
 
 	public String getRasPiPin() {
