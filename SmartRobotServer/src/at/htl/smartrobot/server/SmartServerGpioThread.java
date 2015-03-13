@@ -31,12 +31,19 @@ public class SmartServerGpioThread extends Thread implements UDPReceiveListener 
 		gpio = GpioFactory.getInstance();
 		pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, PinState.LOW);
 		isListening = true;
+		while(isListening);
 		super.run();
 	}
 
 	@Override
 	public void onReceive(UDPReceiveEvent e) {
 		pin.pulse(signalDuration);
+	}
+	
+	public void stopListening(){
+		udpReceiver.removeUDPReceiveListener(this);
+		gpio.shutdown();
+		isListening = false;
 	}
 
 }
