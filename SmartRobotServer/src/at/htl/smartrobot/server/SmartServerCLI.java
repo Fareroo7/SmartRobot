@@ -33,7 +33,7 @@ public class SmartServerCLI {
 					if (!mServer.isRunning()) {
 						mServer.startService();
 						System.out.println("SmartServer running on port: " + mServer.getPort());
-						mServer.log.write("SmartServer started");
+//						mServer.log.write("SmartServer started");
 					} else {
 						System.out.println("SmartServer already running on port: " + mServer.getPort());
 					}
@@ -42,7 +42,7 @@ public class SmartServerCLI {
 					if (mServer.isRunning()) {
 						mServer.stopService();
 						System.out.println("SmartServer stopped");
-						mServer.log.write("SmartServer stopped");
+//						mServer.log.write("SmartServer stopped");
 					} else {
 						System.out.println("SmartServer was not running!");
 					}
@@ -53,17 +53,17 @@ public class SmartServerCLI {
 						mServer.stopService();
 						stoppedListening = true;
 						System.out.println("SmartServer stopped");
-						mServer.log.write("SmartServer stopped");
+//						mServer.log.write("SmartServer stopped");
 					}
 					System.out.println("Please enter the new IP-address of the robot");
 					robotIP = scn.nextLine();
 					mServer = new SmartServer(robotIP, robotPort);
 					System.out.println("IP-address changed");
-					mServer.log.write("Robot IP changed to " + robotIP);
+//					mServer.log.write("Robot IP changed to " + robotIP);
 					if (stoppedListening) {
 						mServer.startService();
 						System.out.println("SmartServer running on port: " + mServer.getPort());
-						mServer.log.write("SmartServer started");
+//						mServer.log.write("SmartServer started");
 						stoppedListening = false;
 					}
 					break;
@@ -73,17 +73,17 @@ public class SmartServerCLI {
 						mServer.stopService();
 						stoppedListening = true;
 						System.out.println("SmartServer stopped");
-						mServer.log.write("SmartServer stopped");
+//						mServer.log.write("SmartServer stopped");
 					}
 					System.out.println("Please enter new portnumber of the robot");
 					robotPort = scn.nextInt();
 					mServer = new SmartServer(robotIP, robotPort);
 					System.out.println("Port changed");
-					mServer.log.write("Robot port changed to " + robotPort);
+//					mServer.log.write("Robot port changed to " + robotPort);
 					if (stoppedListening) {
 						mServer.startService();
 						System.out.println("SmartServer running on port: " + mServer.getPort());
-						mServer.log.write("SmartServer started");
+//						mServer.log.write("SmartServer started");
 						stoppedListening = false;
 					}
 					break;
@@ -101,7 +101,7 @@ public class SmartServerCLI {
 					break;
 				case "f":
 					System.out.println("Please enter the new absolute or relative file path");
-					mServer.log.write("Change logfile");
+//					mServer.log.write("Change logfile");
 					mServer.setLogFile(scn.nextLine());
 					System.out.println("Log file changed");
 					break;
@@ -124,9 +124,8 @@ public class SmartServerCLI {
 						System.out.println("SmartServer stopped");
 						mServer.log.write("SmartServer stopped");
 					}
-					mServer.socket.close();
 					scn.close();
-					mServer.log.write("SmartServer shut down");
+//					mServer.log.write("SmartServer shut down");
 					System.out.println("Exit programm");
 					break;
 				case "h":

@@ -14,21 +14,7 @@ import com.pi4j.io.gpio.*;
 
 public class SmartServer{
 
-	// Definitionen
-	public static final byte RUNTIME_MEASURE = 0x01;
-	public static final byte RUNTIME_RESPONSE = 0x02;
-	public static final byte SERVER_EXECUTIONTIME = 0x03;
-
-	private int port = 50000;
-	private InetAddress robotAddress;
-	private int robotPort = 50001;
 	private Receiver udpReceiver;
-
-	public DatagramPacket packet = null;
-	public DatagramSocket socket = null;
-
-	public GpioController gpio = null;
-	public GpioPinDigitalOutput pin = null;
 
 	public Logger log = new Logger("./log.txt");
 	private boolean isRunning = false;

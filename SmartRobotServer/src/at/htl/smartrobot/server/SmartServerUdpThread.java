@@ -30,14 +30,19 @@ public class SmartServerUdpThread extends Thread implements UDPReceiveListener {
 			robotAddress = InetAddress.getByName(robotIp);
 			this.robotPort = robotPort;
 			packet = new DatagramPacket(new byte[] { RUNTIME_RESPONSE }, 8, robotAddress, robotPort);
-			socket = new DatagramSocket();
-		} catch (UnknownHostException | SocketException e) {
+		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	@Override
 	public void run() {
+		try {
+			socket = new DatagramSocket();
+		} catch (SocketException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		isListening = true;
 		while(isListening);
 		super.run();
@@ -45,6 +50,7 @@ public class SmartServerUdpThread extends Thread implements UDPReceiveListener {
 	
 	public void stopListening() {
 		isListening = false;
+		socket.close();
 	}
 
 	@Override
