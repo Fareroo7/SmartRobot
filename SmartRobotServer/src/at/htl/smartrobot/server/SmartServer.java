@@ -36,7 +36,7 @@ public class SmartServer implements UDPReceiveListener {
 	public SmartServer(String robotIp, int robotPort) {
 		try {
 			robotAddress = InetAddress.getByName(robotIp);
-			packet = new DatagramPacket(new byte[] { RUNTIME_RESPONSE }, 8, robotAddress, robotPort);
+			packet = new DatagramPacket(new byte[8], 8, robotAddress, robotPort);
 			socket = new DatagramSocket();
 			this.robotPort = robotPort;
 		} catch (UnknownHostException | SocketException e) {
