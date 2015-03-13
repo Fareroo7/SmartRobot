@@ -1,16 +1,6 @@
 package at.htl.smartrobot.server;
 
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-import java.util.Arrays;
-
 import at.htl.smartrobot.server.utils.*;
-
-import com.pi4j.io.gpio.*;
 
 public class SmartServer{
 
