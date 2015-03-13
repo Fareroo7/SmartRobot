@@ -20,7 +20,7 @@ public class SmartServerCLI {
 		SmartServer mServer = new SmartServer(robotIP, robotPort);
 		Scanner scn = new Scanner(System.in);
 		try {
-			System.out.println("--- Welcome to SmartServer V1.5---");
+			System.out.println("--- Welcome to SmartServer Vs---");
 			System.out.println("Local IP: " + Inet4Address.getLocalHost().getHostAddress() + ":" + mServer.getPort());
 			System.out.println("Robot IP: " + mServer.getRobotAddress() + ":" + mServer.getRobotPort());
 			System.out.println("Logfile: " + mServer.log.getLogFilePath());
@@ -30,8 +30,8 @@ public class SmartServerCLI {
 			while (!exit) {
 				switch (scn.nextLine().toLowerCase()) {
 				case "s":
-					if (!mServer.isListening()) {
-						mServer.startListening();
+					if (!mServer.isRunning()) {
+						mServer.startService();
 						System.out.println("SmartServer running on port: " + mServer.getPort());
 						mServer.log.write("SmartServer started");
 					} else {
@@ -39,8 +39,8 @@ public class SmartServerCLI {
 					}
 					break;
 				case "t":
-					if (mServer.isListening()) {
-						mServer.stopListening();
+					if (mServer.isRunning()) {
+						mServer.stopService();
 						System.out.println("SmartServer stopped");
 						mServer.log.write("SmartServer stopped");
 					} else {
@@ -49,8 +49,8 @@ public class SmartServerCLI {
 					break;
 				case "c":
 					boolean stoppedListening = false;
-					if (mServer.isListening()) {
-						mServer.stopListening();
+					if (mServer.isRunning()) {
+						mServer.stopService();
 						stoppedListening = true;
 						System.out.println("SmartServer stopped");
 						mServer.log.write("SmartServer stopped");
@@ -61,7 +61,7 @@ public class SmartServerCLI {
 					System.out.println("IP-address changed");
 					mServer.log.write("Robot IP changed to " + robotIP);
 					if (stoppedListening) {
-						mServer.startListening();
+						mServer.startService();
 						System.out.println("SmartServer running on port: " + mServer.getPort());
 						mServer.log.write("SmartServer started");
 						stoppedListening = false;
@@ -69,8 +69,8 @@ public class SmartServerCLI {
 					break;
 				case "p":
 					stoppedListening = false;
-					if (mServer.isListening()) {
-						mServer.stopListening();
+					if (mServer.isRunning()) {
+						mServer.stopService();
 						stoppedListening = true;
 						System.out.println("SmartServer stopped");
 						mServer.log.write("SmartServer stopped");
@@ -81,7 +81,7 @@ public class SmartServerCLI {
 					System.out.println("Port changed");
 					mServer.log.write("Robot port changed to " + robotPort);
 					if (stoppedListening) {
-						mServer.startListening();
+						mServer.startService();
 						System.out.println("SmartServer running on port: " + mServer.getPort());
 						mServer.log.write("SmartServer started");
 						stoppedListening = false;
@@ -107,20 +107,20 @@ public class SmartServerCLI {
 					break;
 				case "i":
 					System.out.println("---SmartServer V1.5 system information---");
-					System.out.println(mServer.isListening() ? "SmartServer is currently running" : "SmartServer is currently stopped");
+					System.out.println(mServer.isRunning() ? "SmartServer is currently running" : "SmartServer is currently stopped");
 					System.out.println("Local IP: " + Inet4Address.getLocalHost().getHostAddress() + ":" + mServer.getPort());
 					System.out.println("Robot IP: " + mServer.getRobotAddress() + ":" + mServer.getRobotPort());
 					System.out.println("Logfile: " + mServer.log.getLogFilePath());
 					System.out.println("-----------------------------------------");
 					break;
 				case "o":
-					mServer.sendSignal();
+					mServer.testOutput();
 					System.out.println("Ouput testsignal at pin "+mServer.getRasPiPin());
 					break;
 				case "e":
 					exit = true;
-					if (mServer.isListening()) {
-						mServer.stopListening();
+					if (mServer.isRunning()) {
+						mServer.stopService();
 						System.out.println("SmartServer stopped");
 						mServer.log.write("SmartServer stopped");
 					}

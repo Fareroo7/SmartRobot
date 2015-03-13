@@ -12,7 +12,7 @@ import at.htl.smartrobot.server.utils.*;
 
 import com.pi4j.io.gpio.*;
 
-public class SmartServer implements UDPReceiveListener {
+public class SmartServer{
 
 	// Definitionen
 	public static final byte RUNTIME_MEASURE = 0x01;
@@ -23,9 +23,6 @@ public class SmartServer implements UDPReceiveListener {
 	private InetAddress robotAddress;
 	private int robotPort = 50001;
 	private Receiver udpReceiver;
-	private boolean isListening = false;
-
-	public Logger log = new Logger("./log.txt");
 
 	public DatagramPacket packet = null;
 	public DatagramSocket socket = null;
@@ -33,97 +30,72 @@ public class SmartServer implements UDPReceiveListener {
 	public GpioController gpio = null;
 	public GpioPinDigitalOutput pin = null;
 
+	public Logger log = new Logger("./log.txt");
+	private boolean isRunning = false;
+	
+	private SmartServerGpioThread mGpioThread= null;
+	private SmartServerUdpThread mUdpThread= null;
+	
+	
 	public SmartServer(String robotIp, int robotPort) {
-		try {
-			robotAddress = InetAddress.getByName(robotIp);
-			packet = new DatagramPacket(new byte[8], 8, robotAddress, robotPort);
-			socket = new DatagramSocket();
-			this.robotPort = robotPort;
-		} catch (UnknownHostException | SocketException e) {
-			e.printStackTrace();
-		}
+		mUdpThread=new SmartServerUdpThread(robotIp, robotPort);
+		mGpioThread = new SmartServerGpioThread();
 	}
 
-	public void startListening() {
-		udpReceiver = new Receiver(port, 1);
-		udpReceiver.addUDPReceiveListener(this);
+	public void startService() {
+		mUdpThread.start();
+		mGpioThread.start();
+		udpReceiver.addUDPReceiveListener(mGpioThread);
+		udpReceiver.addUDPReceiveListener(mUdpThread);
 		udpReceiver.start();
-		gpio = GpioFactory.getInstance();
-		pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, PinState.LOW);
-		isListening = true;
+		isRunning=true;
 	}
 
-	public void stopListening() {
-		udpReceiver.removeUDPReceiveListener(this);
+	public void stopService() {
+		udpReceiver.removeUDPReceiveListener(mGpioThread);
+		udpReceiver.removeUDPReceiveListener(mUdpThread);
 		udpReceiver.interrupt();
-		gpio.shutdown();
-		isListening = false;
+		isRunning = false;
 	}
 
 	public int getPort() {
-		return port;
+		return mUdpThread.getPort();
 	}
 
 	public void setPort(int port) {
-		this.port = port;
+		mUdpThread.setPort(port);
 	}
 
 	public String getRobotAddress() {
-		return robotAddress.getHostAddress();
+		return mUdpThread.getRobotAddress();
 	}
 
 	public void setRobotAddress(String ip) {
-		try {
-			this.robotAddress = InetAddress.getByName(ip);
-			packet = new DatagramPacket(new byte[] { RUNTIME_RESPONSE }, 1, robotAddress, robotPort);
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		}
+		mUdpThread.setRobotAddress(ip);
 	}
 
 	public int getRobotPort() {
-		return robotPort;
+		return mUdpThread.getRobotPort();
 	}
 
 	public void setRobotPort(int robotPort) {
-		this.robotPort = robotPort;
-		packet = new DatagramPacket(new byte[] { RUNTIME_RESPONSE }, 1, robotAddress, this.robotPort);
+		mUdpThread.setRobotPort(robotPort);
 	}
 
 	public void setLogFile(String filepath) {
 		log = new Logger(filepath);
 	}
 
-	public boolean isListening() {
-		return isListening;
-	}
-
-	public void sendSignal() {
-		pin.pulse(50);
-	}
-
-	@Override
-	public void onReceive(UDPReceiveEvent e) {
-		long executionTime = 0;
-		byte data = e.getUdpPacket().getData()[0];
-		if (data == RUNTIME_MEASURE) {
-			try {
-				long before = System.nanoTime();
-				sendSignal();
-				executionTime = System.nanoTime() - before;
-				packet.setData(ByteUtils.longToBytes(executionTime));
-				socket.send(packet);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		}
-
-		System.out.println("Response Executiontime: " + (executionTime / 1000));
-		log.write("Timestamp " + e.getTimestamp() + " : Data " + Arrays.toString(e.getUdpPacket().getData()) + " Respondexecution: " + executionTime);
+	public boolean isRunning() {
+		return isRunning;
 	}
 
 	public String getRasPiPin() {
-		return pin.getName();
+		return mGpioThread.getPinName();
+	}
+	
+	public void testOutput(){
+		mGpioThread.sendTestSignal(500);
 	}
 
 }

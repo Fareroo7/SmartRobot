@@ -7,9 +7,6 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
-import at.htl.smartrobot.server.utils.ByteUtils;
-import at.htl.smartrobot.server.utils.Logger;
-import at.htl.smartrobot.server.utils.Receiver;
 import at.htl.smartrobot.server.utils.UDPReceiveEvent;
 import at.htl.smartrobot.server.utils.UDPReceiveListener;
 
@@ -23,7 +20,6 @@ public class SmartServerUdpThread extends Thread implements UDPReceiveListener {
 	private int port = 50000;
 	private InetAddress robotAddress;
 	private int robotPort = 50001;
-	private Receiver udpReceiver;
 	private boolean isListening = false;
 
 	public DatagramPacket packet = null;
@@ -42,18 +38,12 @@ public class SmartServerUdpThread extends Thread implements UDPReceiveListener {
 	
 	@Override
 	public void run() {
-		udpReceiver = new Receiver(port, 1);
-		udpReceiver.addUDPReceiveListener(this);
-		if (udpReceiver.isInterrupted())
-			udpReceiver.start();
 		isListening = true;
 		while(isListening);
 		super.run();
 	}
 	
 	public void stopListening() {
-		udpReceiver.removeUDPReceiveListener(this);
-		udpReceiver.interrupt();
 		isListening = false;
 	}
 

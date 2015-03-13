@@ -6,13 +6,11 @@ import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.PinState;
 import com.pi4j.io.gpio.RaspiPin;
 
-import at.htl.smartrobot.server.utils.Receiver;
 import at.htl.smartrobot.server.utils.UDPReceiveEvent;
 import at.htl.smartrobot.server.utils.UDPReceiveListener;
 
 public class SmartServerGpioThread extends Thread implements UDPReceiveListener {
 
-	private Receiver udpReceiver;
 	private boolean isListening = false;
 
 	private GpioController gpio = null;
@@ -25,9 +23,6 @@ public class SmartServerGpioThread extends Thread implements UDPReceiveListener 
 
 	@Override
 	public void run() {
-		udpReceiver.addUDPReceiveListener(this);
-		if (udpReceiver.isInterrupted())
-			udpReceiver.start();
 		gpio = GpioFactory.getInstance();
 		pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, PinState.LOW);
 		isListening = true;
@@ -41,9 +36,16 @@ public class SmartServerGpioThread extends Thread implements UDPReceiveListener 
 	}
 	
 	public void stopListening(){
-		udpReceiver.removeUDPReceiveListener(this);
 		gpio.shutdown();
 		isListening = false;
+	}
+	
+	public String getPinName(){
+		return pin.getName();
+	}
+	
+	public void sendTestSignal(int duration){
+		pin.pulse(duration);
 	}
 
 }
