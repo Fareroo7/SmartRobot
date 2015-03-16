@@ -7,7 +7,6 @@ import java.net.UnknownHostException;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import at.android.smartrobot.audio.AudioController;
@@ -20,7 +19,6 @@ import at.android.smartrobot.usb.USBReceiveEvent;
 import at.android.smartrobot.usb.USBReceiveListener;
 import at.android.smartrobotapp.helpers.ByteUtils;
 import at.android.smartrobotapp.helpers.SmartHandler;
-import at.htl.smartbot.EnvironmentalParameter;
 
 public class SmartActivity extends ActionBarActivity implements UDPReceiveListener, USBReceiveListener,
 		AudioEventListener {
@@ -44,7 +42,7 @@ public class SmartActivity extends ActionBarActivity implements UDPReceiveListen
 	public long timeReceiveSignal;
 	
 	public long udpRuntime;
-	public long serverRuntime;
+//	public long serverRuntime;
 	
 	public boolean receivedAck=false;
 	public boolean receivedSig=false;
@@ -116,7 +114,6 @@ public class SmartActivity extends ActionBarActivity implements UDPReceiveListen
 	public void onUDPReceive(UDPReceiveEvent e) {
 		timeReceiveAcknowlage = e.getTimestamp();
 		udpRuntime= (timeReceiveAcknowlage-timeSendRequest)/2;
-		serverRuntime = ByteUtils.bytesToLong(e.getPacket().getData());
 		receivedAck=true;
 		
 		if(receivedAck && receivedSig){
@@ -146,7 +143,7 @@ public class SmartActivity extends ActionBarActivity implements UDPReceiveListen
 	public void calcDistance(){
 		Message msg = new Message();
 		msg.what=1;
-		long runtime = timeReceiveSignal - (timeSendRequest + udpRuntime + serverRuntime);
+		long runtime = timeReceiveSignal - (timeSendRequest + udpRuntime);
 		double distance = 331.5 * (((double)runtime/1000000000));
 		msg.obj=distance;
 		handler.sendMessage(msg);
