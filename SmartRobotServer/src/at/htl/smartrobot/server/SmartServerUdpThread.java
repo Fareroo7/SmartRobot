@@ -32,7 +32,7 @@ public class SmartServerUdpThread extends Thread implements UDPReceiveListener {
 		try {
 			robotAddress = InetAddress.getByName(robotIp);
 			this.robotPort = robotPort;
-			packet = new DatagramPacket(new byte[] { RUNTIME_RESPONSE }, 8, robotAddress, robotPort);
+			packet = new DatagramPacket(new byte[] { RUNTIME_RESPONSE }, 1, robotAddress, robotPort);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
