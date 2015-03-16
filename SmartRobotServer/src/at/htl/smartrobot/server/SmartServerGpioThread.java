@@ -17,6 +17,8 @@ public class SmartServerGpioThread extends Thread implements UDPReceiveListener 
 	private GpioPinDigitalOutput pin = null;
 	private int signalDuration = 50;
 
+	private boolean doSignal = false;
+
 	public SmartServerGpioThread() {
 
 	}
@@ -26,25 +28,30 @@ public class SmartServerGpioThread extends Thread implements UDPReceiveListener 
 		gpio = GpioFactory.getInstance();
 		pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, PinState.LOW);
 		isListening = true;
-		while(isListening);
+		while (isListening) {
+			if (doSignal) {
+				pin.pulse(signalDuration);
+				doSignal=false;
+			}
+		}
 		super.run();
 	}
 
 	@Override
 	public void onReceive(UDPReceiveEvent e) {
-		pin.pulse(signalDuration);
+		doSignal = true;
 	}
-	
-	public void stopListening(){
+
+	public void stopListening() {
 		gpio.shutdown();
 		isListening = false;
 	}
-	
-	public String getPinName(){
+
+	public String getPinName() {
 		return pin.getName();
 	}
-	
-	public void sendTestSignal(int duration){
+
+	public void sendTestSignal(int duration) {
 		pin.pulse(duration);
 	}
 

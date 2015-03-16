@@ -22,8 +22,11 @@ public class SmartServerUdpThread extends Thread implements UDPReceiveListener {
 	private int robotPort = 50001;
 	private boolean isListening = false;
 
-	public DatagramPacket packet = null;
-	public DatagramSocket socket = null;
+	private DatagramPacket packet = null;
+	private DatagramSocket socket = null;
+
+	private boolean doAck = false;
+	private UDPReceiveEvent mEvent = null;
 
 	public SmartServerUdpThread(String robotIp, int robotPort) {
 		try {
@@ -34,7 +37,7 @@ public class SmartServerUdpThread extends Thread implements UDPReceiveListener {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void run() {
 		try {
@@ -44,10 +47,22 @@ public class SmartServerUdpThread extends Thread implements UDPReceiveListener {
 			e.printStackTrace();
 		}
 		isListening = true;
-		while(isListening);
+		while (isListening){
+			if (doAck) {
+				byte data = mEvent.getUdpPacket().getData()[0];
+				if (data == RUNTIME_MEASURE) {
+					try {
+						socket.send(packet);
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				}
+				doAck = false;
+			}
+		}
 		super.run();
 	}
-	
+
 	public void stopListening() {
 		isListening = false;
 		socket.close();
@@ -55,16 +70,10 @@ public class SmartServerUdpThread extends Thread implements UDPReceiveListener {
 
 	@Override
 	public void onReceive(UDPReceiveEvent e) {
-		byte data = e.getUdpPacket().getData()[0];
-		if (data == RUNTIME_MEASURE) {
-			try {
-				socket.send(packet);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		}
+		this.mEvent = e;
+		doAck = true;
 	}
-	
+
 	public int getPort() {
 		return port;
 	}
@@ -94,9 +103,9 @@ public class SmartServerUdpThread extends Thread implements UDPReceiveListener {
 		this.robotPort = robotPort;
 		packet = new DatagramPacket(new byte[] { RUNTIME_RESPONSE }, 1, robotAddress, this.robotPort);
 	}
-	
+
 	public boolean isListening() {
 		return isListening;
 	}
-	
+
 }
