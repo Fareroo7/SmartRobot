@@ -15,7 +15,7 @@ public class SmartServerGpioThread extends Thread implements UDPReceiveListener 
 
 	private GpioController gpio = null;
 	private GpioPinDigitalOutput pin = null;
-	private int signalDuration = 50;
+	private int signalDuration = 20;
 
 	private boolean doSignal = false;
 

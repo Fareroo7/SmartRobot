@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class SmartServerCLI {
 
-	private static final String defaultRobotIP = "192.168.88.252";
+	private static final String defaultRobotIP = "192.168.88.254";
 	private static final int defaultRobotPort = 50001;
 
 	public static void main(String[] args) {
