@@ -7,6 +7,7 @@ import java.net.UnknownHostException;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import at.android.smartrobot.audio.AudioController;
@@ -144,8 +145,16 @@ public class SmartActivity extends ActionBarActivity implements UDPReceiveListen
 		Message msg = new Message();
 		msg.what=1;
 		long runtime = timeReceiveSignal - (timeSendRequest + udpRuntime);
-		double distance = 331.5 * (((double)runtime/1000000000));
-		msg.obj=distance;
+		Log.d(TAG, "Rec. Sig.: " + timeReceiveSignal);
+		Log.d(TAG, "Req.: " + timeSendRequest);
+		Log.d(TAG, "UDP Run.: " + udpRuntime);
+		Log.d(TAG, "Diff.: " + (timeReceiveSignal - timeSendRequest));
+		timeReceiveAcknowlage = 0;
+		timeReceiveSignal = 0;
+		timeSendRequest = 0;
+		udpRuntime = 0;
+		double distance = 331.5 * (((double)runtime/1000000));
+		msg.obj=(int)distance;
 		handler.sendMessage(msg);
 	}
 	
