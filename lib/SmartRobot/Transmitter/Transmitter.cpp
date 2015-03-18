@@ -12,12 +12,12 @@ Transmitter::Transmitter(){}
 //Constructs a new Transmitter.
 //Parameter:
 //  pinData => data ouput-pin.
-Transmitter::Transmitter(int pindata)
+Transmitter::Transmitter(int pinData)
 {
-  _pinOut = pindata;
-  _high = false;
+  _pinOut = pinData;
+  _pinstate = false;
   pinMode(_pinOut, OUTPUT);
-  digitalWrite(_pinOut, LOW);
+  digitalWrite(_pinOut, _pinstate);
 }
 
 //Return the data ouput-pin of the Transmitter.
@@ -29,28 +29,20 @@ int Transmitter::getPin()
  //Set the data ouput-pin high.
 void Transmitter::high()
 {
-  digitalWrite(_pinOut, HIGH);
-  _high = true;
+  _pinstate = true;
+  digitalWrite(_pinOut, _pinstate);
 }
 
  //Set the data ouput-pin low.
 void Transmitter::low()
 {
-  digitalWrite(_pinOut, LOW);
-  _high = false;
+  _pinstate = false;
+  digitalWrite(_pinOut, _pinstate);
 }
 
  //Toggle the data ouput-pin.
 void Transmitter::toggle()
 {
-  if(_high)
-  {
-  	digitalWrite(_pinOut, LOW);
-  	_high = false;
-  }
-  else
-  {
-  	digitalWrite(_pinOut, HIGH);
-  	_high = true;
-  }
+  _pinstate = !_pinstate;
+  digitalWrite(_pinOut, _pinstate);
 }

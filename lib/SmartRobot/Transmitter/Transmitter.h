@@ -16,12 +16,10 @@ class Transmitter
   //Constructs a new empty Transmitter. (Used to declare "placeholder").
   Transmitter();
   
-  //Constructs a new Transmitter.
-  //Parameter:
-  //  pinOne => first Input-Pin.
-  //  pinTwo => second Input-Pin.
-  //  pinDis => Disable-Pin.
-  Transmitter(int pinOne, int pinTwo, int pinDis);
+//Constructs a new Transmitter.
+//Parameter:
+//  pinData => data ouput-pin.
+  Transmitter(int pinData);
 
   //Return the first Input-Pin of the H-bridge.
   int getPin();
@@ -43,7 +41,7 @@ class Transmitter
   int _pinOut;
 
   //State of the output-pin (true = high and v.v.).
-  bool _high;
+  bool _pinstate;
 };
 
 #endif
