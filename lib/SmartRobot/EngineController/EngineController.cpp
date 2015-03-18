@@ -148,35 +148,6 @@ unsigned long EngineController::doNext()
 	if(_taskIndex <= _index)
 	{
 		EngineController::doTask(_tasks[_taskIndex]);
-		/*if(_tasks[_taskIndex].getDirectionCode() == EngineTask::FORWARD)
-		{
-			drive(true, _tasks[_taskIndex].getDutyCycleLeft(), _tasks[_taskIndex].getDutyCycleRight());
-			unsigned long out = ((unsigned long)_tasks[_taskIndex].getDuration() << 16) | (_tasks[_taskIndex].getID() << 8) | EngineTask::TASK_COMPLETE;
-			_taskIndex ++;
-			return  out;
-		} 
-		else if(_tasks[_taskIndex].getDirectionCode() == EngineTask::BACKWARD)
-		{
-			drive(false, _tasks[_taskIndex].getDutyCycleLeft(), _tasks[_taskIndex].getDutyCycleRight());
-			_taskIndex ++;
-			return ((unsigned long)_tasks[_taskIndex - 1].getDuration() << 16) | (_tasks[_taskIndex].getID() << 8) | EngineTask::TASK_COMPLETE;
-		} 
-		else if(_tasks[_taskIndex].getDirectionCode() == EngineTask::CLOCKWISE)
-		{
-			turn(true, _tasks[_taskIndex].getDutyCycleLeft(), _tasks[_taskIndex].getDutyCycleRight());
-			_taskIndex ++;
-			return ((unsigned long)_tasks[_taskIndex].getDuration() << 16) | (_tasks[_taskIndex].getID() << 8) | EngineTask::TASK_COMPLETE;
-		} 
-		else if(_tasks[_taskIndex].getDirectionCode() == EngineTask::ANTICLOCKWISE)
-		{
-			turn(false, _tasks[_taskIndex].getDutyCycleLeft(), _tasks[_taskIndex].getDutyCycleRight());
-			_taskIndex ++;
-			return ((unsigned long)_tasks[_taskIndex].getDuration() << 16) | (_tasks[_taskIndex].getID() << 8) | EngineTask::TASK_COMPLETE;
-		}
-		else
-		{
-			return ((unsigned long)0x0000 << 16) | (_tasks[_taskIndex].getID() << 8) | EngineTask::PROTOCOL_ERROR;
-		}*/
 	}
 	else
 	{
