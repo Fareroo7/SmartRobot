@@ -16,9 +16,9 @@ import at.android.smartrobot.audio.AudioEventListener;
 import at.android.smartrobot.network.UDPController;
 import at.android.smartrobot.network.UDPReceiveEvent;
 import at.android.smartrobot.network.UDPReceiveListener;
+import at.android.smartrobot.usb.USBController;
 import at.android.smartrobot.usb.USBReceiveEvent;
 import at.android.smartrobot.usb.USBReceiveListener;
-import at.android.smartrobotapp.helpers.ByteUtils;
 import at.android.smartrobotapp.helpers.SmartHandler;
 
 public class SmartActivity extends ActionBarActivity implements UDPReceiveListener, USBReceiveListener,
@@ -33,13 +33,14 @@ public class SmartActivity extends ActionBarActivity implements UDPReceiveListen
 	// public USBController usbController;
 	public UDPController udpController;
 	public AudioController audioController;
+	public USBController usbController;
 
 	// Handler
 	public SmartHandler handler = null;
 
 	public boolean isWaitingForSignal = false;
 	public long timeSendRequest;
-	public long timeReceiveAcknowlage;	
+	public long timeReceiveAcknowlage;
 	public long timeReceiveSignal;
 	
 	public long udpRuntime;
@@ -94,6 +95,10 @@ public class SmartActivity extends ActionBarActivity implements UDPReceiveListen
 		audioController = new AudioController();
 		audioController.addSignalReceiveListener(this);
 		audioController.startListening();
+		
+		usbController = new USBController(getApplicationContext());
+		usbController.addUSBReceiveListener(this);
+		usbController.startListening();
 	}
 
 	@Override
