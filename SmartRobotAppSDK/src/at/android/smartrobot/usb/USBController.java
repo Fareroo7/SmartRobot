@@ -58,7 +58,7 @@ public class USBController extends Thread {
 	public static final int WHAT_ACCESSORY_OPEN_ERROR = 203;
 
 	// USB Intent Filter
-	private static final String ACTION_USB_PERMISSION = "at.android.smartbot.action.USB_PERMISSION";
+	private static final String ACTION_USB_PERMISSION = "at.android.smartrobotapp.activities.action.USB_PERMISSION";
 
 	// USB + Intent
 	private UsbManager mUsbManager;
@@ -110,10 +110,11 @@ public class USBController extends Thread {
 	public USBController(Context context) {
 		mContext = context;
 		mHandler = new Handler(Looper.getMainLooper());
-		mUsbManager = UsbManager.getInstance(context);
-		mPermissionIntent = PendingIntent.getBroadcast(context, 0, new Intent(ACTION_USB_PERMISSION), 0);
+		mUsbManager = UsbManager.getInstance(mContext);
+		mPermissionIntent = PendingIntent.getBroadcast(mContext, 0, new Intent(ACTION_USB_PERMISSION), 0);
 		IntentFilter filter = new IntentFilter(ACTION_USB_PERMISSION);
 		filter.addAction(UsbManager.ACTION_USB_ACCESSORY_DETACHED);
+		filter.addAction(ACTION_USB_PERMISSION);
 		mContext.registerReceiver(mUsbReceiver, filter);
 	}
 	
@@ -188,13 +189,6 @@ public class USBController extends Thread {
 		if (mOutputStream != null)
 			mOutputStream.write(task.getECP());
 	}
-	
-	/**
-	 * Starts to listening, if something is received from USB and fires then a {@link USBReceiveEvent} 
-	 */
-	public void startListening(){
-		this.start();
-	}
 
 	/**
 	 * Stops listening.
@@ -230,7 +224,6 @@ public class USBController extends Thread {
 			}
 		} else {
 			mHandler.sendMessage(SmartMessage.create(WHAT_ACCESSORY_RESUME_ERROR, "Accessory is null!"));
-			Log.d(TAG, "Accessory is null!");
 		}
 	}
 
@@ -259,10 +252,8 @@ public class USBController extends Thread {
 			Thread thread = new Thread(null, this, "EC");
 			thread.start();
 			mHandler.sendMessage(SmartMessage.create(WHAT_ACCESSORY_OPEN, "Accessory open"));
-			Log.d(TAG, "Accessory open");
 		} else {
 			mHandler.sendMessage(SmartMessage.create(WHAT_ACCESSORY_OPEN_ERROR, "Accessory open failed"));
-			Log.d(TAG, "Accessory open failed");
 		}
 	}
 
