@@ -16,6 +16,7 @@ public class SmartServer{
 	public SmartServer(String robotIp, int robotPort) {
 		mUdpThread=new SmartServerUdpThread(robotIp, robotPort);
 		mGpioThread = new SmartServerGpioThread();
+		udpReceiver = new Receiver();
 	}
 
 	public void startService() {
