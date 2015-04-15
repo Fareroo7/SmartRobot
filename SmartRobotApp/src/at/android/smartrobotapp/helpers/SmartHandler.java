@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.widget.Toast;
 import at.android.smartrobot.network.UDPController;
+import at.android.smartrobot.usb.USBController;
 
 public class SmartHandler extends Handler{
 	
@@ -23,9 +24,19 @@ public class SmartHandler extends Handler{
 		case UDPController.WHAT_SOCKET_RECEIVE_ERROR:
 			showMessage("UDPController error!");
 			break;
+			
+		case USBController.WHAT_ACCESSORY_OPEN:
+			showMessage("USB open");
+			break;
+			
+		case USBController.WHAT_ACCESSORY_OPEN_ERROR:
+		case USBController.WHAT_ACCESSORY_RESUME_ERROR:
+		case USBController.WHAT_USB_PREMISSION_DENIED:
+			showMessage("USB error");
+			break;
 		
 		case 1:
-			showMessage("" + msg.obj);
+			showMessage(msg.obj + "");
 			break;
 			
 		default:

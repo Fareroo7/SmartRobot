@@ -4,6 +4,8 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
+    <uses-feature android:name="android.hardware.usb.accessory" />
+    
     <uses-sdk
         android:minSdkVersion="10"
         android:targetSdkVersion="19" />
@@ -32,6 +34,9 @@
 			android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED"
 			android:resource="@xml/accessory_filter" />
         </activity>
+        
+        <uses-library android:name="com.android.future.usb.accessory" />
+        
     </application>
 
 </manifest>

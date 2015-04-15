@@ -20,9 +20,11 @@ import at.android.smartrobot.usb.USBController;
 import at.android.smartrobot.usb.USBReceiveEvent;
 import at.android.smartrobot.usb.USBReceiveListener;
 import at.android.smartrobotapp.helpers.SmartHandler;
+import at.htl.enginecontrol.EngineTask;
 
 public class SmartActivity extends ActionBarActivity implements UDPReceiveListener, USBReceiveListener,
 		AudioEventListener {
+
 
 	public static final String TAG = "SmartActivity";
 
@@ -65,9 +67,8 @@ public class SmartActivity extends ActionBarActivity implements UDPReceiveListen
 			@Override
 			public void onClick(View v) {
 				try {
-					udpController.send(UDPController.SEND_RUNTIME_MEASURE);
+					usbController.send("A");
 					timeSendRequest = System.nanoTime();
-					isWaitingForSignal = true;
 				} catch (IOException e) {
 					handler.sendEmptyMessage(0);
 				}
@@ -96,9 +97,8 @@ public class SmartActivity extends ActionBarActivity implements UDPReceiveListen
 		audioController.addSignalReceiveListener(this);
 		audioController.startListening();
 		
-		usbController = new USBController(getApplicationContext());
+		usbController = new USBController(this);
 		usbController.addUSBReceiveListener(this);
-		usbController.startListening();
 	}
 
 	@Override
@@ -107,13 +107,31 @@ public class SmartActivity extends ActionBarActivity implements UDPReceiveListen
 			udpController.stopListening();
 		if (audioController != null)
 			audioController.stopListening();
+		if(usbController != null)
+			usbController.onDestroy();
 		super.onDestroy();
 	}
-
+		
+	@Override
+	protected void onPause() {
+		if(usbController != null)
+			usbController.onPause();
+		super.onPause();
+	}
+	
+	@Override
+	protected void onResume() {
+		if(usbController != null)
+			usbController.onResume();
+		super.onResume();
+	}
+	
 	@Override
 	public void onUSBReceive(USBReceiveEvent e) {
-		// TODO Auto-generated method stub
-
+		Message m = new Message();
+		m.obj = "02";
+		m.what = 1;
+		handler.sendMessage(m);
 	}
 
 	@Override
@@ -135,7 +153,6 @@ public class SmartActivity extends ActionBarActivity implements UDPReceiveListen
 //		if (isWaitingForSignal) {
 			timeReceiveSignal = e.getTimestamp();
 			receivedSig=true;
-			isWaitingForSignal = false;
 			
 			if(receivedAck && receivedSig){
 				calcDistance();
